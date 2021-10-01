@@ -1,0 +1,17 @@
+
+
+.p-menubar{
+    background: #ffffff !important;
+    border-top: 4px solid #007bff !important;
+    border-bottom: #ffffff !important;
+}
+.imgzoom{
+    transition: transform .2s;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+.imgzoom:hover {
+    transform: scale(1.1);
+}

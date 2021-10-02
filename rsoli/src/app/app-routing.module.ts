@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
    },
    {
      path: '',
-     redirectTo: 'mision',
+     redirectTo: 'slider',
      pathMatch: 'full'
    }
  ];

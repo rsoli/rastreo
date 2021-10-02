@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
                     {
                         label:'Inteligencia de negocios',
                         icon:'pi pi-fw pi-pencil',
-                        routerLink:'inteligencia-negocios'
+                        routerLink:'inteligencia_negocio'
                     },
                     {
                         label:'Rastreo satelital',
@@ -56,12 +56,13 @@ export class HeaderComponent implements OnInit {
                     {
                       label:'Desarrollo de software y asesoria',
                       icon:'pi pi-fw pi-calendar-times',
-                      routerLink:'desarrollo-software'
+                      routerLink:'desarrollo_software'
 
                     },
                     {
                       label:'Diseño web',
                       icon:'pi pi-fw pi-calendar-times',
+                      routerLink:'diseno_web'
                     }
                 ]
             },

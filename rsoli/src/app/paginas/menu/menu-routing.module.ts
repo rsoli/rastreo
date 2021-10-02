@@ -30,7 +30,7 @@ export const routes: Routes = [
     component: InteligenciaNegocioComponent
   },
   {
-    path: 'rastreo_satelital',
+    path: 'rastreo-satelital',
     component: RastreoSatelitalComponent
   },
   {

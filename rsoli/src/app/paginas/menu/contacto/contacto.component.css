@@ -1,0 +1,26 @@
+iframe{
+    height: 500px;
+    width:100%;
+}
+.titulo{
+    background-color: #0973E5;
+    color: #fff;
+    width: 210px;
+    height: 60px;
+    display: table-cell;
+    vertical-align:middle;
+    /* margin-left:50px; */
+}
+.contacto{
+    box-shadow: #0973E5;
+    align-items: center;
+}
+.titulo-contenido{
+    
+    background-color: #0973E5;
+    height: 90px;
+    width: 400px;
+    color: #fff;
+    display: table-cell;
+    vertical-align:middle;
+}

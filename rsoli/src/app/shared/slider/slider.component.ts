@@ -23,10 +23,13 @@ export class SliderComponent implements OnInit {
           numVisible: 1
       }
   ];
+  
   constructor(private slider_servicio: SliderService) { }
 
   ngOnInit(): void {
-    this.slider_servicio.getImages().then(images => this.images = images);
+    this.slider_servicio.getImages().then(images =>{ 
+      this.images = images;
+    })
   }
 
 }

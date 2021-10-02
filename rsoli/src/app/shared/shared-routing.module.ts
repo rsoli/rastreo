@@ -5,7 +5,7 @@ const routes: Routes = [
   { path: 'slider', component: SliderComponent },
   {
     path: '**',
-    redirectTo: '/mision',
+    redirectTo: '/slider',
     pathMatch: 'full'
 }
 ];

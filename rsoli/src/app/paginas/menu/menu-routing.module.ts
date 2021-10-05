@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
-
 import { MisionComponent } from './mision/mision.component';
 import { VisionComponent } from './vision/vision.component';
 import { ContactoComponent } from './contacto/contacto.component';
@@ -44,7 +42,7 @@ export const routes: Routes = [
 
   {
       path: '**',
-      redirectTo: '/slider',
+      redirectTo: '/shared/slider',
       pathMatch: 'full'
   }
 ];

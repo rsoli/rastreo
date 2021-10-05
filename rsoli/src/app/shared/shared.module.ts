@@ -9,7 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MiniHeaderComponent } from './mini-header/mini-header.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
+import {AccordionModule} from 'primeng/accordion';
 
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,6 +17,12 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import {GalleriaModule} from 'primeng/galleria';
 import {ImageModule} from 'primeng/image';
+import {SidebarModule} from 'primeng/sidebar';
+import { IniciarSesionComponent } from '../paginas/seguridad/usuario/iniciar-sesion/iniciar-sesion.component';
+import { FormsModule } from '@angular/forms';
+import {PasswordModule} from 'primeng/password';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +30,7 @@ import {ImageModule} from 'primeng/image';
     SliderComponent,
     FooterComponent,
     MiniHeaderComponent,
+    IniciarSesionComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +43,11 @@ import {ImageModule} from 'primeng/image';
     RippleModule,
     GalleriaModule,
     ImageModule,
+    SidebarModule,
+    FormsModule,
+    PasswordModule,
+    ReactiveFormsModule
   ],
-  exports:[HeaderComponent,SliderComponent,FooterComponent,MiniHeaderComponent]
+  exports:[HeaderComponent,SliderComponent,FooterComponent,MiniHeaderComponent,IniciarSesionComponent]
 })
 export class SharedModule { }

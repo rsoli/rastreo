@@ -3,23 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 
-import { MisionComponent } from './mision/mision.component';
-import { VisionComponent } from './vision/vision.component';
 import { ContactoComponent } from './contacto/contacto.component';
 import { InteligenciaNegocioComponent } from './servicio/inteligencia-negocio/inteligencia-negocio.component';
 import { RastreoSatelitalComponent } from './servicio/rastreo-satelital/rastreo-satelital.component';
 import { DesarrolloSoftwareComponent } from './servicio/desarrollo-software/desarrollo-software.component';
 import { DisenoWebComponent } from './servicio/diseno-web/diseno-web.component';
+import { SobreNosotrosComponent } from './sobre-nosotros/sobre-nosotros.component';
 
 
 export const routes: Routes = [
   {
-      path: 'mision',
-      component: MisionComponent
-  },
-  {
-      path: 'vision',
-      component: VisionComponent
+    path: 'sobre_nosotros',
+    component: SobreNosotrosComponent
   },
   {
     path: 'contacto',
@@ -43,9 +38,9 @@ export const routes: Routes = [
   },
 
   {
-      path: '**',
-      redirectTo: '/slider',
-      pathMatch: 'full'
+    path: '**',
+    redirectTo: '/slider',
+    pathMatch: 'full'
   }
 ];
 

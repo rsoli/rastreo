@@ -17,56 +17,51 @@ export class HeaderComponent implements OnInit {
     this.CargarMenu();
     this.primengConfig.ripple = true;
   }
-  CargarMenu(){
+  CargarMenu() {
     this.items = [
-              {
-                  label:'Inicio',
-                  icon:'pi pi-fw pi-file', 
-                  routerLink:'slider'
-              },
-              {
-                  label:'Misión',
-                  icon:'pi pi-fw pi-pencil',
-                  routerLink:'mision'
-              },
-              {
-                  label:'Visión',
-                  icon:'pi pi-fw pi-user',
-                  routerLink:'vision'
-              },
-              {
-                  label:'Contactos',
-                  icon:'pi pi-fw pi-calendar',
-                  routerLink:'contacto'
-              },
-              {
-                label:'Servicio',
-                icon:'pi pi-fw pi-calendar',
-                items:[
-                    {
-                        label:'Inteligencia de negocios',
-                        icon:'pi pi-fw pi-pencil',
-                        routerLink:'inteligencia_negocio'
-                    },
-                    {
-                        label:'Rastreo satelital',
-                        icon:'pi pi-fw pi-calendar-times',
-                        routerLink:'rastreo-satelital'
-                    },
-                    {
-                      label:'Desarrollo de software y asesoria',
-                      icon:'pi pi-fw pi-calendar-times',
-                      routerLink:'desarrollo_software'
+      {
+        label: 'Inicio',
+        icon: 'pi pi-fw pi-file',
+        routerLink: 'slider'
+      },
+      {
+        label: 'Sobre nosotros',
+        icon: 'pi pi-fw pi-user',
+        routerLink: 'sobre_nosotros'
+      },
+      {
+        label: 'Contactos',
+        icon: 'pi pi-fw pi-calendar',
+        routerLink: 'contacto'
+      },
+      {
+        label: 'Servicio',
+        icon: 'pi pi-fw pi-calendar',
+        items: [
+          {
+            label: 'Inteligencia de negocios',
+            icon: 'pi pi-fw pi-pencil',
+            routerLink: 'inteligencia_negocio'
+          },
+          {
+            label: 'Rastreo satelital',
+            icon: 'pi pi-fw pi-calendar-times',
+            routerLink: 'rastreo-satelital'
+          },
+          {
+            label: 'Desarrollo de software y asesoria',
+            icon: 'pi pi-fw pi-calendar-times',
+            routerLink: 'desarrollo_software'
 
-                    },
-                    {
-                      label:'Diseño web',
-                      icon:'pi pi-fw pi-calendar-times',
-                      routerLink:'diseno_web'
-                    }
-                ]
-            },
-          ];
+          },
+          {
+            label: 'Diseño web',
+            icon: 'pi pi-fw pi-calendar-times',
+            routerLink: 'diseno_web'
+          }
+        ]
+      },
+    ];
 
-    }
+  }
 }

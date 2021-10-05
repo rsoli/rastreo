@@ -33,4 +33,40 @@
 .imgzoom:hover {
     transform: scale(1.1);
 }
+
 /* Titulo */
+
+
+.p-sidebar-full{
+    background: #EEF0F8 !important;
+}
+/* input */
+.p-inputtext {
+    margin: 0 !important;
+    width: 100% !important;
+}
+.p-password {
+    position: relative !important;
+    display: block !important;
+}
+
+.btn_inicio_sesion{
+    width: 100px !important;
+}
+ @media only screen and (max-width: 738px) {
+    .btn_inicio_sesion {
+        width: 140px !important;
+    }
+} 
+@media only screen and (max-width: 1246px) and (min-width: 739px)  {
+    .btn_inicio_sesion {
+        width: 140px !important;
+    }
+} 
+
+
+/* side bar derecha */
+.p-sidebar-right{
+    width: 260px !important;
+    height: 260px !important;
+}

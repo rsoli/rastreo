@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-
 import { ContactoComponent } from './contacto/contacto.component';
 import { InteligenciaNegocioComponent } from './servicio/inteligencia-negocio/inteligencia-negocio.component';
 import { RastreoSatelitalComponent } from './servicio/rastreo-satelital/rastreo-satelital.component';
@@ -39,7 +38,7 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: '/slider',
+    redirectTo: '/shared/slider',
     pathMatch: 'full'
   }
 ];

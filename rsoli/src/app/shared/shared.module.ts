@@ -2,27 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
-
 import { HeaderComponent } from './header/header.component';
 import { SliderComponent } from './slider/slider.component';
 import { FooterComponent } from './footer/footer.component';
 import { MiniHeaderComponent } from './mini-header/mini-header.component';
 
-import {AccordionModule} from 'primeng/accordion';
+import { IniciarSesionComponent } from '../paginas/seguridad/usuario/iniciar-sesion/iniciar-sesion.component';
+import { ImageModule } from 'primeng/image';
+import { GalleriaModule } from 'primeng/galleria';
 
+import { SidebarModule } from 'primeng/sidebar';
+import { FormsModule } from '@angular/forms';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { AccordionModule } from 'primeng/accordion';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import {GalleriaModule} from 'primeng/galleria';
-import {ImageModule} from 'primeng/image';
-import {SidebarModule} from 'primeng/sidebar';
-import { IniciarSesionComponent } from '../paginas/seguridad/usuario/iniciar-sesion/iniciar-sesion.component';
-import { FormsModule } from '@angular/forms';
-import {PasswordModule} from 'primeng/password';
-import { ReactiveFormsModule } from '@angular/forms';
 
-
+import { PasswordModule } from 'primeng/password';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -34,18 +33,18 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     SharedRoutingModule,
+    ImageModule,
+    GalleriaModule,
+    SidebarModule,
+    FormsModule,
+    ReactiveFormsModule,
     AccordionModule,
     MenubarModule,
     InputTextModule,
     ButtonModule,
     RippleModule,
-    GalleriaModule,
-    ImageModule,
-    SidebarModule,
-    FormsModule,
     PasswordModule,
-    ReactiveFormsModule
   ],
-  exports:[HeaderComponent,SliderComponent,FooterComponent,MiniHeaderComponent,IniciarSesionComponent]
+  exports: [HeaderComponent, SliderComponent, FooterComponent, MiniHeaderComponent, IniciarSesionComponent]
 })
 export class SharedModule { }

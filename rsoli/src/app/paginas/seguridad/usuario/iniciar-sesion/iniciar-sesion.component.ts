@@ -81,12 +81,12 @@ export class IniciarSesionComponent implements OnInit {
     this.usuario_servicio.post_cerrar_sesion().subscribe(data=>{ 
       this.closeLoading();
       localStorage.removeItem("accesos");
-      this.router.navigate(['/menu/slider']);   
+      this.router.navigate(['/shared/slider']);   
     },
     error=>{
       this.closeLoading();
       localStorage.removeItem("accesos");
-      this.router.navigate(['/menu/slider']);   
+      this.router.navigate(['/shared/slider']);   
     })
 
 

@@ -22,17 +22,17 @@ export class HeaderComponent implements OnInit {
       {
         label: 'Inicio',
         icon: 'pi pi-fw pi-file',
-        routerLink: 'slider'
+        routerLink: '/menu/slider'
       },
       {
         label: 'Sobre nosotros',
         icon: 'pi pi-fw pi-user',
-        routerLink: 'sobre_nosotros'
+        routerLink: '/menu/sobre_nosotros'
       },
       {
         label: 'Contactos',
         icon: 'pi pi-fw pi-calendar',
-        routerLink: 'contacto'
+        routerLink: '/menu/contacto'
       },
       {
         label: 'Servicio',
@@ -41,23 +41,23 @@ export class HeaderComponent implements OnInit {
           {
             label: 'Inteligencia de negocios',
             icon: 'pi pi-fw pi-pencil',
-            routerLink: 'inteligencia_negocio'
+            routerLink: '/menu/inteligencia_negocio'
           },
           {
             label: 'Rastreo satelital',
             icon: 'pi pi-fw pi-calendar-times',
-            routerLink: 'rastreo-satelital'
+            routerLink: '/menu/rastreo-satelital'
           },
           {
             label: 'Desarrollo de software y asesoria',
             icon: 'pi pi-fw pi-calendar-times',
-            routerLink: 'desarrollo_software'
+            routerLink: '/menu/desarrollo_software'
 
           },
           {
             label: 'Diseño web',
             icon: 'pi pi-fw pi-calendar-times',
-            routerLink: 'diseno_web'
+            routerLink: '/menu/diseno_web'
           }
         ]
       },

@@ -8,7 +8,6 @@ import { SliderComponent } from './slider/slider.component';
 import { FooterComponent } from './footer/footer.component';
 import { MiniHeaderComponent } from './mini-header/mini-header.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AccordionModule} from 'primeng/accordion';
 
 import { MenubarModule } from 'primeng/menubar';
@@ -36,7 +35,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedRoutingModule,
     AccordionModule,
-    BrowserAnimationsModule,
     MenubarModule,
     InputTextModule,
     ButtonModule,

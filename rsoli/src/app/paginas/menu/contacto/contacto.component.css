@@ -1,45 +1,24 @@
 
 
-iframe{
-    height: 540px;
-    width:100%;
-}
 .mapa{
-    /* padding-left: 30px; */
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    /* border-width:2px; */
-    width:95%;
-    background-color: white;
-  /* border: black 1px solid; */
-  position: relative;
-    left: 50px;
-    
-    
+    margin: 0 20px 0 20px;
+
 }
 .formulario{
     width: 100%;
-    margin: 5px 20px 10px 10px;
-    float: right;
-    background-color: #fff;
-    border-width:2px;
-    width:90%;
-    position: relative;
-    right: 30px;
-    
-    /* padding-left: 30px; */
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    
 }
 .form-title{
+    width: 100%;
     background-color: #0973E5;
     color: #fff;
-    /* height: 80px; */
-    /* display: table-cell;
-    vertical-align:middle; */
     display: flex;
     padding: 20px 20px 20px 55px;
 }
 .form-contenido{
-    padding: 50px 50px 50px 50px;
+    padding: 30px 20px 20px 30px;
     border:solid 2px rgb(241, 241, 241);
 }
 .input{

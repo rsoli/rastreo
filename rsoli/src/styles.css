@@ -68,5 +68,11 @@
 /* side bar derecha */
 .p-sidebar-right{
     width: 260px !important;
-    height: 260px !important;
+    height: 300px !important;
 }
+.p-component-overlay-enter{
+    background-color: #ffffff00 !important;
+}
+/* .p-component-overlay {
+    position: fixed !important;
+  } */

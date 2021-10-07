@@ -16,7 +16,7 @@ import { RouterModule, Routes } from '@angular/router';
     },
     {
        path: '**',
-       redirectTo: '/slider',
+       redirectTo: '/shared/slider',
        pathMatch: 'full'
     }
  ];

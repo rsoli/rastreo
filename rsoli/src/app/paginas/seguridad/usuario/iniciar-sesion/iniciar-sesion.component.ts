@@ -13,8 +13,8 @@ import Swal from'sweetalert2';
 })
 export class IniciarSesionComponent implements OnInit {
 
-  visible_cerrar_sesion: any;
-  visible_iniciar_sesion!: boolean;
+  visible_cerrar_sesion: boolean=false;
+  visible_iniciar_sesion: boolean=false;
 
   value2!: string;
   value4!: string;
@@ -23,6 +23,9 @@ export class IniciarSesionComponent implements OnInit {
   form!: FormGroup;
   usuario:any="";
   password:any="";
+
+  persona_label:string="";
+  correo_label:string="";
   
   // usuario: any= new FormControl('', [Validators.required,Validators.minLength(15)]);
   // password: any= new FormControl('', [Validators.required, Validators.minLength(15)]);
@@ -30,16 +33,26 @@ export class IniciarSesionComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private usuario_servicio:UsuarioService,
-    private router: Router
+    private router: Router,
+
     ) { }
 
   ngOnInit(): void {
     this.IniciarFormulario();
+    this.CargarDatosUsuario();
     this.primengConfig.ripple = true;
-  
     this.router.navigate(['/seguridad/lista_usuario']); 
   }
-  
+  CargarDatosUsuario(){
+    if(localStorage.getItem('accesos')!=undefined){
+      this.persona_label=JSON.parse(localStorage.getItem('accesos')|| '{}').usuario.persona;
+      this.correo_label=JSON.parse(localStorage.getItem('accesos')|| '{}').usuario.correo;
+    }
+    else{
+      this.persona_label="";
+      this.correo_label="";
+    }
+  }
   IniciarFormulario(){
      this.form = new FormGroup({
        usuario: new FormControl(this.usuario, [Validators.required,Validators.maxLength(40)]),
@@ -56,10 +69,11 @@ export class IniciarSesionComponent implements OnInit {
     nuevo_usuario.password=this.form.value.password.trim();
    
     this.usuario_servicio.post_iniciar_sesion(nuevo_usuario).subscribe(data=>{
-        console.log("ver ",data);
         this.closeLoading();
         localStorage.removeItem("accesos");
-        localStorage.setItem('accesos', JSON.stringify(data) ); 
+        localStorage.setItem('accesos', JSON.stringify(data)); 
+        this.persona_label=JSON.parse(localStorage.getItem('accesos')|| '{}').usuario.persona;
+        this.correo_label=JSON.parse(localStorage.getItem('accesos')|| '{}').usuario.correo;
         this.router.navigate(['/seguridad/lista_usuario']); 
       },
       error=>{
@@ -84,6 +98,8 @@ export class IniciarSesionComponent implements OnInit {
       this.router.navigate(['/shared/slider']);   
     },
     error=>{
+      console.log("ver error ",error);
+      this.visible_cerrar_sesion=false;
       this.closeLoading();
       localStorage.removeItem("accesos");
       this.router.navigate(['/shared/slider']);   

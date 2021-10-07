@@ -17,7 +17,7 @@ export class UsuarioService {
   constructor(private http:HttpClient) { }
   actualizar_accesos(){
     this.baseURL = environment.apiUrl+"/auth/";
-    this.token = JSON.parse(JSON.stringify(localStorage.getItem('accesos'))).access_token;
+    this.token = JSON.parse(localStorage.getItem('accesos')|| '{}').access_token;
     this.headers_token = { 'headers': { 'content-type': 'aplication/json', 'X-Requested-With': 'XMLHttpRequest','Authorization':'Bearer '+this.token } }; 
   }
   post_iniciar_sesion(UsuarioModelo: any): Observable<any>{
@@ -28,10 +28,7 @@ export class UsuarioService {
     
   }
   post_cerrar_sesion(){
-    this.token = JSON.parse(JSON.stringify(localStorage.getItem('accesos'))).access_token;
-    const headers_token = { 'headers': { 'content-type': 'aplication/json', 'X-Requested-With': 'XMLHttpRequest','Authorization':'Bearer '+this.token } }; 
-
-    return this.http.get(environment.apiUrl+"/auth/cerrar_sesion",headers_token);
-    
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL+'cerrar_sesion',this.headers_token);
   }
 }

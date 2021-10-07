@@ -21,7 +21,10 @@ import { IniciarSesionComponent } from '../paginas/seguridad/usuario/iniciar-ses
 import { FormsModule } from '@angular/forms';
 import {PasswordModule} from 'primeng/password';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
+import { PanelMenuModule } from 'primeng/panelmenu';
+import {MenuItem} from 'primeng/api';   
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     SliderComponent,
     FooterComponent,
     MiniHeaderComponent,
-    IniciarSesionComponent
+    IniciarSesionComponent,
+    SidebarComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -44,8 +49,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     SidebarModule,
     FormsModule,
     PasswordModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PanelMenuModule,
+    
+    
   ],
-  exports:[HeaderComponent,SliderComponent,FooterComponent,MiniHeaderComponent,IniciarSesionComponent]
+  exports:[HeaderComponent,SliderComponent,FooterComponent,MiniHeaderComponent,IniciarSesionComponent,SidebarComponent]
 })
 export class SharedModule { }

@@ -31,4 +31,8 @@ export class UsuarioService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL+'cerrar_sesion',this.headers_token);
   }
+  get_sidebar(){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL+'get_menu',this.headers_token);
+  }
 }

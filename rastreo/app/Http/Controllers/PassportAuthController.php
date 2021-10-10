@@ -140,7 +140,9 @@ class PassportAuthController extends Controller
                             c.ruta_menu_sidebar as ruta_menu_sidebar,
                             
                             0 as lvl,
-                            c.id_permiso as key 
+                            c.id_permiso as key ,
+                            c.expandedicon,
+                            c.collapsedicon
 
                     from segu.tpermiso c
                     
@@ -154,7 +156,9 @@ class PassportAuthController extends Controller
                             c.icono_sidebar as icon,
                             c.ruta_menu_sidebar as ruta_menu_sidebar,
                             pr.lvl + 1 as lvl,
-                            c.id_permiso as key 
+                            c.id_permiso as key ,
+                            c.expandedicon,
+                            c.collapsedicon
 
                     from segu.tpermiso c
                     inner join primer pr ON pr.data = c.id_padre  
@@ -192,6 +196,8 @@ class PassportAuthController extends Controller
                     c.ruta_menu_sidebar,
                     c.lvl,
                     c.key, 
+                    c.expandedicon,
+                    c.collapsedicon,
                     jsonb '[]' items
                     from   primer c
                     where  not  exists  (select 1 from primer pri where pri.id_padre = c.data)

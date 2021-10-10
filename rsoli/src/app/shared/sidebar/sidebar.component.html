@@ -3,6 +3,9 @@
 <i class="pi pi-align-justify imgzoom" (click)="AbrirSideBar()" style="font-size: 2rem;margin-left: 20px; "></i>
 
 <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="11">
-    <h1 style="font-weight:normal">Left Sidebar</h1>
-    <p-panelMenu [transitionOptions]="'0ms'" [model]="items2" [style]="{'width':'300px'}"></p-panelMenu>
+    <h5>Single Selection</h5>
+    <p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"
+        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
 </p-sidebar>
+
+<p-toast></p-toast>

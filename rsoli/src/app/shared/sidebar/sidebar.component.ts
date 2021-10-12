@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem, TreeNode } from 'primeng/api';
 import {MessageService} from 'primeng/api';
 import{UsuarioService} from '../../paginas/seguridad/usuario/usuario.service';
@@ -14,9 +15,11 @@ export class SidebarComponent implements OnInit {
 
   files!: TreeNode[];
   selectedFile!: TreeNode;
+
   constructor(
     private messageService: MessageService,
-    private usuario_servicio:UsuarioService
+    private usuario_servicio:UsuarioService,
+    private router: Router,
     ) { }
 
   ngOnInit(): void {
@@ -26,82 +29,19 @@ export class SidebarComponent implements OnInit {
   }
   CargarMenu(){
 
-    this.usuario_servicio.get_sidebar().subscribe(data=>{ 
-      let aux=JSON.parse(localStorage.getItem('accesos')|| '{}').accesos.original;
-
-      // let menu_aux=JSON.parse(localStorage.getItem('accesos')|| '{}').accesos.original.replaceAll();
-      // data["menu"].original =data["menu"].original.replaceAll('ruta_menu_sidebar', 'routerLink');
-
-      console.log("enus ",JSON.parse(aux|| '{}').items);
-      this.files=JSON.parse(aux|| '{}').items;
-      // this.closeLoading();
-      // localStorage.removeItem("accesos");
-      // this.router.navigate(['/shared/slider']);   
-    },
-    error=>{
-      // console.log("ver error ",error);
-      // this.visible_cerrar_sesion=false;
-      // this.closeLoading();
-      // localStorage.removeItem("accesos");
-      // this.router.navigate(['/shared/slider']);   
-    })
+    let menu_aux=JSON.parse(localStorage.getItem('accesos')|| '{}').accesos.original.replaceAll('expandedicon','expandedIcon');
+    menu_aux=menu_aux.replaceAll('collapsedicon','collapsedIcon');
+    menu_aux=menu_aux.replaceAll('items','children');
+    menu_aux=menu_aux.replaceAll('ruta_menu_sidebar','routerLink');
+    this.files=JSON.parse(menu_aux).children;
     
-
-    // this.files=[{
-    //           "data":
-    //             [
-    //                 {
-    //                     "label": "Documents",
-    //                     "data": "Documents Folder",
-    //                     "expandedIcon": "pi pi-folder-open",
-    //                     "collapsedIcon": "pi pi-folder",
-    //                     "children": [{
-    //                             "label": "Work",
-    //                             "data": "Work Folder",
-    //                             "expandedIcon": "pi pi-folder-open",
-    //                             "collapsedIcon": "pi pi-folder",
-    //                             "children": [{"label": "Expenses.doc", "icon": "pi pi-file", "data": "Expenses Document"}, {"label": "Resume.doc", "icon": "pi pi-file", "data": "Resume Document"}]
-    //                         },
-    //                         {
-    //                             "label": "Home",
-    //                             "data": "Home Folder",
-    //                             "expandedIcon": "pi pi-folder-open",
-    //                             "collapsedIcon": "pi pi-folder",
-    //                             "children": [{"label": "Invoices.txt", "icon": "pi pi-file", "data": "Invoices for this month"}]
-    //                         }]
-    //                 },
-    //                 {
-    //                     "label": "Pictures",
-    //                     "data": "Pictures Folder",
-    //                     "expandedIcon": "pi pi-folder-open",
-    //                     "collapsedIcon": "pi pi-folder",
-    //                     "children": [
-    //                         {"label": "barcelona.jpg", "icon": "pi pi-image", "data": "Barcelona Photo"},
-    //                         {"label": "logo.jpg", "icon": "pi pi-file", "data": "PrimeFaces Logo"},
-    //                         {"label": "primeui.png", "icon": "pi pi-image", "data": "PrimeUI Logo"}]
-    //                 },
-    //                 {
-    //                     "label": "Movies",
-    //                     "data": "Movies Folder",
-    //                     "expandedIcon": "pi pi-folder-open",
-    //                     "collapsedIcon": "pi pi-folder",
-    //                     "children": [{
-    //                             "label": "Al Pacino",
-    //                             "data": "Pacino Movies",
-    //                             "children": [{"label": "Scarface", "icon": "pi pi-video", "data": "Scarface Movie"}, {"label": "Serpico", "icon": "pi pi-file-video", "data": "Serpico Movie"}]
-    //                         },
-    //                         {
-    //                             "label": "Robert De Niro",
-    //                             "data": "De Niro Movies",
-    //                             "children": [{"label": "Goodfellas", "icon": "pi pi-video", "data": "Goodfellas Movie"}, {"label": "Untouchables", "icon": "pi pi-video", "data": "Untouchables Movie"}]
-    //                         }]
-    //                 }
-    //             ]
-    //           }][0].data;
-
-    //           console.log("ver res ",this.files);
   }
-  nodeSelect(event: { node: { label: any; }; }) {
+  nodeSelect(event: { node: { label: any,routerLink:any; }; }) {
+
+  
+    if(event.node.routerLink){
+      this.router.navigate([event.node.routerLink]);  
+    } 
     this.messageService.add({severity: 'info', summary: 'Node Selected', detail: event.node.label});
   }
 
@@ -110,6 +50,27 @@ export class SidebarComponent implements OnInit {
   }
   AbrirSideBar(){
     this.visibleSidebar1=!this.visibleSidebar1;
+  }
+
+  expandAll(){
+    this.files.forEach( node => {
+        this.expandRecursive(node, true);
+    } );
+  }
+
+  collapseAll(){
+      this.files.forEach( node => {
+          this.expandRecursive(node, false);
+      } );
+  }
+
+  private expandRecursive(node:TreeNode, isExpand:boolean){
+      node.expanded = isExpand;
+      if (node.children){
+          node.children.forEach( childNode => {
+              this.expandRecursive(childNode, isExpand);
+          } );
+      }
   }
 
 }

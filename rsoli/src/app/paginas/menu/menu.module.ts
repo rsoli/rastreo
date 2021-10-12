@@ -8,6 +8,7 @@ import { DesarrolloSoftwareComponent } from './servicio/desarrollo-software/desa
 import { DisenoWebComponent } from './servicio/diseno-web/diseno-web.component';
 import { SobreNosotrosComponent } from './sobre-nosotros/sobre-nosotros.component';
 import { ButtonModule } from 'primeng/button';
+
 @NgModule({
   declarations: [
     ContactoComponent,

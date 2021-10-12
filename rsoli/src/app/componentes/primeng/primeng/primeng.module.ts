@@ -14,6 +14,8 @@ import { GalleriaModule } from 'primeng/galleria';
 import { SidebarModule } from 'primeng/sidebar';
 import {TreeModule} from 'primeng/tree';
 import {ToastModule} from 'primeng/toast';
+import {TooltipModule} from 'primeng/tooltip';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [],
@@ -33,7 +35,9 @@ import {ToastModule} from 'primeng/toast';
     SidebarModule,
     PanelMenuModule,
     TreeModule,
-    ToastModule
+    ToastModule,
+    TooltipModule,
+    TableModule
 
   ]
 })

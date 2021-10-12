@@ -33,6 +33,11 @@ export class UsuarioService {
   }
   get_sidebar(){
     this.actualizar_accesos();
-    return this.http.get(this.baseURL+'get_menu',this.headers_token);
+    return this.http.get(this.baseURL+'get_menu',this.headers_token); 
   }
+  get_usuarios(){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'get_usuarios', this.headers_token);
+  }
+
 }

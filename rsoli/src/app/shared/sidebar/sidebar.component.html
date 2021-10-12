@@ -2,10 +2,26 @@
 
 <i class="pi pi-align-justify imgzoom" (click)="AbrirSideBar()" style="font-size: 2rem;margin-left: 20px; "></i>
 
-<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="11">
-    <h5>Single Selection</h5>
-    <p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"
-        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
-</p-sidebar>
+<p-sidebar [showCloseIcon]="false"  [(visible)]="visibleSidebar1" [baseZIndex]="11">
 
+
+    <div class="row" style="margin-top: 30px;">
+        <img routerLink="shared/slider" src="./../../../assets/logo/logoRsoliHeader.svg" height="55" >  
+    </div>
+        
+  
+     <div class="row" style="text-align: right;padding-bottom: 5px;">
+        <div class="col-lg-12">
+            <i pTooltip="Expandir" tooltipPosition="top" class="pi  pi-arrow-circle-down imgzoom" (click)="expandAll()" style="font-size: 1rem;padding: 2px; color: #A7A8AC;"></i>
+            <i pTooltip="Colapsar" tooltipPosition="top" class="pi pi-arrow-circle-up imgzoom" (click)="collapseAll()" style="font-size: 1rem;padding: 0px;color: #A7A8AC;"></i>
+        </div>
+     </div>
+       
+  
+
+    <p-tree [filter]="true"  filterMode="strict"  [value]="files" selectionMode="single" [(selection)]="selectedFile"
+        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+    </p-tree>
+
+</p-sidebar>
 <p-toast></p-toast>

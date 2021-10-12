@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalUsuarioComponent } from './modal-usuario.component';
+import { ListaRolComponent } from './lista-rol.component';
 
-describe('ModalUsuarioComponent', () => {
-  let component: ModalUsuarioComponent;
-  let fixture: ComponentFixture<ModalUsuarioComponent>;
+describe('ListaRolComponent', () => {
+  let component: ListaRolComponent;
+  let fixture: ComponentFixture<ListaRolComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalUsuarioComponent ]
+      declarations: [ ListaRolComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalUsuarioComponent);
+    fixture = TestBed.createComponent(ListaRolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

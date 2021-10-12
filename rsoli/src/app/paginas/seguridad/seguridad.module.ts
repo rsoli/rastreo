@@ -6,6 +6,9 @@ import { ListaUsuarioComponent } from './usuario/lista-usuario/lista-usuario.com
 import { ModalUsuarioComponent } from './usuario/modal-usuario/modal-usuario.component';
 import { ListaPersonaComponent } from './persona/lista-persona/lista-persona.component';
 import { ModalPersonaComponent } from './persona/modal-persona/modal-persona.component';
+import { ListaRolComponent } from './rol/lista-rol/lista-rol.component';
+import { ModalRolComponent } from './rol/modal-rol/modal-rol.component';
+import { PrimengModule } from '../../componentes/primeng/primeng/primeng.module';
 
 
 @NgModule({
@@ -13,11 +16,14 @@ import { ModalPersonaComponent } from './persona/modal-persona/modal-persona.com
     ListaUsuarioComponent,
     ModalUsuarioComponent,
     ListaPersonaComponent,
-    ModalPersonaComponent
+    ModalPersonaComponent,
+    ListaRolComponent,
+    ModalRolComponent
   ],
   imports: [
     CommonModule,
-    SeguridadRoutingModule
+    SeguridadRoutingModule,
+    PrimengModule
   ]
 })
 export class SeguridadModule { }

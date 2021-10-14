@@ -10,6 +10,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class ModalPersonaComponent implements OnInit {
 
   @Input() titulo: string = "";
+  value1: string="";
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit(): void {

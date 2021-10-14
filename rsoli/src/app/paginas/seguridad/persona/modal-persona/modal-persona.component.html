@@ -3,14 +3,43 @@
 
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
     </div>
-    <div class="modal-body">
-        ...
+    <div style="padding:20px 40px 20px 40px;" class="modal-body">
+        <!-- <p style="color:rgb(86, 86, 86);">Nombre </p> -->
+        Nombre <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
+        Apellido paterno
+        <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
+        Apellido materno
+        <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
+        Celular
+        <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
+        Telefono
+        <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
+        Cedula de identidad
+        <input type="text" pInputText > 
+        <!-- <input type="text" pInputText [(ngModel)]="value1">  -->
+        <span class="p-ml-2">{{value1}}</span>
+
     </div>
     <div class="modal-footer">
         <div style="padding-left: 2px;">
-            <button pButton pRipple type="button" label="Primary" class="p-button-raised"></button>
+            <button pButton pRipple type="button" label="Guardar" class="p-button-raised"></button>
         </div>
         <div>
-            <button pButton pRipple type="button" label="Danger" class="p-button-raised p-button-danger"></button>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger"></button>
         </div>
     </div>

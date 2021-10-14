@@ -1,1 +1,16 @@
-<p>modal-persona works!</p>
+    <div class="modal-header" >
+        <h4 class="modal-title pull-left">{{titulo}}</h4>
+
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
+    </div>
+    <div class="modal-body">
+        ...
+    </div>
+    <div class="modal-footer">
+        <div style="padding-left: 2px;">
+            <button pButton pRipple type="button" label="Primary" class="p-button-raised"></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Danger" class="p-button-raised p-button-danger"></button>
+        </div>
+    </div>

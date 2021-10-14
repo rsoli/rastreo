@@ -42,11 +42,11 @@ export class SidebarComponent implements OnInit {
     if(event.node.routerLink){
       this.router.navigate([event.node.routerLink]);  
     } 
-    this.messageService.add({severity: 'info', summary: 'Node Selected', detail: event.node.label});
+    // this.messageService.add({severity: 'info', summary: 'Node Selected', detail: event.node.label});
   }
 
   nodeUnselect(event: { node: { label: any; }; }) {
-      this.messageService.add({severity: 'info', summary: 'Node Unselected', detail: event.node.label});
+      // this.messageService.add({severity: 'info', summary: 'Node Unselected', detail: event.node.label});  
   }
   AbrirSideBar(){
     this.visibleSidebar1=!this.visibleSidebar1;

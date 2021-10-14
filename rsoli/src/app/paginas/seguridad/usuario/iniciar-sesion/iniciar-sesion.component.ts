@@ -41,7 +41,6 @@ export class IniciarSesionComponent implements OnInit {
     this.IniciarFormulario();
     this.CargarDatosUsuario();
     this.primengConfig.ripple = true;
-    this.router.navigate(['/seguridad/lista_usuario']); 
   }
   CargarDatosUsuario(){
     if(localStorage.getItem('accesos')!=undefined){

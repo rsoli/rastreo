@@ -10,6 +10,7 @@ import { ListaRolComponent } from './rol/lista-rol/lista-rol.component';
 import { ModalRolComponent } from './rol/modal-rol/modal-rol.component';
 import { PrimengModule } from '../../componentes/primeng/primeng/primeng.module';
 
+import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';  
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { PrimengModule } from '../../componentes/primeng/primeng/primeng.module'
   imports: [
     CommonModule,
     SeguridadRoutingModule,
-    PrimengModule
-  ]
+    PrimengModule,
+    ModalModule.forRoot(),
+  ],
+  providers: [BsModalService],
 })
 export class SeguridadModule { }

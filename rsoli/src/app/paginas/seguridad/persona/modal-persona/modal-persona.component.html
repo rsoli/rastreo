@@ -1,4 +1,4 @@
-    <div class="modal-header" >
+    <div class="modal-header" style="border-top: 4px solid #007bff !important;">
         <h4 class="modal-title pull-left">{{titulo}}</h4>
 
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
@@ -40,6 +40,6 @@
             <button pButton pRipple type="button" label="Guardar" class="p-button-raised"></button>
         </div>
         <div>
-            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger"></button>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger" (click)="bsModalRef.hide()"></button>
         </div>
     </div>

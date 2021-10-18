@@ -12,11 +12,14 @@ import { PasswordModule } from 'primeng/password';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
 import { SidebarModule } from 'primeng/sidebar';
-import {TreeModule} from 'primeng/tree';
-import {ToastModule} from 'primeng/toast';
-import {TooltipModule} from 'primeng/tooltip';
-import {TableModule} from 'primeng/table';
 import {InputNumberModule} from 'primeng/inputnumber';
+import { TreeModule } from 'primeng/tree';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
+import { TableModule } from 'primeng/table';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [],
@@ -24,7 +27,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
     CommonModule,
     PrimengRoutingModule
   ],
-  exports:[
+  exports: [
     AccordionModule,
     MenubarModule,
     InputTextModule,
@@ -39,8 +42,10 @@ import {InputNumberModule} from 'primeng/inputnumber';
     ToastModule,
     TooltipModule,
     TableModule,
-    InputNumberModule
-
+    InputNumberModule,
+    MultiSelectModule,
+    DropdownModule,
+    CalendarModule
   ]
 })
 export class PrimengModule { }

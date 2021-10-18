@@ -1,0 +1,47 @@
+<div class="row" style="padding:0;margin: 0;">
+    <div class="col-sm-12 col-md-3 col-lg-3" style="padding:0;margin: 0;">
+        <div class="mapa-margen" style="border-left: 4px solid #007bff !important; height: 97% !important;">
+
+            <h5>FILTROS</h5>
+            <br>
+            Vehiculo
+            <br>
+            <p-multiSelect [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+                optionLabel="name">
+            </p-multiSelect>
+            <br><br>
+            Tipo de monitoreo
+            <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="seleccione_tipo_monitoreo" optionLabel="name"
+                [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccionar">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="seleccione_tipo_monitoreo">
+                        <div>{{seleccione_tipo_monitoreo.name}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+            <br><br>
+            Fecha
+            <p-calendar [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            <br><br>
+            <label for="timeonly">Hora inicio</label>
+            <p-calendar [(ngModel)]="hora_inicio" [timeOnly]="true" inputId="timeonly"></p-calendar>
+            <br><br>
+            <label for="timeonly">Hora fin</label>
+            <p-calendar [(ngModel)]="hora_fin" [timeOnly]="true" inputId="timeonly"></p-calendar>
+            <br><br>
+            <button pButton pRipple type="button" label="Aceptar" class="p-button-raised"></button>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-9 col-lg-9" style="padding:0;margin: 0;">
+        <div class="mapa-margen">
+            <div class="map-frame">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>

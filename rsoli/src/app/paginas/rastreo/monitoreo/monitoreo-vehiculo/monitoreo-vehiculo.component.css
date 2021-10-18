@@ -1,5 +1,9 @@
-
-.margen{
+.margen1{
+  background-color: rgb(255, 255, 255);
+  margin: 10px;
+  height: 700px;
+}
+.margen2{
   background-color: rgb(255, 255, 255);
   margin: 10px;
   height: 700px;
@@ -16,6 +20,25 @@
   height: 100%;
   padding: 0%;
   width: 100%;
+}
+@media only screen and (max-width: 738px) {
+  .margen1{
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+    height: 600px;
+  }
+  .margen2{
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+    height: 370px;
+  }
+} 
+@media only screen and (max-width: 1246px) and (min-width: 739px)  {
+  .margen{
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+    height: 700px;
+  }
 }
 
 

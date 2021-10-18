@@ -27,7 +27,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   ngOnInit() {
     this.initMap();
-    this.tiles.addTo(this.map);
     this.listaVehiculos();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
@@ -56,15 +55,23 @@ export class MonitoreoVehiculoComponent implements OnInit {
     ];
   }
   initMap() {
-    this.map = L.map('map', {
-      center: [-17.41321900407772, -66.16198313658319],
-      zoom: 6
-    });
-    this.tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      // maxZoom: 18,
-      // minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
+    let icon = {
+      icon: L.icon({
+        iconSize: [35, 41],
+        iconAnchor: [13, 0],
+        iconUrl: './../../../assets/icono/marcadores/vehiculo/vehiculo-verde.svg',
+        // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
+      })
+    };
+
+    this.map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    const marker = L.marker([51.5, -0.09], icon).addTo(this.map);
+    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
   }
+
 
 }

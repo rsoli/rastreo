@@ -1,20 +1,22 @@
-.map-frame {
-  /* border: 2px solid black; */
+
+.margen{
+  background-color: rgb(255, 255, 255);
+  margin: 10px;
   height: 700px;
-  /* padding: 0%; */
-
 }
-
+.margen-mapa{
+  padding:10px !important;
+  
+}
+.margen-filtros{
+  padding:30px !important;
+  border-left: 4px solid #007bff !important;
+}
 #map {
   height: 100%;
   padding: 0%;
   width: 100%;
 }
-.mapa-margen{
-  background-color: rgb(255, 255, 255);
-  /* width: 100%; */
-  padding:30px !important;
-  margin: 10px;
-  
-}
+
+
 

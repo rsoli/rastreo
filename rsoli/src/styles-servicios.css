@@ -80,3 +80,13 @@
 }
 /* style="font-weight: bold;
 style="font-size: 1rem; width: 30px; font-weight: bold;" */
+.p-calendar {
+    display: inherit !important; 
+  }
+.p-multiselect {
+    /* display: inherit !important; */
+    width: 100% !important;
+}
+.p-dropdown{
+    width: 100% !important;
+}

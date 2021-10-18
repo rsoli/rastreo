@@ -1,25 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
- const routes: Routes = [
-    {
-      path: 'shared',
-      loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)
-    },
-    {
-        path: 'menu',
-        loadChildren: () => import('./paginas/menu/menu.module').then(m => m.MenuModule)
-    },
-    {
-        path: 'seguridad',
-        loadChildren: () => import('./paginas/seguridad/seguridad.module').then(m => m.SeguridadModule)
-    },
-    {
-       path: '**',
-       redirectTo: '/shared/slider',
-       pathMatch: 'full'
-    }
- ];
+const routes: Routes = [
+  {
+    path: 'shared',
+    loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./paginas/menu/menu.module').then(m => m.MenuModule)
+  },
+  {
+    path: 'seguridad',
+    loadChildren: () => import('./paginas/seguridad/seguridad.module').then(m => m.SeguridadModule)
+  },
+  {
+    path: 'rastreo',
+    loadChildren: () => import('./paginas/rastreo/rastreo.module').then(m => m.RastreoModule)
+  },
+  {
+    path: '**',
+    redirectTo: '/shared/slider',
+    pathMatch: 'full'
+  }
+];
 
 
 @NgModule({

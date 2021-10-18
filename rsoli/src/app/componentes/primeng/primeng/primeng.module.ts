@@ -16,6 +16,7 @@ import {TreeModule} from 'primeng/tree';
 import {ToastModule} from 'primeng/toast';
 import {TooltipModule} from 'primeng/tooltip';
 import {TableModule} from 'primeng/table';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [],
@@ -37,7 +38,8 @@ import {TableModule} from 'primeng/table';
     TreeModule,
     ToastModule,
     TooltipModule,
-    TableModule
+    TableModule,
+    InputNumberModule
 
   ]
 })

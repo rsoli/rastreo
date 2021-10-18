@@ -12,6 +12,9 @@ import { PrimengModule } from '../../componentes/primeng/primeng/primeng.module'
 
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';  
 
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     ListaUsuarioComponent,
@@ -26,6 +29,8 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
     SeguridadRoutingModule,
     PrimengModule,
     ModalModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [BsModalService],
 })

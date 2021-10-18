@@ -21,14 +21,14 @@
                 <ng-template pTemplate="caption">
                     <div class="row" >
                         <div class="col-lg-6" style="padding: 0px;margin: 0px;">
-                            <button pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="FormularioPersona(0)">
+                            <button [hidden]="sesion"  pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="FormularioPersona(0)">
                                 <i style="color: #3699FF;"  class="pi pi-file-o imgzoom" ></i>
                             </button> 
 
-                            <button pTooltip="Editar" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente" (click)="FormularioPersona(-1)">
+                            <button  pTooltip="Editar" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente" (click)="FormularioPersona(-1)">
                                 <i  class="far fa-edit imgzoom" style="color: #3CA934 "></i>
                             </button>
-                            <button pTooltip="Eliminar" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarPersona()" >
+                            <button [hidden]="sesion"  pTooltip="Eliminar" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarPersona()" >
                                 <i   class="far fa-trash-alt bg imgzoom"  style="color: #F64E60;"></i> 
                             </button>  
                             <!-- <button pTooltip="Pdf" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente">
@@ -46,10 +46,13 @@
 
                 <ng-template pTemplate="header" >
                     <tr>
-                        <th pSortableColumn="id_usuario">Nro<p-sortIcon field="id_usuario"></p-sortIcon></th>
+                        <th>Nro</th>
                         <th pSortableColumn="usuario">Nombre<p-sortIcon field="nombre"></p-sortIcon></th>
-                        <th pSortableColumn="correo">Apellido paterno<p-sortIcon field="apellido_paterno"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Apellido materno<p-sortIcon field="apellido_materno"></p-sortIcon></th>
+                        <th pSortableColumn="correo">Ap. paterno<p-sortIcon field="apellido_paterno"></p-sortIcon></th>
+                        <th pSortableColumn="persona">Ap. materno<p-sortIcon field="apellido_materno"></p-sortIcon></th>
+                        <th pSortableColumn="persona">CI<p-sortIcon field="apellido_materno"></p-sortIcon></th>
+                        <th pSortableColumn="persona">Celular<p-sortIcon field="apellido_materno"></p-sortIcon></th>
+                        <th pSortableColumn="persona">Telefono<p-sortIcon field="apellido_materno"></p-sortIcon></th>
                         <!-- <th pSortableColumn="foto">Foto<p-sortIcon field="foto"></p-sortIcon></th> -->
                     </tr>
                 </ng-template>
@@ -59,6 +62,9 @@
                         <td>{{lista_personas.nombre}}</td>
                         <td>{{lista_personas.apellido_paterno}}</td>
                         <td>{{lista_personas.apellido_materno}}</td>
+                        <td>{{lista_personas.ci}}</td>
+                        <td>{{lista_personas.celular}}</td>
+                        <td>{{lista_personas.telefono}}</td>
                         <!-- <td> <img src="{{lista_personas.foto}}" style="width:40px;" alt=""></td> -->
                     </tr>
                 </ng-template>

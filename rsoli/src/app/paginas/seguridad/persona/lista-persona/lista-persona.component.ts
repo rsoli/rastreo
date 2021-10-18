@@ -21,6 +21,7 @@ export class ListaPersonaComponent implements OnInit {
   loading: boolean = true;
   @ViewChild('dt') table!: Table;
   public modalRef!: BsModalRef;
+  sesion:boolean=false;
 
   constructor(
     private persona_servicio:PersonaService,
@@ -30,6 +31,7 @@ export class ListaPersonaComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetPersonas();
+    this.sesion=JSON.parse(localStorage.getItem('accesos')|| '{}').sesion;
   }
   GetPersonas() {
     this.persona_servicio.get_personas().subscribe(data=>{
@@ -39,22 +41,30 @@ export class ListaPersonaComponent implements OnInit {
     })
   }
   FormularioPersona(bandera:number){
-
-    console.log("ver persona ",this.persona_seleccionado);
+    this.BorrarToast();
     if(bandera==0){
+      let nuevo_persona =new PersonaModelo();
       this.modalRef = this.modalService.show(ModalPersonaComponent);
       this.modalRef.content.titulo="Nuevo persona";
+      this.modalRef.content.persona=nuevo_persona;
+
+      this.modalRef.onHide?.subscribe((reasor: string|any)=>{
+        this.GetPersonas();
+      });
     }
     else{
       if(this.persona_seleccionado.id_persona==0){
         this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione una persona para editar'});
       }else{
         this.modalRef = this.modalService.show(ModalPersonaComponent);
-        this.modalRef.content.titulo="Editar persona";
+        this.modalRef.content.titulo="Editar persona";  
+        this.modalRef.content.persona=this.persona_seleccionado;
+        this.modalRef.content.IniciarFormulario();
+        this.modalRef.onHide?.subscribe((reasor: string|any)=>{
+          this.GetPersonas();
+        });
       }
-
     }
-
   }
   EliminarPersona(){
     this.BorrarToast();
@@ -71,7 +81,11 @@ export class ListaPersonaComponent implements OnInit {
           cancelButtonText: 'Cancelar'
         }).then((result) => {
           if (result.isConfirmed) {
-            //eliminar
+            this.loading_alert("Eliminando");
+            this.persona_servicio.eliminar_personas(this.persona_seleccionado.id_persona).subscribe(data=>{
+              this.closeLoading_alert();
+              this.GetPersonas();
+            })
           }
         })
 
@@ -87,5 +101,19 @@ export class ListaPersonaComponent implements OnInit {
   BorrarToast() {
     this.messageService.clear();
   }
+  loading_alert(titulo:string){
 
+    Swal.fire({
+      title: titulo,
+      html: 'Cargando',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading()
+      },
+    }); 
+
+  }
+  closeLoading_alert(){
+    Swal.close();
+  }
 }

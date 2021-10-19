@@ -23,17 +23,6 @@ export class SidebarComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
-    this.CargarMenu();
-    
-  }
-  CargarMenu(){
-
-    let menu_aux=JSON.parse(localStorage.getItem('accesos')|| '{}').accesos.original.replaceAll('expandedicon','expandedIcon');
-    menu_aux=menu_aux.replaceAll('collapsedicon','collapsedIcon');
-    menu_aux=menu_aux.replaceAll('items','children');
-    menu_aux=menu_aux.replaceAll('ruta_menu_sidebar','routerLink');
-    this.files=JSON.parse(menu_aux).children;
     
   }
   nodeSelect(event: { node: { label: any,routerLink:any; }; }) {
@@ -49,7 +38,19 @@ export class SidebarComponent implements OnInit {
       // this.messageService.add({severity: 'info', summary: 'Node Unselected', detail: event.node.label});  
   }
   AbrirSideBar(){
-    this.visibleSidebar1=!this.visibleSidebar1;
+    if(localStorage.getItem('accesos') == undefined ){
+      this.messageService.add({severity: 'info', summary: 'Mensaje', detail: 'Iniciar sesión' });
+      this.visibleSidebar1=false;
+    }else{
+      let menu_aux=JSON.parse(localStorage.getItem('accesos')|| '{}').accesos.original.replaceAll('expandedicon','expandedIcon');
+      menu_aux=menu_aux.replaceAll('collapsedicon','collapsedIcon');
+      menu_aux=menu_aux.replaceAll('items','children');
+      menu_aux=menu_aux.replaceAll('ruta_menu_sidebar','routerLink');
+      this.files=JSON.parse(menu_aux).children;
+      this.visibleSidebar1=true;
+      // this.expandAll();
+    } 
+    
   }
 
   expandAll(){

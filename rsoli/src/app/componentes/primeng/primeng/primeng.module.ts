@@ -20,6 +20,7 @@ import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -45,7 +46,8 @@ import { CalendarModule } from 'primeng/calendar';
     InputNumberModule,
     MultiSelectModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    AutoCompleteModule
   ]
 })
 export class PrimengModule { }

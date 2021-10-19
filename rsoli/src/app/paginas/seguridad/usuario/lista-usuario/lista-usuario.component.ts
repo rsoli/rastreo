@@ -4,6 +4,8 @@ import { UsuarioService } from '../usuario.service';
 import { Table } from 'primeng/table';
 import {MessageService} from 'primeng/api';
 import Swal from'sweetalert2';
+import { ModalUsuarioComponent} from '../modal-usuario/modal-usuario.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-lista-usuario',
@@ -17,19 +19,23 @@ export class ListaUsuarioComponent implements OnInit {
   usuario_seleccionado=new UsuarioModelo();
   loading: boolean = true;
   @ViewChild('dt') table!: Table;
+  public modalRef!: BsModalRef;
+
+  sesion:boolean=false;
   
   constructor(
     private usuario_servicio:UsuarioService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
+    this.sesion=JSON.parse(localStorage.getItem('accesos')|| '{}').sesion;
     this.GetUsuarios();
   }
   GetUsuarios(){
     this.usuario_servicio.get_usuarios().subscribe(data=>{ 
       this.loading = false;
-      console.log("ver res ",data);
       this.lista_usuarios=JSON.parse(JSON.stringify(data)).usuarios;
     })
   }
@@ -38,7 +44,31 @@ export class ListaUsuarioComponent implements OnInit {
     this.usuario_seleccionado=usuario;
     this.messageService.add({severity: 'info', summary: 'Usuario seleccionado', detail: (this.usuario_seleccionado.usuario).toString() });
   }
-  FormularioUsuario(){
+  FormularioUsuario(bandera:number){
+    this.BorrarToast();
+    if(bandera==0){
+      let nuevo_persona =new UsuarioModelo();
+      this.modalRef = this.modalService.show(ModalUsuarioComponent);
+      this.modalRef.content.titulo="Nuevo usuario";
+      this.modalRef.content.persona=nuevo_persona;
+      this.modalRef.content.CargarValores();
+      this.modalRef.onHide?.subscribe((reasor: string|any)=>{
+        this.GetUsuarios();
+      });
+    }
+    else{
+      if(this.usuario_seleccionado.id_usuario==0){
+        this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un usuario para editar'});
+      }else{
+        this.modalRef = this.modalService.show(ModalUsuarioComponent);
+        this.modalRef.content.titulo="Editar usuario";  
+        this.modalRef.content.usuario=this.usuario_seleccionado;
+        this.modalRef.content.CargarValores();
+        this.modalRef.onHide?.subscribe((reasor: string|any)=>{
+          this.GetUsuarios();
+        });
+      }
+    }
 
   }
   EliminarUsuario(){

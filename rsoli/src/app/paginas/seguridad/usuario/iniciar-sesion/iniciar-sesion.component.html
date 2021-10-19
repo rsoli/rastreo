@@ -31,9 +31,9 @@ class="p-button-rounded p-button-info imgzoom"  (click)="CargarFormulario()" ></
                 
                 <br/>
                 <div style="text-align: center;margin-top: 20px;">
-                    <img src="assets/logo/logoRsoli.svg"  class="imgzoom "
-                    style="width: 150px; height: 100px; height: 70px; ">
+                    <img routerLink="shared/slider" src="./../../../assets/logo/logoRsoliHeader.svg" height="55" >
                 </div>
+                <br/>
 
                 <form [formGroup]="form" (submit)="IniciarSesion()">
                     <h3  style="font-weight: normal; text-align: center;" >Inicio de sesion</h3>

@@ -8,4 +8,6 @@ export class UsuarioModelo {
     foto:any;
     id_persona:number=0;
     id_roles:any=[];
+    contrasena:any="";
+    correo:String="";
 }

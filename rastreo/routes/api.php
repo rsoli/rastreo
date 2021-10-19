@@ -82,6 +82,8 @@ Route::group([
 
         Route::get('lista_servicio', [ServicioController::class, 'lista_servicio']);
         Route::get('lista_pago_servicio/{id}', [ServicioController::class, 'lista_pago_servicio']);
+        Route::get('lista_vehiculo', [ServicioController::class, 'lista_vehiculo']);
+    
     });
 });
 

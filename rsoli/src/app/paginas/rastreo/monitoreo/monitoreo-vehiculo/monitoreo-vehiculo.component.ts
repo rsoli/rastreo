@@ -30,6 +30,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.listaVehiculos();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
+    this.borrarMarcadores();
   }
   listaVehiculos() {
     this.vehiculo = [
@@ -63,15 +64,40 @@ export class MonitoreoVehiculoComponent implements OnInit {
         // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
       })
     };
-
     this.map = L.map('map').setView([51.505, -0.09], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    const marker = L.marker([51.5, -0.09], icon).addTo(this.map);
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+    let aux_marker = [];
+
+    aux_marker.push(["Gabi0", -17.198523456999723, -65.93333306827111]);
+    aux_marker.push(["Gabi1", -17.38956005084005, -66.27963734093431]);
+    aux_marker.push(["Gabi2", -17.393299391500843, -66.23027725735787]);
+
+    let latitud: any;
+    let longitud: any;
+    let marker: any;
+    //for consulta para devolver los datos 
+    latitud = aux_marker[0][1];
+    longitud = aux_marker[0][2];
+    marker = L.marker([latitud, longitud], icon).addTo(this.map);
+    marker.bindPopup("<b>Prueba1</b><br>I am a popup.").openPopup();
+    //fin for
+
+    // marker.push(["Prueba3", -17.389150512147936, -66.27980905487269], icon).addTo(this.map);
+    // marker.bindPopup("<b>Prueba3</b><br>I am a popup.").openPopup();
+
+    // marker = L.marker([-17.411661350287144, -66.16585785382303], icon).addTo(this.map);
+    // marker.bindPopup("<b>Gabi!</b><br>I am a popup.").openPopup();
+
+    // marker = L.marker([-17.389150512147936, -66.27980905487269], icon).addTo(this.map);
+    // marker.bindPopup("<b>Gabi!</b><br>I am a popup.").openPopup();
+
+    // const marker = L.marker([51.5, -0.09], icon).addTo(this.map);
+    // marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
   }
+  borrarMarcadores() {
 
-
+  }
 }

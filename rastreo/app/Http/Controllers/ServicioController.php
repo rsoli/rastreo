@@ -11,7 +11,6 @@ use DB;
 
 class ServicioController extends Controller
 {
-
     public function lista_servicio(Request $request)
     {
         /*if($this->es_admin($request->user()->id)==true){
@@ -64,7 +63,22 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
+    public function lita_vehiculo(Request $request){
+        $lista_vehiculo=DB::select("select 
+                                    v.id_vehiculo,
+                                    v.placa
+                                    from ras.tvehiculo v
+                                    inner join ras.tcliente c on v.id_cliente=c.id_cliente 	
+                                    inner join ras.tpersona p on p.id_persona=c.id_persona
+                                    left join segu.users u on p.id_persona=u.id_persona
+                                    where u.id=?",[$id]);
 
+        $arrayParametros=[
+            'lista_vehiculo'=>$lista_vehiculo
+        ]; 
+        
+        return response()->json($arrayParametros);
+    }
     
 
 }

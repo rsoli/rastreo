@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
     this.items = [
       {
         label: 'Inicio',
-        icon: 'pi pi-fw pi-file',
+        icon: 'pi pi-home',
         routerLink: '/menu/slider'
       },
       {
@@ -31,32 +31,32 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: 'Contactos',
-        icon: 'pi pi-fw pi-calendar',
+        icon: 'pi pi-phone',
         routerLink: '/menu/contacto'
       },
       {
         label: 'Servicio',
-        icon: 'pi pi-fw pi-calendar',
+        icon: 'pi pi-tags',
         items: [
           {
             label: 'Inteligencia de negocios',
-            icon: 'pi pi-fw pi-pencil',
+            icon: 'pi pi-chart-bar',
             routerLink: '/menu/inteligencia_negocio'
           },
           {
             label: 'Rastreo satelital',
-            icon: 'pi pi-fw pi-calendar-times',
+            icon: 'pi pi-map-marker',
             routerLink: '/menu/rastreo-satelital'
           },
           {
             label: 'Desarrollo de software y asesoria',
-            icon: 'pi pi-fw pi-calendar-times',
+            icon: 'pi pi-sun',
             routerLink: '/menu/desarrollo_software'
 
           },
           {
             label: 'Diseño web',
-            icon: 'pi pi-fw pi-calendar-times',
+            icon: 'pi pi-wallet',
             routerLink: '/menu/diseno_web'
           }
         ]

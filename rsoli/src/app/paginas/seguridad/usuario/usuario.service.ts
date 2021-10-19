@@ -39,5 +39,14 @@ export class UsuarioService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'get_usuarios', this.headers_token);
   }
+  get_usuario(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'get_usuario/'+id, this.headers_token);
+  }
+  post_usuario(usuario:UsuarioModelo){
+    this.actualizar_accesos();
+    const body=JSON.stringify(usuario);
+    return this.http.post(this.baseURL + 'post_usuario',body,this.headers_token);
+  }
 
 }

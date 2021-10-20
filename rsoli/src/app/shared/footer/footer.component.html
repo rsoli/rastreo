@@ -1,67 +1,300 @@
+<div style="background: #ffffff; width: 100%; height: 100%; text-align: center; padding-bottom: 20px;">
+    <br>
+    <div class="row" style="margin: 0px;">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-12" style="font-weight: bold; margin-bottom: 10px;">
+                    <img routerLink="menu/inteligencia_negocio"
+                        src="assets/icono/principal/inteligencia-de-negocios.png" height="55"
+                        class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
+                </div>
+                <div class="col-12">
+                    <p style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);">
+                        Inteligencia de Negocios
+                    </p>
+                </div>
+                <div class="col-12 texto-icono-slider">
+                    Combina análisis de negocios, minería de datos, visualización de datos, herramientas e
+                    infraestructura de datos, y las prácticas recomendadas para ayudar a las organizaciones a tomar
+                    decisiones
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-12" style="font-weight: bold; margin-bottom: 10px;">
+                    <img routerLink="menu/rastreo-satelital" src="assets/icono/principal/rastreo-satelital.png"
+                        height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
+                </div>
+                <div class="col-12" style="font-weight: bold;">
+                    <p style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);">
+                        Rastreo Satelital
+                    </p>
+                </div>
+                <div class="col-12 texto-icono-slider">
+                    Determina la ubicación de los vehículos (autos, camiones, entre otros) en tiempo real, a través de
+                    sistemas de geolocalización. Estos sistemas de rastreo satelital vehicular tienen la última
+                    tecnología desarrollada dentro del mercado.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-12" style="font-weight: bold; margin-bottom: 10px;">
+                    <img routerLink="menu/desarrollo_software" src="assets/icono/principal/desarrollo-de-software.png"
+                        height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
+                </div>
+                <div class="col-12" style="font-weight: bold;">
+                    <p style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);">
+                        Desarrollo de software y asesoria
+                    </p>
+                </div>
+                <div class="col-12 texto-icono-slider">
+                    En la actualidad nos encontramos con cambios vertiginosos en todas las áreas, donde la
+                    competitividad se acrecienta y las empresas depende de un mejor control sobre su actividad, servicio
+                    y tomar posiciones en el mercado.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-12" style="font-weight: bold; margin-bottom: 10px;">
+                    <img routerLink="menu/diseno_web" src="assets/icono/principal/diseno-web.png" height="55"
+                        class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
+                </div>
+                <div class="col-12" style="font-weight: bold;">
+                    <p style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);">
+                        Diseño web
+                    </p>
+                </div>
+                <div class="col-12 texto-icono-slider">
+                    En la actualidad nos encontramos con cambios vertiginosos en todas las áreas, donde la
+                    competitividad se acrecienta y las empresas depende de un mejor control sobre su actividad, servicio
+                    y tomar posiciones en el mercado.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div  style="background: #ffffff; width: 100%; height: 100%; text-align: center; padding-bottom: 20px;">
-    <br >
-    <div  class="row" style="margin: 0px;">
-        <div  class="col-lg-3 col-md-6 col-sm-12">
-            <div  class="row">
-                <div  class="col-12" style="font-weight: bold; margin-bottom: 10px;">
-                    <img  routerLink="menu/inteligencia_negocio" src="assets/icono/principal/inteligencia-de-negocios.png" height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
+<style>
+    .footer {
+        width: 100%;
+        padding: 0px 0px;
+        background-color: #016CBA;
+        color: #fff;
+    }
+
+    .container_footer {
+        display: flex;
+        /*separar en columnas */
+        flex-wrap: wrap;
+        /*se pongan una debajo de otra*/
+        justify-content: space-between;
+        /*espacio completo*/
+        max-width: 1400px;
+        margin: auto;
+        margin-top: 50px;
+        /*espacio de arriba*/
+    }
+
+    .logo_footer {
+        position: static !important;
+        width: 100%;
+        text-align: center;
+        /* margin-top:0px; */
+    }
+
+    .box_footer {
+        display: flex;
+        /*para que los elementos se pongan uno ensima de otro*/
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .box_footer .logo img {
+        width: 150px;
+    }
+
+    .box_footer .terms {
+        max-width: 350px;
+        margin-top: 20px;
+
+        color: #ffffff;
+        /* font-size: px; */
+    }
+
+    .box_footer h6 {
+        margin-bottom: 18px;
+        /*espacio del titulo  y los links*/
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    .box_footer a {
+        margin-top: 10px;
+        color: #ffffff;
+        font-size: 15px;
+        border-radius: 50%;
+    }
+
+    .titulo_footer {
+        padding: 18px 18px 0 0px;
+    }
+
+    i.fas {
+        display: inline-block;
+        border-radius: 60px;
+
+        box-shadow: 0px 0px 2px #fff;
+        padding: 0.1em 0.2em;
+    }
+
+    .box_footer a:hover {
+        color: rgb(231, 231, 231);
+    }
+
+    .box_footer a .fa {
+        font-size: 25px;
+        display: inline;
+    }
+
+    .box_copyright {
+        max-width: 1200px;
+        margin: auto;
+        text-align: center;
+        padding: 0px 40px;
+    }
+
+    .box_copyright p {
+        margin-top: 0px;
+        margin-bottom: 20px;
+        color: #7a7a7a !important;
+        font-size: 15px;
+    }
+
+    .box_copyright hr {
+        border: none;
+    }
+
+    .titulo-footer {
+        text-align: left;
+        color: white;
+        font-weight: 800;
+        font-size: 15px;
+        display: flex;
+        text-decoration: none;
+        /* padding: 30px; */
+    }
+
+    .subtitulo-footer {
+        color: white;
+        font-weight: 650;
+        font-size: 13px;
+        margin-top: 5px;
+        display: flex;
+        text-align: left;
+        text-decoration: none;
+        margin-bottom: 0 !important;
+    }
+
+    .contenido-footer {
+        color: white;
+        /* font-weight: 640; */
+        font-size: 13px;
+        margin-top: 0px !important;
+        display: flex;
+        text-align: left;
+        font-weight: 200;
+        text-decoration: none;
+
+    }
+
+    .img-footer {
+        height: 50px;
+        padding: 2px;
+    }
+
+    .inline {
+        align-items: inline;
+    }
+</style>
+
+<div class="footer">
+    <div class="container_footer">
+        <div class=" box_footer logo_footer">
+            <br><br>
+            <div class="row">
+                <div class="col-sm-12">
+
                 </div>
-                <div  class="col-12">
-                    <p  style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);"> 
-                        Inteligencia de Negocios 
-                    </p>
+                <div class="col-sm-12">
+                    <div class="logo">
+                        <img src="assets/logo/logoblanco.png" height="55" class="imgzoom p-mr-2 ng-star-inserted"
+                            style="width: 220px; height: 100px;">
+                    </div>
                 </div>
-                <div  class="col-12 texto-icono-slider"> 
-                    Combina análisis de negocios, minería de datos, visualización de datos, herramientas e infraestructura de datos, y las prácticas recomendadas para ayudar a las organizaciones a tomar decisiones 
+                <div class="col-sm-12">
+
                 </div>
             </div>
+
         </div>
-        <div  class="col-lg-3 col-md-6 col-sm-12">
-            <div  class="row">
-                <div  class="col-12" style="font-weight: bold; margin-bottom: 10px;">
-                    <img  routerLink="menu/rastreo-satelital" src="assets/icono/principal/rastreo-satelital.png" height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
-                </div>
-                <div  class="col-12" style="font-weight: bold;">
-                    <p  style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);"> 
-                        Rastreo Satelital 
-                    </p>
-                </div>
-                <div  class="col-12 texto-icono-slider"> 
-                    Determina la ubicación de los vehículos (autos, camiones, entre otros) en tiempo real, a través de sistemas de geolocalización. Estos sistemas de rastreo satelital vehicular tienen la última tecnología desarrollada dentro del mercado. 
-                </div>
+        <div class="box_footer">
+            <p class="titulo-footer">QUIENES SOMOS</p>
+            <p class="contenido-footer">
+                Somos un grupo de profesionales,
+                <br>
+                creadores en soluciones de software
+                <br>
+                a medida, enfocados en las tecnologías
+                <br>
+                más innovadoras y adaptables a las
+                <br>
+                necesidades de cada cliente en
+                <br>
+                tiempo record.
+            </p>
+        </div>
+        <div class="box_footer">
+            <p class="titulo-footer">NUESTRAS REDES SOCIALES </p>
+            <br>
+            <div class="inline">
+                <img src="assets/icono/redes_sociales/facebook.svg" class="img-footer">
+                <img src="assets/icono/redes_sociales/instagram.svg" class="img-footer">
+                <img src="assets/icono/redes_sociales/tiktok.svg" class="img-footer">
+                <img src="assets/icono/redes_sociales/youtube.svg" class="img-footer">
             </div>
         </div>
-        <div  class="col-lg-3 col-md-6 col-sm-12">
-            <div  class="row">
-                <div  class="col-12" style="font-weight: bold; margin-bottom: 10px;">
-                    <img routerLink="menu/desarrollo_software" src="assets/icono/principal/desarrollo-de-software.png" height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
-                </div>
-                <div  class="col-12" style="font-weight: bold;">
-                    <p  style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);"> 
-                        Desarrollo de software y asesoria 
-                    </p>
-                </div>
-                <div  class="col-12 texto-icono-slider"> 
-                    En la actualidad nos encontramos con cambios vertiginosos en todas las áreas, donde la competitividad se acrecienta y las empresas depende de un mejor control sobre su actividad, servicio y tomar posiciones en el mercado. 
+        <div class="box_footer">
+            <p class="titulo-footer">UBICACIÓN</p>
+            <p class="subtitulo-footer"> Dirección</p>
+            <a class="contenido-footer">Av. Blanco Galindo Km 8.5</a>
+            <p class="subtitulo-footer">Teléfonos</p>
+            <a class="contenido-footer" href="#">77444482</a>
+            <p class="subtitulo-footer">Correo</p>
+            <a class="contenido-footer" href="#">Propioj@gmail.com</a>
+        </div>
+    </div>
+    <div class="box_copyright">
+        <hr>
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span class="copyright">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        &copy;
+                        <script>document.write(new Date().getFullYear());</script>
+                        Rsoli 2021 Reservados todos los
+                        derechos&nbsp;<a href="#" style="color: #fff;"></a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </span>
                 </div>
             </div>
+            <!-- /row -->
         </div>
-        <div  class="col-lg-3 col-md-6 col-sm-12">
-            <div  class="row">
-                <div  class="col-12" style="font-weight: bold; margin-bottom: 10px;">
-                    <img routerLink="menu/diseno_web" src="assets/icono/principal/diseno-web.png" height="55" class="imgzoom p-mr-2 ng-star-inserted" style="width: 100px; height: 100px;">
-                </div>
-                <div  class="col-12" style="font-weight: bold;">
-                    <p  style="font-weight: bold; color: #104068; text-shadow: 0.07em 0.03em 0.1em rgb(133, 127, 127);"> 
-                        Diseño web 
-                    </p>
-                </div>
-                <div  class="col-12 texto-icono-slider"> 
-                    En la actualidad nos encontramos con cambios vertiginosos en todas las áreas, donde la competitividad se acrecienta y las empresas depende de un mejor control sobre su actividad, servicio y tomar posiciones en el mercado. 
-                </div>
-            </div>
-        </div>
+        <br><br>
     </div>
 </div>
 
@@ -70,88 +303,157 @@
 
 
 
-    <div style="background: #016CBA; width: 100%; height: 100%; text-align: center; padding-bottom: 20px; border-top: 4px solid #007bff;"><br>
-        <div class="row" style="margin: 0px;">
-            <div class="col-12">
-                <!-- <img src="assets/logo/logo_blanco.png" style="height: 80px;"> -->
+
+
+<!-- <div class="footer fondo-footer">
+    <div class="row">
+        <div class="logo-footer">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" style="padding: 0;border: 0;">
+            <div class="izquierda">
+                <p class="titulo-footer">UBICACIÓN</p>
+                <p class="subtitulo-footer">Dirección</p>
+                <p class="contenido-footer">Av. Blanco Galindo Km 8.5 al norte una cuadra</p>
+                <p class="subtitulo-footer">Celular</p>
+                <p class="contenido-footer">77444482</p>
+                <p class="subtitulo-footer">Correo</p>
+                <p class="contenido-footer">Propioj@gmail.com</p>
             </div>
         </div>
-        <div class="row" style="margin: 0px; padding-bottom: 20px;">
-            <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="col-md-4" style="padding: 0;border: 0;">
+            <div class="centro">
+                <p class="titulo-footer">NUESTRAS REDES SOCIALES</p>
                 <div class="row">
-                    <div class="col-12" style="color: white; font-weight: 700; font-size: 15px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            UBICACIÓN 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 640; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            Dirección 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            Av. Blanco Galindo Km 8.5 al norte una cuadra 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 640; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            Celular 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            77444482 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 640; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            Correo 
-                        </div>
-                    </div>
-                    <div class="col-12" style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
-                        <div style="width: 50%; text-align: left;"> 
-                            Propioj@gmail.com 
-                        </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <img src="assets/icono/redes_sociales/facebook.svg" class="imgzoom" style="height: 50px;">
+                        <img src="assets/icono/redes_sociales/instagram.svg" class="imgzoom" style="height: 50px;">
+                        <img src="assets/icono/redes_sociales/tiktok.svg" class="imgzoom" style="height: 50px;">
+                        <img src="assets/icono/redes_sociales/youtube.svg" class="imgzoom" style="height: 50px;">
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-12 col-sm-12">
-                <div class="row" style="padding-top: 2px;">
-                    <div class="col-12" style="color: white; font-weight: 700; font-size: 15px;"> 
-                        NUESTRAS REDES SOCIALES 
-                    </div>
+        </div>
+        <div class="col-md-4" style="padding: 0;border: 0;">
+            <div class="derecha">
+                <div class="titulo-footer">SOBRE NOSOTROS</div>
+                <div class="contenido-footer">Con la técnologia adecuada, innovación precisa y los requerimientos claros
+                    de nuestros clientes,
+                    se crean maravillosas aplicaciones y paginas webs que optimizan sus procedimientos
+
                 </div>
-                <div class="row" style="padding-top: 30px; padding-bottom: 20px;">
-                    <div class="col-lg-3 col-md-3 col-sm-12">
-                        <img src="assets/icono/redes_sociales/facebook.svg" class="imgzoom" style="height: 50px;">
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12">
-                        <img src="assets/icono/redes_sociales/instagram.svg" class="imgzoom" style="height: 50px;">
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12">
-                        <img src="assets/icono/redes_sociales/tiktok.svg" class="imgzoom" style="height: 50px;">
-                    </div><div class="col-lg-3 col-md-3 col-sm-12">
-                        <img src="assets/icono/redes_sociales/youtube.svg" class="imgzoom" style="height: 50px;">
-                    </div></div></div><div class="col-lg-4 col-md-12 col-sm-12" style="text-align: left;">
-                        <div class="row">
-                            <div class="col-12" style="color: white; font-weight: 700; font-size: 15px; display: flex; justify-content: center;">
-                                <div style="margin-left: 20px; margin-right: 20px; width: 50%;"> 
-                                    SOBRE NOSOTROS 
-                                </div>
-                            </div>
-                            <div class="col-12" style="color: white; font-weight: 200; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
-                                <div style="margin-left: 20px; margin-right: 20px; width: 50%; text-align: left;"> 
-                                    Con la técnologia adecuada, innovación precisa y los requerimientos claros de nuestros clientes, se crean maravillosas aplicaciones y paginas webs que optimizan sus procedimientos 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin: 0px;">
-                    <div class="col-12" style="border-top: 1px solid #83a1fd; padding-top: 15px; color: white; font-size: 12px; font-weight: 600;"> 
-                        Rsoli 2021 Reservados todos los derechos 
-                    </div>
-                </div>
+                <br><br>
+            </div>
+        </div>
     </div>
-     
+    <div class="row" style="margin: 0px;">
+        <div class="col-12"
+            style="border-top: 1px solid #83a1fd; padding-top: 15px; color: white; font-size: 12px; font-weight: 600;">
+            Rsoli 2021 Reservados todos los derechos
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+
+<!-- <div class="fondo-footer">
+    <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="columna">
+
+            </div>
+            <div class="titulo-footer">
+                <h3>UBICACIÓN</h3>
+            </div>
+            <div class="subtitulo-footer">
+                <h2>Dirección</h2>
+            </div>
+            <p>Av. Blanco Galindo Km 8.5 al norte una cuadra</p>
+            <div class="row">
+
+
+                <div class="col-12"
+                    style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
+                    <div style="width: 50%; text-align: left;">
+                        Av. Blanco Galindo Km 8.5 al norte una cuadra
+                    </div>
+                </div>
+                <div class="col-12"
+                    style="color: white; font-weight: 640; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
+                    <div style="width: 50%; text-align: left;">
+                        Celular
+                    </div>
+                </div>
+                <div class="col-12"
+                    style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
+                    <div style="width: 50%; text-align: left;">
+                        77444482
+                    </div>
+                </div>
+                <div class="col-12"
+                    style="color: white; font-weight: 640; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
+                    <div style="width: 50%; text-align: left;">
+                        Correo
+                    </div>
+                </div>
+                <div class="col-12"
+                    style="color: white; font-weight: 200; font-size: 12px; display: flex; justify-content: center;">
+                    <div style="width: 50%; text-align: left;">
+                        Propioj@gmail.com
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="row" style="padding-top: 2px;">
+                <div class="col-12" style="color: white; font-weight: 700; font-size: 15px;">
+                    NUESTRAS REDES SOCIALES
+                </div>
+            </div>
+            <div class="row" style="padding-top: 30px; padding-bottom: 20px;">
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <img src="assets/icono/redes_sociales/facebook.svg" class="imgzoom" style="height: 50px;">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <img src="assets/icono/redes_sociales/instagram.svg" class="imgzoom" style="height: 50px;">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <img src="assets/icono/redes_sociales/tiktok.svg" class="imgzoom" style="height: 50px;">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12">
+                    <img src="assets/icono/redes_sociales/youtube.svg" class="imgzoom" style="height: 50px;">
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12" style="text-align: left;">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div class="row">
+                <div class="col-12"
+                    style="color: white; font-weight: 700; font-size: 15px; display: flex; justify-content: center;">
+                    <div style="margin-left: 20px; margin-right: 20px; width: 50%;">
+                        SOBRE NOSOTROS
+                    </div>
+                </div>
+                <div class="col-12"
+                    style="color: white; font-weight: 200; font-size: 12px; margin-top: 12px; display: flex; justify-content: center;">
+                    <div style="margin-left: 20px; margin-right: 20px; width: 50%; text-align: left;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin: 0px;">
+            <div class="col-12"
+                style="border-top: 1px solid #83a1fd; padding-top: 15px; color: white; font-size: 12px; font-weight: 600;">
+                Rsoli 2021 Reservados todos los derechos
+            </div>
+        </div>
+    </div>
+</div> -->

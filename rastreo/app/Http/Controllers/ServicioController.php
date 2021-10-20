@@ -117,7 +117,7 @@ class ServicioController extends Controller
 
         $id_vehiculos=$request->id_vehiculos;
 
-        $filtros_fechas=" p.devicetime >= ".$request->fecha_inicio."::timestamp and p.devicetime <= ".$request->fecha_fin."::timestamp";
+        $filtros_fechas=" p.devicetime >= '".$request->fecha_inicio."'::timestamp and p.devicetime <= '".$request->fecha_fin."'::timestamp";
 
         $lista_monitoreo_tiempo_real=DB::select("select
                                     v.placa,

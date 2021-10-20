@@ -64,6 +64,14 @@ class ServicioController extends Controller
         return response()->json($arrayParametros);
     }
     public function filtros_monitoreo(Request $request){
+
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" u.id = ".$request->user()->id." ";
+        }
+
         $lista_vehiculo=DB::select("select 
                                     v.id_vehiculo,
                                     v.placa
@@ -71,7 +79,7 @@ class ServicioController extends Controller
                                     inner join ras.tcliente c on v.id_cliente=c.id_cliente 	
                                     inner join ras.tpersona p on p.id_persona=c.id_persona
                                     left join segu.users u on p.id_persona=u.id_persona
-                                    where u.id=?",[$id]);
+                                    where ".$ids." ");
 
         $arrayParametros=[
             'lista_vehiculo'=>$lista_vehiculo

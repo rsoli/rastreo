@@ -21,7 +21,7 @@ export class MonitoreoService {
   }
   get_filtros_monitoreo(){
     this.actualizar_accesos();
-    return this.http.get(this.baseURL + 'lita_vehiculo', this.headers_token);
+    return this.http.get(this.baseURL + 'filtros_monitoreo', this.headers_token);
   }
 
 }

@@ -117,7 +117,18 @@ export class MonitoreoVehiculoComponent implements OnInit {
       })
 
     }else{
-
+      this.loading_alert();
+      let f_ini=this.fecha_ratreo.toLocaleDateString()+' '+this.hora_inicio.toLocaleTimeString();
+      let f_fin=this.fecha_ratreo.toLocaleDateString()+' '+this.hora_fin.toLocaleTimeString();
+      this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
+        this.closeLoading_alert();
+        console.log("ver rutas ",data);
+        this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
+      },
+      error=>{
+        this.closeLoading_alert();
+        console.log("ver errores ",error);
+      })
     }
     
   }

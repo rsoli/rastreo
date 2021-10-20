@@ -28,5 +28,10 @@ export class MonitoreoService {
     const body=JSON.stringify(parametros);
     return this.http.post(this.baseURL + 'monitoreo_tiempo_real',body, this.headers_token);
   }
+  post_monitoreo_rutas(parametros:any){
+    this.actualizar_accesos();
+    const body=JSON.stringify(parametros);
+    return this.http.post(this.baseURL + 'monitoreo_rutas',body, this.headers_token);
+  }
 
 }

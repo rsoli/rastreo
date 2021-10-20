@@ -4,6 +4,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-monitoreo-vehiculo',
@@ -71,7 +72,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   monitoreo_seleccionado(event: any){
     try {
-
+      
       this.fecha_ratreo=new Date();
       this.hora_inicio=new Date('2023-10-06 01:00:00');
       this.hora_fin=new Date('2023-10-06 23:59:59');
@@ -118,8 +119,11 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
     }else{
       this.loading_alert();
-      let f_ini=this.fecha_ratreo.toLocaleDateString()+' '+this.hora_inicio.toLocaleTimeString();
-      let f_fin=this.fecha_ratreo.toLocaleDateString()+' '+this.hora_fin.toLocaleTimeString();
+
+      formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')
+
+      let f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
+      let f_fin=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
       this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
         this.closeLoading_alert();
         console.log("ver rutas ",data);

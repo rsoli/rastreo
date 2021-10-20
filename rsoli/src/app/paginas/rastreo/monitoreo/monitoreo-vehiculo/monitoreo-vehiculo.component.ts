@@ -15,6 +15,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   private map: any;
   marker: any;
   lista_marcadores:any;
+  polylines:any;
 
   tiles: any;
   vehiculo!: any[];
@@ -187,20 +188,23 @@ export class MonitoreoVehiculoComponent implements OnInit {
   AgregarMarcador(marcadores:any) {
 
     this.borrarMarcadores();
+
     let icon = {
       icon: L.icon({
-        iconSize: [35, 41],
-        iconAnchor: [13, 0],
-        iconUrl: './../../../assets/icono/marcadores/vehiculo/vehiculo-verde.svg',
-        // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
+        // iconSize: [25, 41],
+        // iconAnchor: [12, 41],
+        iconSize: [25, 31],
+        iconAnchor: [12, 31],
+        iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
       })
     };
  
 
     this.lista_marcadores=[];
 
-
-
+    let linea_rutas=[];
+    let lat:any;
+    let lon:any;
 
     for (let indice of marcadores.lista_monitoreo_tiempo_real ){
 
@@ -210,15 +214,29 @@ export class MonitoreoVehiculoComponent implements OnInit {
       " <br> <b>Fecha :</b>  "+indice.devicetime+
       " <br> <b>Velocidad :</b>  "+indice.speed+
       " <br> <b>Ubicación :</b>  "+indice.address+
-      " ").openPopup();
+      " ");
 
       this.lista_marcadores.push(this.marker);
       
+      linea_rutas.push(this.marker.getLatLng());
+      lat=indice.latitude;
+      lon=indice.longitude;
     }
 
+    if(this.polylines){
+      this.polylines.removeFrom(this.map);
+    }
+    
+    this.polylines = L.polyline(linea_rutas, {
+      color: 'blue'
+    }).addTo(this.map);
+    this.map.fitBounds(this.polylines.getBounds());
+
+    this.map.setView([lat, lon], 18);
  
 
   }
+
   TiempoInterval(){
     if(this.bandera_timer==true){
       this.id_interval = setInterval(() => {

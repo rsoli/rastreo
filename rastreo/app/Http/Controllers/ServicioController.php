@@ -63,7 +63,7 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
-    public function lita_vehiculo(Request $request){
+    public function filtros_monitoreo(Request $request){
         $lista_vehiculo=DB::select("select 
                                     v.id_vehiculo,
                                     v.placa

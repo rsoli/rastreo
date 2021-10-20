@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import { PrimeNGConfig } from 'primeng/api';
+import { MonitoreoService } from '../monitoreo.service';
+import Swal from'sweetalert2';
 
 @Component({
   selector: 'app-monitoreo-vehiculo',
@@ -24,7 +26,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   bandera_tipo_monitoreo:boolean=false;
 
   constructor(
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private monitoreo_servicio:MonitoreoService
   ) { }
 
   ngOnInit() {
@@ -33,6 +36,18 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.borrarMarcadores();
+    this.IniciarFiltros();
+  }
+  IniciarFiltros(){
+    this.loading_alert();
+    this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
+      this.closeLoading_alert();
+      console.log("ver filtros ",data);
+    },
+    error=>{
+      this.closeLoading_alert();
+      console.log("ver filtros ",error);
+    })
   }
   listaVehiculos() {
     this.vehiculo = [
@@ -95,11 +110,29 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   }
   tipo_monitoreo_seleccionado(event: any){
-    console.log("ver tipo ",event.value.code);
-    if(event.value.code=="tiempo_real"){
-      this.bandera_tipo_monitoreo=true;
-    }else{
-      this.bandera_tipo_monitoreo=false;
+    try {
+      console.log("ver tipo ",event.value.code);
+      if(event.value.code=="tiempo_real"){
+        this.bandera_tipo_monitoreo=true;
+      }else{
+        this.bandera_tipo_monitoreo=false;
+      }
+    } catch (error) {
+      
     }
+
+  }
+  loading_alert(){
+    Swal.fire({
+      title: 'Cargando filtros',
+      html: 'Cargando',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading()
+      },
+    }); 
+  }
+  closeLoading_alert(){
+    Swal.close();
   }
 }

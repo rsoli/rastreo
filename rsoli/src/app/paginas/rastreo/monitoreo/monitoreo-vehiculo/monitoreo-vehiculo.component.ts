@@ -82,7 +82,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   monitoreo_seleccionado(event: any){
     try {
-      
+      this.BorrarTimer();
       this.fecha_ratreo=new Date();
       this.hora_inicio=new Date('2023-10-06 01:00:00');
       this.hora_fin=new Date('2023-10-06 23:59:59');
@@ -244,14 +244,17 @@ export class MonitoreoVehiculoComponent implements OnInit {
       }, 5000);
       // setInterval(() => this.ejecutar_filtros(),5000);
     }else{
-      if (this.id_interval) {
-        clearInterval(this.id_interval);
-      }
+      this.BorrarTimer();
       this.ejecutar_filtros()
     }
 
 
 
+  }
+  BorrarTimer(){
+    if (this.id_interval) {
+      clearInterval(this.id_interval);
+    }
   }
   loading_alert(){
     Swal.fire({

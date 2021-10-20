@@ -87,6 +87,30 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
-    
+    public function monitoreo_tiempo_real(Request $request){
+
+
+        $id_vehiculos=$request->id_vehiculos;
+
+        $lista_monitoreo_tiempo_real=DB::select("select
+                                    v.placa,
+                                    p.latitude,
+                                    p.longitude,
+                                    p.address,
+                                    p.speed,
+                                    p.devicetime,
+                                    p.course,
+                                    p.attributes
+                                    from ras.tvehiculo v
+                                    inner join public.tc_devices d on v.uniqueid=d.uniqueid
+                                    inner join public.tc_positions p on p.id=d.positionid
+                                    where v.id_vehiculo in(".$id_vehiculos.")");
+
+        $arrayParametros=[
+            'lista_monitoreo_tiempo_real'=>$lista_monitoreo_tiempo_real
+        ]; 
+        
+        return response()->json($arrayParametros);
+    }
 
 }

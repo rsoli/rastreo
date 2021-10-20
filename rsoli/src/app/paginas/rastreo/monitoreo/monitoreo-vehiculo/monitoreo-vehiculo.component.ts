@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-monitoreo-vehiculo',
@@ -15,13 +16,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
   vehiculo!: any[];
   vehiculo_seleccionado = [];
 
-  seleccione_tipo_monitoreo!: any;
+  tipo_monitoreo_seleccionado!: any;
   tipo_monitoreo!: any[];
 
-  fecha_ratreo!: Date;
-
-  hora_inicio!: Date;
-  hora_fin!: Date;
+  fecha_ratreo: Date=new Date();
+  hora_inicio=new Date('2023-10-06 01:00:00');
+  hora_fin=new Date('2023-10-06 23:59:59');
 
   bandera_tipo_monitoreo:boolean=false;
 
@@ -32,7 +32,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   ngOnInit() {
     this.initMap();
-    this.listaVehiculos();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.borrarMarcadores();
@@ -42,22 +41,15 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.loading_alert();
     this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
       this.closeLoading_alert();
-      console.log("ver filtros ",data);
+      this.vehiculo=JSON.parse(JSON.stringify(data)).lista_vehiculo;
+      console.log("ver filtros ",JSON.parse(JSON.stringify(data)).lista_vehiculo);
     },
     error=>{
       this.closeLoading_alert();
       console.log("ver filtros ",error);
     })
   }
-  listaVehiculos() {
-    this.vehiculo = [
-      { name: "New York", code: "NY" },
-      { name: "Rome", code: "RM" },
-      { name: "London", code: "LDN" },
-      { name: "Istanbul", code: "IST" },
-      { name: "Paris", code: "PRS" }
-    ];
-  }
+
   cargarTipoMonitoreo() {
     this.tipo_monitoreo = [
       { nombre: 'Tiempo real', code: 'tiempo_real' },
@@ -109,18 +101,56 @@ export class MonitoreoVehiculoComponent implements OnInit {
   borrarMarcadores() {
 
   }
-  tipo_monitoreo_seleccionado(event: any){
+  monitoreo_seleccionado(event: any){
     try {
-      console.log("ver tipo ",event.value.code);
+
+      this.fecha_ratreo=new Date();
+      this.hora_inicio=new Date('2023-10-06 01:00:00');
+      this.hora_fin=new Date('2023-10-06 23:59:59');
+      
       if(event.value.code=="tiempo_real"){
         this.bandera_tipo_monitoreo=true;
       }else{
         this.bandera_tipo_monitoreo=false;
       }
+
     } catch (error) {
-      
+
     }
 
+  }
+  aplicar_filtros(){
+    
+    let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
+    let id_vehiculos_seleccionados='';
+    let contador:any=0;
+    for (let clave of lista_vehiculos){
+      contador++;
+      if(contador==lista_vehiculos.length){
+        id_vehiculos_seleccionados+=clave.id_vehiculo;
+      }else{
+        id_vehiculos_seleccionados+=clave.id_vehiculo+',';
+      }
+    }
+    console.log("vehiculos seleccionados ",id_vehiculos_seleccionados);
+    console.log("tipo monitoreo  ",this.tipo_monitoreo_seleccionado.code);
+
+    if(this.tipo_monitoreo_seleccionado.code=='tiempo_real'){
+
+      this.loading_alert();
+      this.monitoreo_servicio.post_monitoreo_tiempo_real({id_vehiculos:id_vehiculos_seleccionados}).subscribe(data=>{
+        this.closeLoading_alert();
+        console.log("ver coordenadas ",data);
+      },
+      error=>{
+        this.closeLoading_alert();
+        console.log("ver errores ",error);
+      })
+
+    }else{
+
+    }
+    
   }
   loading_alert(){
     Swal.fire({

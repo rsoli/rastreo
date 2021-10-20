@@ -8,7 +8,7 @@
                     Vehiculo
                     <br>
                     <p-multiSelect [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
-                    optionLabel="name">
+                    optionLabel="placa">
                 </p-multiSelect>
                 </div>
             </div>
@@ -17,11 +17,11 @@
                 <div class="col-lg-12">
                     Tipo de monitoreo
                     <br>
-                    <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="seleccione_tipo_monitoreo" optionLabel="nombre"
-                    [filter]="false" filterBy="nombre" [showClear]="true" placeholder="Seleccionar" (onChange)="tipo_monitoreo_seleccionado($event)" >
+                    <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="tipo_monitoreo_seleccionado" optionLabel="nombre"
+                    [filter]="false" filterBy="nombre" [showClear]="true" placeholder="Seleccionar" (onChange)="monitoreo_seleccionado($event)" >
                         <ng-template pTemplate="selectedItem">
-                            <div class="country-item country-item-value" *ngIf="seleccione_tipo_monitoreo">
-                                <div>{{seleccione_tipo_monitoreo.nombre}}</div>
+                            <div class="country-item country-item-value" *ngIf="tipo_monitoreo_seleccionado">
+                                <div>{{tipo_monitoreo_seleccionado.nombre}}</div>
                             </div>
                         </ng-template>
                         <ng-template let-country pTemplate="item">
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <br>
-            <button pButton pRipple type="button" label="Aplicar filtros" class="p-button-raised"></button>
+            <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>
         </div>
     </div>
     <div class="col-sm-12 col-md-9 col-lg-9" style="padding:0;margin: 0;">

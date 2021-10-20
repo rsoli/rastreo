@@ -23,5 +23,10 @@ export class MonitoreoService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'filtros_monitoreo', this.headers_token);
   }
+  post_monitoreo_tiempo_real(parametros:any){
+    this.actualizar_accesos();
+    const body=JSON.stringify(parametros);
+    return this.http.post(this.baseURL + 'monitoreo_tiempo_real',body, this.headers_token);
+  }
 
 }

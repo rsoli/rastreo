@@ -83,6 +83,7 @@ Route::group([
         Route::get('lista_servicio', [ServicioController::class, 'lista_servicio']);
         Route::get('lista_pago_servicio/{id}', [ServicioController::class, 'lista_pago_servicio']);
         Route::get('filtros_monitoreo', [ServicioController::class, 'filtros_monitoreo']);
+        Route::post('monitoreo_tiempo_real', [ServicioController::class, 'monitoreo_tiempo_real']);
     
     });
 });

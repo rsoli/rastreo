@@ -135,7 +135,7 @@ class ServicioController extends Controller
             inner join public.tc_positions p on p.deviceid=d.id
             where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." )
             select * from rutas r
-            order by r.p.devicetime asc ");
+            order by r.devicetime asc ");
 
         $arrayParametros=[
             'lista_monitoreo_tiempo_real'=>$lista_monitoreo_tiempo_real

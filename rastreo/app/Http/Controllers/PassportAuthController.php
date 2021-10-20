@@ -237,7 +237,7 @@ class PassportAuthController extends Controller
                                  ?||us.foto::varchar as foto,
                                  p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno as persona
                                 from segu.users us
-                                join ras.tpersona p on p.id_persona=us.id_persona
+                                left join ras.tpersona p on p.id_persona=us.id_persona
                                 where ".$ids." and us.estado=?
                             ",[$ruta_imagen_usuario,"activo"]);
 

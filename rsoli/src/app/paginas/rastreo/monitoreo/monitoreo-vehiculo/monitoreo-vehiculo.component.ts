@@ -57,46 +57,14 @@ export class MonitoreoVehiculoComponent implements OnInit {
     ];
   }
   initMap() {
-    let icon = {
-      icon: L.icon({
-        iconSize: [35, 41],
-        iconAnchor: [13, 0],
-        iconUrl: './../../../assets/icono/marcadores/vehiculo/vehiculo-verde.svg',
-        // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
-      })
-    };
-    this.map = L.map('map').setView([51.505, -0.09], 13);
+
+    this.map = L.map('map').setView([-16.6574403011881, -64.95190911770706], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    let aux_marker = [];
 
-    aux_marker.push(["Gabi0", -17.198523456999723, -65.93333306827111]);
-    aux_marker.push(["Gabi1", -17.38956005084005, -66.27963734093431]);
-    aux_marker.push(["Gabi2", -17.393299391500843, -66.23027725735787]);
 
-    let latitud: any;
-    let longitud: any;
-    let marker: any;
-    //for consulta para devolver los datos 
-    latitud = aux_marker[0][1];
-    longitud = aux_marker[0][2];
-    marker = L.marker([latitud, longitud], icon).addTo(this.map);
-    marker.bindPopup("<b>Prueba1</b><br>I am a popup.").openPopup();
-    //fin for
-
-    // marker.push(["Prueba3", -17.389150512147936, -66.27980905487269], icon).addTo(this.map);
-    // marker.bindPopup("<b>Prueba3</b><br>I am a popup.").openPopup();
-
-    // marker = L.marker([-17.411661350287144, -66.16585785382303], icon).addTo(this.map);
-    // marker.bindPopup("<b>Gabi!</b><br>I am a popup.").openPopup();
-
-    // marker = L.marker([-17.389150512147936, -66.27980905487269], icon).addTo(this.map);
-    // marker.bindPopup("<b>Gabi!</b><br>I am a popup.").openPopup();
-
-    // const marker = L.marker([51.5, -0.09], icon).addTo(this.map);
-    // marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
   }
   borrarMarcadores() {
 
@@ -141,6 +109,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
       this.monitoreo_servicio.post_monitoreo_tiempo_real({id_vehiculos:id_vehiculos_seleccionados}).subscribe(data=>{
         this.closeLoading_alert();
         console.log("ver coordenadas ",data);
+        this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
       },
       error=>{
         this.closeLoading_alert();
@@ -151,6 +120,54 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
     }
     
+  }
+  AgregarMarcador(marcadores:any) {
+
+    let icon = {
+      icon: L.icon({
+        iconSize: [35, 41],
+        iconAnchor: [13, 0],
+        iconUrl: './../../../assets/icono/marcadores/vehiculo/vehiculo-verde.svg',
+        // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
+      })
+    };
+
+    // let aux_marker = [];
+
+    // aux_marker.push(["Gabi0", -17.198523456999723, -65.93333306827111]);
+    // aux_marker.push(["Gabi1", -17.38956005084005, -66.27963734093431]);
+    // aux_marker.push(["Gabi2", -17.393299391500843, -66.23027725735787]);
+
+    // let latitud: any;
+    // let longitud: any;
+    // let marker: any;
+  
+    // latitud = aux_marker[0][1];
+    // longitud = aux_marker[0][2];
+    // marker = L.marker([latitud, longitud], icon).addTo(this.map);
+    // marker.bindPopup("<b>Prueba1</b><br>I am a popup.").openPopup();
+ 
+    let latitud: any;
+    let longitud: any;
+    let marker: any;
+
+    let marcador:any=marcadores.lista_monitoreo_tiempo_real;
+    console.log("ver marcador2 ",marcador)
+    for (let indice of marcador){
+      latitud = indice.latitude;
+      longitud = indice.longitude;
+      
+      marker = L.marker([latitud, longitud], icon).addTo(this.map);
+      marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
+      "<b>Placa :</b>  "+indice.placa+
+      " <br> <b>Fecha :</b>  "+indice.devicetime+
+      " <br> <b>Velocidad :</b>  "+indice.speed+
+      " <br> <b>Ubicación :</b>  "+indice.address+
+      " ").openPopup();
+
+      console.log("ver marcador3 ",indice.address)
+    }
+
   }
   loading_alert(){
     Swal.fire({

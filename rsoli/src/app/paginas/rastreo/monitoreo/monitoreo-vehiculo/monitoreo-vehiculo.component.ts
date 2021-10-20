@@ -21,6 +21,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   hora_inicio!: Date;
   hora_fin!: Date;
 
+  bandera_tipo_monitoreo:boolean=false;
+
   constructor(
     private primengConfig: PrimeNGConfig
   ) { }
@@ -43,16 +45,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   cargarTipoMonitoreo() {
     this.tipo_monitoreo = [
-      { name: 'Australia', code: 'AU' },
-      { name: 'Brazil', code: 'BR' },
-      { name: 'China', code: 'CN' },
-      { name: 'Egypt', code: 'EG' },
-      { name: 'France', code: 'FR' },
-      { name: 'Germany', code: 'DE' },
-      { name: 'India', code: 'IN' },
-      { name: 'Japan', code: 'JP' },
-      { name: 'Spain', code: 'ES' },
-      { name: 'United States', code: 'US' }
+      { nombre: 'Tiempo real', code: 'tiempo_real' },
+      { nombre: 'Rutas', code: 'rutas' },
     ];
   }
   initMap() {
@@ -99,5 +93,13 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   borrarMarcadores() {
 
+  }
+  tipo_monitoreo_seleccionado(event: any){
+    console.log("ver tipo ",event.value.code);
+    if(event.value.code=="tiempo_real"){
+      this.bandera_tipo_monitoreo=true;
+    }else{
+      this.bandera_tipo_monitoreo=false;
+    }
   }
 }

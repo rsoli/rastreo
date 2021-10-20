@@ -71,8 +71,8 @@
 
 /* side bar derecha */
 .p-sidebar-right{
-    width: 260px !important;
-    height: 260px !important;
+    width: 290px !important;
+    height: 290px !important;
 }
 /* .p-component-overlay-enter{
     background-color: #ffffff00 !important;
@@ -82,7 +82,7 @@
   } */
 
   .p-sidebar-left{
-    width: 280px !important;
+    width: 290px !important;
     padding: 20px !important;
     /* height: 300px !important; */
 }

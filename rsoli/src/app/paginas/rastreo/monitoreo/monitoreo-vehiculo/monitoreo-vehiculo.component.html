@@ -3,37 +3,59 @@
         <div class="margen-filtros margen1">
             <h5>FILTROS</h5>
             <br>
-            Vehiculo
+            <div class="row">
+                <div class="col-lg-12">
+                    Vehiculo
+                    <br>
+                    <p-multiSelect [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+                    optionLabel="name">
+                </p-multiSelect>
+                </div>
+            </div>
             <br>
-            <p-multiSelect [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
-                optionLabel="name">
-            </p-multiSelect>
-            <br><br>
-            Tipo de monitoreo
-            <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="seleccione_tipo_monitoreo" optionLabel="name"
-                [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccionar">
-                <ng-template pTemplate="selectedItem">
-                    <div class="country-item country-item-value" *ngIf="seleccione_tipo_monitoreo">
-                        <div>{{seleccione_tipo_monitoreo.name}}</div>
-                    </div>
-                </ng-template>
-                <ng-template let-country pTemplate="item">
-                    <div class="country-item">
-                        <div>{{country.name}}</div>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-            <br><br>
-            Fecha
-            <p-calendar [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
-            <br><br>
-            <label for="timeonly">Hora inicio</label>
-            <p-calendar [(ngModel)]="hora_inicio" [timeOnly]="true" inputId="timeonly"></p-calendar>
-            <br><br>
-            <label for="timeonly">Hora fin</label>
-            <p-calendar [(ngModel)]="hora_fin" [timeOnly]="true" inputId="timeonly"></p-calendar>
-            <br><br>
-            <button pButton pRipple type="button" label="Aceptar" class="p-button-raised"></button>
+            <div class="row">
+                <div class="col-lg-12">
+                    Tipo de monitoreo
+                    <br>
+                    <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="seleccione_tipo_monitoreo" optionLabel="nombre"
+                    [filter]="false" filterBy="nombre" [showClear]="true" placeholder="Seleccionar" (onChange)="tipo_monitoreo_seleccionado($event)" >
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item country-item-value" *ngIf="seleccione_tipo_monitoreo">
+                                <div>{{seleccione_tipo_monitoreo.nombre}}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="item">
+                            <div class="country-item">
+                                <div>{{country.nombre}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+                <div class="col-lg-12">
+                    Fecha
+                    <br>
+                    <p-calendar  [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+                </div>
+            </div>
+            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+                <div class="col-lg-12">
+                    Hora inicio
+                    <br>
+                    <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" inputId="timeonly"></p-calendar>
+                </div>
+            </div>
+            
+            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+                <div class="col-lg-12">
+                    Hora fin
+                    <br>
+                    <p-calendar [(ngModel)]="hora_fin" [timeOnly]="true" inputId="timeonly"></p-calendar>
+                </div>
+            </div>
+            <br>
+            <button pButton pRipple type="button" label="Aplicar filtros" class="p-button-raised"></button>
         </div>
     </div>
     <div class="col-sm-12 col-md-9 col-lg-9" style="padding:0;margin: 0;">

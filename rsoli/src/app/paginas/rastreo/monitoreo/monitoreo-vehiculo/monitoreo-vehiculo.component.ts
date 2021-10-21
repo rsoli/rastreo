@@ -189,15 +189,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
     this.borrarMarcadores();
 
-    let icon = {
-      icon: L.icon({
-        // iconSize: [25, 41],
-        // iconAnchor: [12, 41],
-        iconSize: [25, 31],
-        iconAnchor: [12, 31],
-        iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
-      })
-    };
+
  
 
     this.lista_marcadores=[];
@@ -205,22 +197,51 @@ export class MonitoreoVehiculoComponent implements OnInit {
     let linea_rutas=[];
     let lat:any;
     let lon:any;
-
+    let contador:any=0;
+    let icon:any;
     for (let indice of marcadores.lista_monitoreo_tiempo_real ){
+        contador++;
+        if(contador==1){
+          icon = {
+            icon: L.icon({
+              iconSize: [25, 31],
+              iconAnchor: [12, 31],
+              iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+            })
+          };
+        }else{
+          if(contador==marcadores.lista_monitoreo_tiempo_real.length){
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+              })
+            };
+          }else{
+            icon = {
+              icon: L.icon({
+                iconSize: [20, 8],
+                iconAnchor: [7, 3],
+                iconUrl: './../../../assets/icono/marcadores/intermedios/punto_trazado.svg',
+              })
+            };
+          }
+        }
 
-      this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
-      this.marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
-      "<b>Placa :</b>  "+indice.placa+
-      " <br> <b>Fecha :</b>  "+indice.devicetime+
-      " <br> <b>Velocidad :</b>  "+indice.speed+
-      " <br> <b>Ubicación :</b>  "+indice.address+
-      " ");
+        this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
+        this.marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
+        "<b>Placa :</b>  "+indice.placa+
+        " <br> <b>Fecha :</b>  "+indice.devicetime+
+        " <br> <b>Velocidad :</b>  "+indice.speed+
+        " <br> <b>Ubicación :</b>  "+indice.address+
+        " ");
 
-      this.lista_marcadores.push(this.marker);
-      
-      linea_rutas.push(this.marker.getLatLng());
-      lat=indice.latitude;
-      lon=indice.longitude;
+        this.lista_marcadores.push(this.marker);
+        
+        linea_rutas.push(this.marker.getLatLng());
+        lat=indice.latitude;
+        lon=indice.longitude;
     }
 
     if(this.polylines){
@@ -228,12 +249,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
     }
     
     this.polylines = L.polyline(linea_rutas, {
-      color: 'blue'
+      color: '#58ACFA', // color de linea
+      weight: 7, // grosor de línea
     }).addTo(this.map);
     this.map.fitBounds(this.polylines.getBounds());
 
     this.map.setView([lat, lon], 18);
- 
 
   }
 
@@ -258,7 +279,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   loading_alert(){
     Swal.fire({
-      title: 'Cargando filtros',
+      title: 'Aplicando filtros',
       html: 'Cargando',
       allowOutsideClick: false,
       didOpen: () => {

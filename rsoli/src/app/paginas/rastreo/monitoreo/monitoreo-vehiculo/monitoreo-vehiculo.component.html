@@ -5,16 +5,6 @@
             <br>
             <div class="row">
                 <div class="col-lg-12">
-                    Vehiculo
-                    <br>
-                    <p-multiSelect [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
-                    optionLabel="placa">
-                </p-multiSelect>
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-12">
                     Tipo de monitoreo
                     <br>
                     <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="tipo_monitoreo_seleccionado" optionLabel="nombre"
@@ -32,6 +22,16 @@
                     </p-dropdown>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    Vehiculo
+                    <br>
+                    <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+                    optionLabel="placa">
+                </p-multiSelect>
+                </div>
+            </div>
+            <br>
             <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
                 <div class="col-lg-12">
                     Fecha
@@ -64,3 +64,4 @@
         </div>
     </div>
 </div>
+<p-toast></p-toast>

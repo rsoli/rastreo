@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -9,7 +9,8 @@ import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-monitoreo-vehiculo',
   templateUrl: './monitoreo-vehiculo.component.html',
-  styleUrls: ['./monitoreo-vehiculo.component.css']
+  styleUrls: ['./monitoreo-vehiculo.component.css'],
+  providers: [MessageService]
 })
 export class MonitoreoVehiculoComponent implements OnInit {
   private map: any;
@@ -32,9 +33,11 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   bandera_timer:boolean=false;
   id_interval:any;
+  limite_seleccion_vehiculos:number=1;
 
   constructor(
     private primengConfig: PrimeNGConfig,
+    private messageService: MessageService,
     private monitoreo_servicio:MonitoreoService
   ) { }
 
@@ -52,7 +55,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
     },
     error=>{
       this.closeLoading_alert();
-      console.log("ver filtros ",error);
     })
   }
 
@@ -87,9 +89,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
       this.hora_inicio=new Date('2023-10-06 01:00:00');
       this.hora_fin=new Date('2023-10-06 23:59:59');
       
+      this.vehiculo_seleccionado=[];
       if(event.value.code=="tiempo_real"){
+        this.limite_seleccion_vehiculos=2147483647;
         this.bandera_tipo_monitoreo=true;
       }else{
+        this.limite_seleccion_vehiculos=1;
         this.bandera_tipo_monitoreo=false;
       }
 
@@ -142,7 +147,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
       this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
         this.closeLoading_alert();
-        console.log("ver rutas ",data);
         
         this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
       },
@@ -233,7 +237,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
         "<b>Placa :</b>  "+indice.placa+
         " <br> <b>Fecha :</b>  "+indice.devicetime+
-        " <br> <b>Velocidad :</b>  "+indice.speed+
+        " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
         " <br> <b>Ubicación :</b>  "+indice.address+
         " ");
 
@@ -247,14 +251,20 @@ export class MonitoreoVehiculoComponent implements OnInit {
     if(this.polylines){
       this.polylines.removeFrom(this.map);
     }
-    
-    this.polylines = L.polyline(linea_rutas, {
-      color: '#58ACFA', // color de linea
-      weight: 7, // grosor de línea
-    }).addTo(this.map);
-    this.map.fitBounds(this.polylines.getBounds());
 
-    this.map.setView([lat, lon], 18);
+    if(linea_rutas.length>0){
+      this.polylines = L.polyline(linea_rutas, {
+        color: '#58ACFA', // color de linea
+        weight: 7, // grosor de línea
+      }).addTo(this.map);
+      
+      this.map.fitBounds(this.polylines.getBounds());
+      this.map.setView([lat, lon], 18);  
+    }else{
+      this.messageService.add({severity: 'info', summary: 'Mensaje', detail: 'No existe datos en la fecha' });
+    }
+
+
 
   }
 
@@ -279,7 +289,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   loading_alert(){
     Swal.fire({
-      title: 'Aplicando filtros',
+      title: 'Espere un momento por favor',
       html: 'Cargando',
       allowOutsideClick: false,
       didOpen: () => {

@@ -261,6 +261,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
       this.map.fitBounds(this.polylines.getBounds());
       this.map.setView([lat, lon], 18);  
     }else{
+      this.BorrarToast();
       this.messageService.add({severity: 'info', summary: 'Mensaje', detail: 'No existe datos en la fecha' });
     }
 
@@ -299,6 +300,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   closeLoading_alert(){
     Swal.close();
+  }
+  BorrarToast() {
+    this.messageService.clear();
   }
 
 }

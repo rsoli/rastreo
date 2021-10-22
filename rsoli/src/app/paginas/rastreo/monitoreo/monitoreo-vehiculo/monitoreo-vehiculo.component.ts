@@ -13,6 +13,10 @@ import { formatDate } from '@angular/common';
 })
 export class MonitoreoVehiculoComponent implements OnInit {
   private map: any;
+  marker: any;
+  lista_marcadores:any;
+  polylines:any;
+
   tiles: any;
   vehiculo!: any[];
   vehiculo_seleccionado = [];
@@ -26,6 +30,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   bandera_tipo_monitoreo:boolean=false;
 
+  bandera_timer:boolean=false;
+  id_interval:any;
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private monitoreo_servicio:MonitoreoService
@@ -35,7 +42,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.initMap();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
-    this.borrarMarcadores();
     this.IniciarFiltros();
   }
   IniciarFiltros(){
@@ -43,7 +49,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
       this.closeLoading_alert();
       this.vehiculo=JSON.parse(JSON.stringify(data)).lista_vehiculo;
-      console.log("ver filtros ",JSON.parse(JSON.stringify(data)).lista_vehiculo);
     },
     error=>{
       this.closeLoading_alert();
@@ -68,11 +73,16 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   }
   borrarMarcadores() {
+    if(this.lista_marcadores){
+      for (let indice of this.lista_marcadores){
+        this.map.removeLayer(indice);
+      }
+    }
 
   }
   monitoreo_seleccionado(event: any){
     try {
-      
+      this.BorrarTimer();
       this.fecha_ratreo=new Date();
       this.hora_inicio=new Date('2023-10-06 01:00:00');
       this.hora_fin=new Date('2023-10-06 23:59:59');
@@ -88,8 +98,17 @@ export class MonitoreoVehiculoComponent implements OnInit {
     }
 
   }
-  aplicar_filtros(){
-    
+  error(titulo:string,mensaje:string){
+    Swal.fire({
+      icon: 'error',
+      title: titulo,
+      text: mensaje,
+      didClose:() =>{
+        
+      }
+    });
+  }
+  ejecutar_filtros(){
     let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
     let id_vehiculos_seleccionados='';
     let contador:any=0;
@@ -101,32 +120,30 @@ export class MonitoreoVehiculoComponent implements OnInit {
         id_vehiculos_seleccionados+=clave.id_vehiculo+',';
       }
     }
-    console.log("vehiculos seleccionados ",id_vehiculos_seleccionados);
-    console.log("tipo monitoreo  ",this.tipo_monitoreo_seleccionado.code);
-
+    
     if(this.tipo_monitoreo_seleccionado.code=='tiempo_real'){
 
-      this.loading_alert();
       this.monitoreo_servicio.post_monitoreo_tiempo_real({id_vehiculos:id_vehiculos_seleccionados}).subscribe(data=>{
         this.closeLoading_alert();
-        console.log("ver coordenadas ",data);
         this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
       },
       error=>{
         this.closeLoading_alert();
         console.log("ver errores ",error);
       })
+      this.bandera_timer=true;
 
     }else{
       this.loading_alert();
 
       formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')
-
       let f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
       let f_fin=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
+
       this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
         this.closeLoading_alert();
         console.log("ver rutas ",data);
+        
         this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
       },
       error=>{
@@ -134,59 +151,135 @@ export class MonitoreoVehiculoComponent implements OnInit {
         console.log("ver errores ",error);
       })
     }
+  }
+  aplicar_filtros(){
+
+    if(this.vehiculo_seleccionado.length==0){
+      this.error('Error','El campo vehiculo es requerido');
+    }else{
+      if(this.tipo_monitoreo_seleccionado==undefined){
+        this.error('Error','El campo tipo de monitoreo es requerido');
+      }else{
+        if(this.tipo_monitoreo_seleccionado.code!='tiempo_real'){
+          this.bandera_timer=false;
+          if(!this.fecha_ratreo){
+            this.error('Error','El campo fecha es requerido');
+          }else{
+            if(!this.hora_inicio){
+              this.error('Error','El hora inicio es requerido');
+            }else{
+              if(!this.hora_fin){
+                this.error('Error','El hora fin es requerido');
+              }else{
+                this.TiempoInterval();
+              }
+            }
+          }
+        }
+        else{
+          this.loading_alert();
+          this.bandera_timer=true;
+          this.TiempoInterval();
+        }
+      }
+    }
     
   }
   AgregarMarcador(marcadores:any) {
 
-    let icon = {
-      icon: L.icon({
-        iconSize: [35, 41],
-        iconAnchor: [13, 0],
-        iconUrl: './../../../assets/icono/marcadores/vehiculo/vehiculo-verde.svg',
-        // shadowUrl: './node_modules/leaflet/dist/images/marker-shadow.png'
-      })
-    };
+    this.borrarMarcadores();
 
-    // let aux_marker = [];
 
-    // aux_marker.push(["Gabi0", -17.198523456999723, -65.93333306827111]);
-    // aux_marker.push(["Gabi1", -17.38956005084005, -66.27963734093431]);
-    // aux_marker.push(["Gabi2", -17.393299391500843, -66.23027725735787]);
-
-    // let latitud: any;
-    // let longitud: any;
-    // let marker: any;
-  
-    // latitud = aux_marker[0][1];
-    // longitud = aux_marker[0][2];
-    // marker = L.marker([latitud, longitud], icon).addTo(this.map);
-    // marker.bindPopup("<b>Prueba1</b><br>I am a popup.").openPopup();
  
-    let latitud: any;
-    let longitud: any;
-    let marker: any;
 
-    let marcador:any=marcadores.lista_monitoreo_tiempo_real;
-    console.log("ver marcador2 ",marcador)
-    for (let indice of marcador){
-      latitud = indice.latitude;
-      longitud = indice.longitude;
-      
-      marker = L.marker([latitud, longitud], icon).addTo(this.map);
-      marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
-      "<b>Placa :</b>  "+indice.placa+
-      " <br> <b>Fecha :</b>  "+indice.devicetime+
-      " <br> <b>Velocidad :</b>  "+indice.speed+
-      " <br> <b>Ubicación :</b>  "+indice.address+
-      " ").openPopup();
+    this.lista_marcadores=[];
 
-      console.log("ver marcador3 ",indice.address)
+    let linea_rutas=[];
+    let lat:any;
+    let lon:any;
+    let contador:any=0;
+    let icon:any;
+    for (let indice of marcadores.lista_monitoreo_tiempo_real ){
+        contador++;
+        if(contador==1){
+          icon = {
+            icon: L.icon({
+              iconSize: [25, 31],
+              iconAnchor: [12, 31],
+              iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+            })
+          };
+        }else{
+          if(contador==marcadores.lista_monitoreo_tiempo_real.length){
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+              })
+            };
+          }else{
+            icon = {
+              icon: L.icon({
+                iconSize: [20, 8],
+                iconAnchor: [7, 3],
+                iconUrl: './../../../assets/icono/marcadores/intermedios/punto_trazado.svg',
+              })
+            };
+          }
+        }
+
+        this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
+        this.marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
+        "<b>Placa :</b>  "+indice.placa+
+        " <br> <b>Fecha :</b>  "+indice.devicetime+
+        " <br> <b>Velocidad :</b>  "+indice.speed+
+        " <br> <b>Ubicación :</b>  "+indice.address+
+        " ");
+
+        this.lista_marcadores.push(this.marker);
+        
+        linea_rutas.push(this.marker.getLatLng());
+        lat=indice.latitude;
+        lon=indice.longitude;
     }
 
+    if(this.polylines){
+      this.polylines.removeFrom(this.map);
+    }
+    
+    this.polylines = L.polyline(linea_rutas, {
+      color: '#58ACFA', // color de linea
+      weight: 7, // grosor de línea
+    }).addTo(this.map);
+    this.map.fitBounds(this.polylines.getBounds());
+
+    this.map.setView([lat, lon], 18);
+
+  }
+
+  TiempoInterval(){
+    if(this.bandera_timer==true){
+      this.id_interval = setInterval(() => {
+        this.ejecutar_filtros(); 
+      }, 5000);
+      // setInterval(() => this.ejecutar_filtros(),5000);
+    }else{
+      this.BorrarTimer();
+      this.ejecutar_filtros()
+    }
+
+
+
+  }
+  BorrarTimer(){
+    if (this.id_interval) {
+      clearInterval(this.id_interval);
+    }
   }
   loading_alert(){
     Swal.fire({
-      title: 'Cargando filtros',
+      title: 'Aplicando filtros',
       html: 'Cargando',
       allowOutsideClick: false,
       didOpen: () => {
@@ -197,4 +290,5 @@ export class MonitoreoVehiculoComponent implements OnInit {
   closeLoading_alert(){
     Swal.close();
   }
+
 }

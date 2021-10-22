@@ -119,19 +119,23 @@ class ServicioController extends Controller
 
         $filtros_fechas=" p.devicetime >= '".$request->fecha_inicio."'::timestamp and p.devicetime <= '".$request->fecha_fin."'::timestamp";
 
-        $lista_monitoreo_tiempo_real=DB::select("select
-                                    v.placa,
-                                    p.latitude,
-                                    p.longitude,
-                                    p.address,
-                                    p.speed,
-                                    p.devicetime,
-                                    p.course,
-                                    p.attributes
-                                    from ras.tvehiculo v
-                                    inner join public.tc_devices d on v.uniqueid=d.uniqueid
-                                    inner join public.tc_positions p on p.deviceid=d.id
-                                    where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." ");
+        $lista_monitoreo_tiempo_real=DB::select(" with rutas as(
+            select
+            distinct on (p.latitude)
+            v.placa,
+            p.latitude,
+            p.longitude,
+            p.address,
+            p.speed,
+            p.devicetime,
+            p.course,
+            p.attributes
+            from ras.tvehiculo v
+            inner join public.tc_devices d on v.uniqueid=d.uniqueid
+            inner join public.tc_positions p on p.deviceid=d.id
+            where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." )
+            select * from rutas r
+            order by r.devicetime asc ");
 
         $arrayParametros=[
             'lista_monitoreo_tiempo_real'=>$lista_monitoreo_tiempo_real

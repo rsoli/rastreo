@@ -34,6 +34,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   bandera_timer:boolean=false;
   id_interval:any;
   limite_seleccion_vehiculos:number=1;
+  contador_zoom_mapa:number=0;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -71,8 +72,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-
-
   }
   borrarMarcadores() {
     if(this.lista_marcadores){
@@ -80,7 +79,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.map.removeLayer(indice);
       }
     }
-
   }
   monitoreo_seleccionado(event: any){
     try {
@@ -157,7 +155,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     }
   }
   aplicar_filtros(){
-
+    this.contador_zoom_mapa=0;
     if(this.vehiculo_seleccionado.length==0){
       this.error('Error','El campo vehiculo es requerido');
     }else{
@@ -170,19 +168,19 @@ export class MonitoreoVehiculoComponent implements OnInit {
             this.error('Error','El campo fecha es requerido');
           }else{
             if(!this.hora_inicio){
-              this.error('Error','El hora inicio es requerido');
+              this.error('Error','El campo hora inicio es requerido');
             }else{
               if(!this.hora_fin){
-                this.error('Error','El hora fin es requerido');
+                this.error('Error','El campo hora fin es requerido');
               }else{
-                this.TiempoInterval();
+                this.loading_alert();
+                this.ejecutar_filtros();
               }
             }
           }
         }
         else{
           this.loading_alert();
-          this.bandera_timer=true;
           this.TiempoInterval();
         }
       }
@@ -192,10 +190,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
   AgregarMarcador(marcadores:any) {
 
     this.borrarMarcadores();
-
-
- 
-
     this.lista_marcadores=[];
 
     let linea_rutas=[];
@@ -258,8 +252,16 @@ export class MonitoreoVehiculoComponent implements OnInit {
         weight: 7, // grosor de línea
       }).addTo(this.map);
       
-      this.map.fitBounds(this.polylines.getBounds());
-      this.map.setView([lat, lon], 18);  
+      if(this.tipo_monitoreo_seleccionado.code!="tiempo_real"){
+        this.map.fitBounds(this.polylines.getBounds());
+      }
+      if(this.contador_zoom_mapa==0){
+        this.map.setView([lat, lon], 18);  
+      }else{
+        this.map.setView([lat, lon]);  
+      }
+      this.contador_zoom_mapa++;
+      
     }else{
       this.BorrarToast();
       this.messageService.add({severity: 'info', summary: 'Mensaje', detail: 'No existe datos en la fecha' });
@@ -268,20 +270,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
 
   }
-
   TiempoInterval(){
-    if(this.bandera_timer==true){
       this.id_interval = setInterval(() => {
-        this.ejecutar_filtros(); 
-      }, 5000);
-      // setInterval(() => this.ejecutar_filtros(),5000);
-    }else{
-      this.BorrarTimer();
-      this.ejecutar_filtros()
-    }
-
-
-
+        if(this.tipo_monitoreo_seleccionado.code=='tiempo_real'){
+          this.ejecutar_filtros(); 
+        }
+      },7000);
   }
   BorrarTimer(){
     if (this.id_interval) {

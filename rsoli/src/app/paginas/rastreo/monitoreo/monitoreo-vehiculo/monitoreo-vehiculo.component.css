@@ -42,3 +42,21 @@
 
 
 
+.my-float{
+	margin-top:98px;
+  margin-left: 31px;
+  position: fixed;
+  z-index: 1000;
+
+  border-left: 2px solid rgba(0,0,0,0.2);
+  border-right: 2px solid rgba(0,0,0,0.2);
+  border-top: 2px solid rgba(0,0,0,0.2) !important;
+  border-bottom: 2px solid rgba(0,0,0,0.2) !important;
+  border-radius: 4px;
+
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.my-float :hover {
+  color: #999;
+}

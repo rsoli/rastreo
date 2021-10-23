@@ -74,17 +74,13 @@
     width: 290px !important;
     height: 290px !important;
 }
-/* .p-component-overlay-enter{
-    background-color: #ffffff00 !important;
-} */
-/* .p-component-overlay {
-    position: fixed !important;
-  } */
 
-  .p-sidebar-left{
-    width: 290px !important;
+.p-sidebar-left{
+    /* width: 290px !important; el width se esta usando en su propia etiqueta html*/
     padding: 20px !important;
-    /* height: 300px !important; */
+}
+.p-sidebar-content {
+    height: 100% !important;
 }
 /* menu arbol */
 .p-tree {

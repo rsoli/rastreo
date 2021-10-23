@@ -36,6 +36,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   limite_seleccion_vehiculos:number=1;
   contador_zoom_mapa:number=0;
 
+  visibleSidebar1: any;
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
@@ -175,6 +177,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
               }else{
                 this.loading_alert();
                 this.ejecutar_filtros();
+                this.visibleSidebar1=false;
               }
             }
           }
@@ -182,6 +185,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         else{
           this.loading_alert();
           this.TiempoInterval();
+          this.visibleSidebar1=false;
         }
       }
     }

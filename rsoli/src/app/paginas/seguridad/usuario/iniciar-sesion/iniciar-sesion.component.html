@@ -36,10 +36,10 @@ class="p-button-rounded p-button-info imgzoom"  (click)="CargarFormulario()" ></
                 <br/>
 
                 <form [formGroup]="form" (submit)="IniciarSesion()">
-                    <h3  style="font-weight: normal; text-align: center;" >Inicio de sesion</h3>
+                    <h3  style="font-weight: normal; text-align: center;" >Inicio de sesión</h3>
                     <span class="p-float-label mt-4">
                         <input  type="text" pInputText formControlName="usuario"> 
-                        <label for="float-input">usuario</label>
+                        <label for="float-input">Correo</label>
                         <span class="help-block form-error text-danger small" *ngIf="form.controls['usuario'].errors?.maxlength">
                             Máximo caracteres permitidos 40
                         </span>
@@ -47,7 +47,7 @@ class="p-button-rounded p-button-info imgzoom"  (click)="CargarFormulario()" ></
 
                     
                     <span class="p-float-label mt-4">
-                        <p-password formControlName="password" [toggleMask]="true" [feedback]="false" ></p-password>
+                        <p-password placeholder="Contraseña" formControlName="password" [toggleMask]="true" [feedback]="false" ></p-password>
                         <span class="help-block form-error text-danger small" *ngIf="form.controls['password'].errors?.maxlength">
                             Máximo caracteres permitidos 40
                         </span>

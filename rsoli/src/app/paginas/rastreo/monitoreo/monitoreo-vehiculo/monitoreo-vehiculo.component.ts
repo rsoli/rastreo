@@ -109,7 +109,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
       title: titulo,
       text: mensaje,
       didClose:() =>{
-        
+        this.visibleSidebar1=true;
       }
     });
   }
@@ -158,6 +158,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   aplicar_filtros(){
     this.contador_zoom_mapa=0;
+    this.visibleSidebar1=false;
     if(this.vehiculo_seleccionado.length==0){
       this.error('Error','El campo vehiculo es requerido');
     }else{

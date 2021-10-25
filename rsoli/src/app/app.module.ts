@@ -7,16 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 
-import { GestionComponent } from './paginas/parametros/gestion/gestion.component';
-
-
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GestionComponent
-
   ],
   imports: [
     HttpClientModule,
@@ -25,7 +20,9 @@ import { GestionComponent } from './paginas/parametros/gestion/gestion.component
     BrowserModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

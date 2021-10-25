@@ -7,12 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 
+import { GestionComponent } from './paginas/parametros/gestion/gestion.component';
+
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GestionComponent
 
   ],
   imports: [

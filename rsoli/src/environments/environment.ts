@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   // apiUrl: "http://192.81.210.243/produccion/rastreo/public/api"
-  apiUrl: "http://192.81.210.243:81/api"
+
+  // apiUrl: "http://192.81.210.243:81/api"
+
+  apiUrl: "http://134.122.21.117:81/api"
 };
 
 /*

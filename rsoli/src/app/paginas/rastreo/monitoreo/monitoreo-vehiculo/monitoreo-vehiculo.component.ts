@@ -73,6 +73,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
+    
+
+    
 
   }
   borrarMarcadores() {
@@ -252,12 +255,14 @@ export class MonitoreoVehiculoComponent implements OnInit {
     }
 
     if(linea_rutas.length>0){
-      this.polylines = L.polyline(linea_rutas, {
-        color: '#58ACFA', // color de linea
-        weight: 7, // grosor de línea
-      }).addTo(this.map);
+
       
       if(this.tipo_monitoreo_seleccionado.code!="tiempo_real"){
+        this.polylines = L.polyline(linea_rutas, {
+          color: '#58ACFA', // color de linea
+          weight: 7, // grosor de línea
+        }).addTo(this.map);
+        
         this.map.fitBounds(this.polylines.getBounds());
       }
       if(this.contador_zoom_mapa==0){

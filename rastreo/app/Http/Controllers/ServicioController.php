@@ -100,7 +100,8 @@ class ServicioController extends Controller
                                     p.speed,
                                     p.devicetime,
                                     p.course,
-                                    p.attributes
+                                    p.attributes,
+                                    (p.attributes::json->'power')::varchar as bateria_vehiculo
                                     from ras.tvehiculo v
                                     inner join public.tc_devices d on v.uniqueid=d.uniqueid
                                     inner join public.tc_positions p on p.id=d.positionid

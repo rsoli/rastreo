@@ -129,13 +129,15 @@ class ServicioController extends Controller
             p.speed,
             p.devicetime,
             p.course,
-            p.attributes
+            p.attributes,
+            (p.attributes::json->'power')::varchar as bateria_vehiculo
             from ras.tvehiculo v
             inner join public.tc_devices d on v.uniqueid=d.uniqueid
             inner join public.tc_positions p on p.deviceid=d.id
             where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." 
             and p.latitude is not null
-            and p.latitude::varchar !=0::varchar )
+            and p.latitude::varchar !=0::varchar
+            and (p.attributes::json->'event')::varchar='0' )
             select * from rutas r
             order by r.devicetime asc ");
 

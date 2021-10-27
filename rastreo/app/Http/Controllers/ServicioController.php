@@ -105,10 +105,7 @@ class ServicioController extends Controller
                                     from ras.tvehiculo v
                                     inner join public.tc_devices d on v.uniqueid=d.uniqueid
                                     inner join public.tc_positions p on p.id=d.positionid
-                                    where v.id_vehiculo in(".$id_vehiculos.")
-                                    and p.latitude is not null
-                                    and p.latitude::varchar !=0::varchar
-                                    and ( (p.attributes::json->'event')::varchar='0' or (p.attributes::json->'event') is null )     ");
+                                    where v.id_vehiculo in(".$id_vehiculos.")  ");
 
         $arrayParametros=[
             'lista_monitoreo_tiempo_real'=>$lista_monitoreo_tiempo_real

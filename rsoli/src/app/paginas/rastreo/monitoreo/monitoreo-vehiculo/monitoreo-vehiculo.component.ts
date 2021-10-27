@@ -240,6 +240,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         "<b>Placa :</b>  "+indice.placa+
         " <br> <b>Fecha :</b>  "+indice.devicetime+
         " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
+        " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
         " <br> <b>Ubicación :</b>  "+indice.address+
         " ");
 

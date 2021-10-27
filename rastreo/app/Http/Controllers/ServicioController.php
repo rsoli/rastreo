@@ -133,7 +133,8 @@ class ServicioController extends Controller
             from ras.tvehiculo v
             inner join public.tc_devices d on v.uniqueid=d.uniqueid
             inner join public.tc_positions p on p.deviceid=d.id
-            where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." )
+            where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." 
+            where p.latitude is not null )
             select * from rutas r
             order by r.devicetime asc ");
 

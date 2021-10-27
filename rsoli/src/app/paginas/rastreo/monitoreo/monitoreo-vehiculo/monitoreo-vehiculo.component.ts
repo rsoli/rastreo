@@ -236,13 +236,13 @@ export class MonitoreoVehiculoComponent implements OnInit {
         }
 
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
-        this.marker.bindPopup("<b style='text-align: center;' >DATOS DEL MOTORIZADO</b><br/><br/>"+
+        this.marker.bindPopup("<div font-size: 10px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
         "<b>Placa :</b>  "+indice.placa+
         " <br> <b>Fecha :</b>  "+indice.devicetime+
         " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
         " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
-        " <br> <b>Ubicación :</b>  "+indice.address+
-        " ");
+        " <br> <b>Ubicación :</b> </br>"+indice.address+ 
+        "<div> ");
 
         this.lista_marcadores.push(this.marker);
         

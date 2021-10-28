@@ -212,7 +212,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
             icon: L.icon({
               iconSize: [25, 31],
               iconAnchor: [12, 31],
-              iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+              iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
             })
           };
         }else{
@@ -221,7 +221,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
               icon: L.icon({
                 iconSize: [25, 31],
                 iconAnchor: [12, 31],
-                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
               })
             };
           }else{

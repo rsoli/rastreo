@@ -225,13 +225,25 @@ export class MonitoreoVehiculoComponent implements OnInit {
               })
             };
           }else{
-            icon = {
-              icon: L.icon({
-                iconSize: [20, 8],
-                iconAnchor: [7, 3],
-                iconUrl: './../../../assets/icono/marcadores/intermedios/punto_trazado.svg',
-              })
-            };
+            if(indice.tiempo_parqueo=='00:00:00'){
+              icon = {
+                icon: L.icon({
+                  iconSize: [20, 8],
+                  iconAnchor: [7, 3],
+                  iconUrl: './../../../assets/icono/marcadores/intermedios/punto_trazado.svg',
+                })
+              };
+            }
+            else{
+              icon = {
+                icon: L.icon({
+                  iconSize: [25, 31],
+                  iconAnchor: [12, 31],
+                  iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-amarillo.svg',
+                })
+              };
+            }
+
           }
         }
 
@@ -241,11 +253,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
         " <br> <b>Fecha :</b>  "+indice.devicetime+
         " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
         " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
+        " <br> <b>Tiempo parqueo :</b>  "+indice.tiempo_parqueo+
         " <br> <b>Ubicación :</b> </br>"+indice.address+ 
         "<div> ");
 
         this.lista_marcadores.push(this.marker);
-        
+
         linea_rutas.push(this.marker.getLatLng());
         lat=indice.latitude;
         lon=indice.longitude;

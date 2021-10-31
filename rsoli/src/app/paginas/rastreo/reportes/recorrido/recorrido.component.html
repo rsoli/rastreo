@@ -14,7 +14,7 @@
                 [paginator]="true" 
                 [filterDelay]="0" 
                 [responsive]="true"
-                [globalFilterFields]="['nombre_rol','fecha_reg','fecha_mod']"
+                [globalFilterFields]="['placa','address','speed','encendido','bateria_vehiculo','devicetime']"
                 [rowHover]="true"
                 >
 
@@ -25,16 +25,6 @@
 
                                 <i style="color: #3699FF;" class="pi pi-filter imgzoom"></i>
                             </button> 
-                            <!-- <button [hidden]="sesion"  pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="FormularioRol(0)">
-                                <i style="color: #3699FF;"  class="pi pi-file-o imgzoom" ></i>
-                            </button> 
-
-                            <button [hidden]="sesion"  pTooltip="Editar" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente" (click)="FormularioRol(-1)">
-                                <i  class="far fa-edit imgzoom" style="color: #3CA934 "></i>
-                            </button>
-                            <button [hidden]="sesion"  pTooltip="Eliminar" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarPersona()" >
-                                <i   class="far fa-trash-alt bg imgzoom"  style="color: #F64E60;"></i> 
-                            </button>   -->
                         </div>
                         <div class="col-lg-6 d-flex justify-content-end">
                             <span class="p-input-icon-left">
@@ -48,12 +38,12 @@
                 <ng-template pTemplate="header" >
                     <tr>
                         <th>Nro</th>
-                        <th pSortableColumn="usuario">Placa<p-sortIcon field="nombre_rol"></p-sortIcon></th>
-                        <th pSortableColumn="correo">Ubicación<p-sortIcon field="fecha_reg"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Velocidad<p-sortIcon field="fecha_mod"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Motor<p-sortIcon field="fecha_mod"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Bateria<p-sortIcon field="fecha_mod"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Fecha<p-sortIcon field="fecha_mod"></p-sortIcon></th>
+                        <th pSortableColumn="placa">Placa<p-sortIcon field="placa"></p-sortIcon></th>
+                        <th pSortableColumn="address">Ubicación<p-sortIcon field="address"></p-sortIcon></th>
+                        <th pSortableColumn="speed">Velocidad<p-sortIcon field="speed"></p-sortIcon></th>
+                        <th pSortableColumn="encendido">Motor<p-sortIcon field="encendido"></p-sortIcon></th>
+                        <th pSortableColumn="bateria_vehiculo">Bateria<p-sortIcon field="bateria_vehiculo"></p-sortIcon></th>
+                        <th pSortableColumn="devicetime">Fecha<p-sortIcon field="devicetime"></p-sortIcon></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-lista_recorrido let-rowIndex="rowIndex" >
@@ -77,7 +67,7 @@
 </div>
 
 
-<p-sidebar [(visible)]="visible_filtros" [style]="{width:'370px'}" [modal]="true">
+<p-sidebar [(visible)]="visible_filtros" [style]="{width:'370px'}" [modal]="false">
     <h5>FILTROS</h5>
     <br>    
     <div  style="margin-top: 9px;">

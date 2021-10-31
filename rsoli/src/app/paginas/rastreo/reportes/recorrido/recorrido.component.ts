@@ -25,7 +25,8 @@ export class RecorridoComponent implements OnInit {
   limite_seleccion_vehiculos:number=1;
 
   constructor(
-    private monitoreo_servicio:MonitoreoService
+    private monitoreo_servicio:MonitoreoService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -34,8 +35,8 @@ export class RecorridoComponent implements OnInit {
   IniciarFiltros(){
     this.loading_alert();
     this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
-      // this.closeLoading_alert();
-
+      this.closeLoading_alert();
+      this.loading=false;
       // console.log("veeeeeer ",data)
       this.vehiculo=JSON.parse(JSON.stringify(data)).lista_vehiculo;
       this.vehiculo_seleccionado=JSON.parse(JSON.stringify(data)).lista_vehiculo[0];
@@ -45,11 +46,36 @@ export class RecorridoComponent implements OnInit {
      
     },
     error=>{
+      this.loading=false;
       this.closeLoading_alert();
     })
   }
   CargarRecorrido(){
 
+
+    this.visible_filtros=false;
+    if(!this.vehiculo_seleccionado){
+      this.error("Error","El campo vehiculo es requerido");
+    }
+    else{
+      if(!this.fecha_ratreo){
+        this.error("Error","El campo fecha es requerido");
+      }else{
+        if(!this.hora_inicio){
+          this.error("Error","El campo Hora inicio es requerido");
+        }else{
+          if(!this.hora_fin){
+            this.error("Error","El campo Hora fin es requerido");
+          }else{
+            this.EjecutarFiltros();
+          }
+        }
+      }
+    }
+
+  }
+  EjecutarFiltros(){
+    
     this.loading_alert();
     formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')
     let f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
@@ -61,6 +87,9 @@ export class RecorridoComponent implements OnInit {
 
       this.closeLoading_alert();
       this.lista_recorrido=JSON.parse(JSON.stringify(data)).lista_monitoreo_tiempo_real;
+      if(this.lista_recorrido.length==0){
+        this.messageService.add({severity: 'info', summary: 'Información', detail: 'No existen datos con los filtros actuales'});
+      }
      
     },
     error=>{
@@ -84,6 +113,16 @@ export class RecorridoComponent implements OnInit {
   }
   closeLoading_alert(){
     Swal.close();
+  }
+  error(titulo:string,mensaje:string){
+    Swal.fire({
+      icon: 'error',
+      title: titulo,
+      text: mensaje,
+      didClose:() =>{
+        this.visible_filtros=true;
+      }
+    });
   }
 
 }

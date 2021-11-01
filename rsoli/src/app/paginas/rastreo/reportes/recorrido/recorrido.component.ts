@@ -4,8 +4,7 @@ import { formatDate } from '@angular/common';
 import Swal from'sweetalert2';
 import { MessageService } from 'primeng/api';
 
-// import { jsPDF } from 'jspdf';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import * as XLSX from 'xlsx'; 
 
@@ -28,6 +27,7 @@ export class RecorridoComponent implements OnInit {
   lista_recorrido :any=[];
   loading: boolean = true;
 
+  
   fileName= 'ExcelSheet.xlsx';
 
   @ViewChild('htmlData') htmlData:ElementRef | undefined;

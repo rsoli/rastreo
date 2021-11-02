@@ -10,6 +10,7 @@ export class ContactoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

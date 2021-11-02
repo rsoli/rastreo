@@ -104,10 +104,18 @@
     margin-bottom: 1.5rem !important;
 }
 
-/* data table */
-.p-datatable-header{
-    background: #ffffff !important;
+
+
+
+.p-calendar * {
+    width: 100% !important; 
+    top: 0px !important;
+    text-align: center !important;
+
 }
-.p-calendar{
-    width: 60% !important;
+
+@media screen and (max-width: 769px){
+    .p-datepicker table th, .p-datepicker table td {
+        width: 0px !important; 
+    }
 }

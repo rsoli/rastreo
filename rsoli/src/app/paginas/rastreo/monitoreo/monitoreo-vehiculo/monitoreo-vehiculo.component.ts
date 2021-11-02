@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-rotatedmarker';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
@@ -41,7 +42,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
-    private monitoreo_servicio:MonitoreoService
+    private monitoreo_servicio:MonitoreoService,
   ) { }
 
   ngOnInit() {
@@ -69,13 +70,79 @@ export class MonitoreoVehiculoComponent implements OnInit {
   }
   initMap() {
 
-    this.map = L.map('map').setView([-16.6574403011881, -64.95190911770706], 6);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
-    
+        var  osm, controlCapas;
+
+        this.map = L.map('map', {
+          center: [-16.6574403011881, -64.95190911770706],
+          zoom: 6
+        });
+        osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            minZoom: 1,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright"/>OpenStreetMap</a>'
+        }).addTo(this.map);
+
+        var OpenStreetMap_HOT = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright"/>OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank"/>Humanitarian OpenStreetMapTeam</a>'
+        });
+
+        var Stamen_Toner = L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+            attribution: 'Map tiles by <a href="http://stamen.com"/>Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0"/>CC BY 3.0</a> &mdash; Map data &copy;<a href="http://www.openstreetmap.org/copyright"/>OpenStreetMap</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 20
+        });
+              
+        var Esri_WorldStreetMap =
+            L.tileLayer(
+                'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS,Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom,2012'
+                });
+
+        var Esri_WorldTopoMap =
+            L.tileLayer(
+                'http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap,iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, EsriChina (Hong Kong), and the GIS User Community'
+                });
+        var Esri_WorldImagery =
+            L.tileLayer(
+                'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX,GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                });
+
+
+
+        var mapaBase = {
+            'OSM': osm,
+            'OpenStreetMap_HOT': OpenStreetMap_HOT,
+            'Stamen_Toner': Stamen_Toner,
+            'Esri_WorldStreetMap': Esri_WorldStreetMap,
+            'Esri_WorldTopoMap': Esri_WorldTopoMap,
+            'Satelite': Esri_WorldImagery,
+        };
+
+        var SafeCast = L.tileLayer('https://s3.amazonaws.com/te512.safecast.org/{z}/{x}/{y}.png', {
+            maxZoom: 16,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href=" ">CC-BY-SA</a>)'
+        });
+        // var overlay = {"Safecat":SafeCast}
+
+
+        var controlEscala;
+
+        // controlCapas = L.control.layers(mapaBase, overlay);
+        controlCapas = L.control.layers(mapaBase);
+        controlCapas.addTo(this.map);
+
+        controlEscala = L.control.scale();
+        controlEscala.addTo(this.map);
+
+
 
     
+
+  }
+  initMap2(){
 
   }
   borrarMarcadores() {
@@ -205,16 +272,29 @@ export class MonitoreoVehiculoComponent implements OnInit {
     let lon:any;
     let contador:any=0;
     let icon:any;
+
     for (let indice of marcadores.lista_monitoreo_tiempo_real ){
         contador++;
         if(contador==1){
-          icon = {
-            icon: L.icon({
-              iconSize: [25, 31],
-              iconAnchor: [12, 31],
-              iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
-            })
-          };
+
+          if(this.tipo_monitoreo_seleccionado.code=="tiempo_real"){
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+              })
+            };
+          }else{
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+              })
+            };
+          }
+
         }else{
           if(contador==marcadores.lista_monitoreo_tiempo_real.length){
             icon = {
@@ -228,10 +308,13 @@ export class MonitoreoVehiculoComponent implements OnInit {
             if(indice.tiempo_parqueo=='00:00:00'){
               icon = {
                 icon: L.icon({
-                  iconSize: [20, 8],
-                  iconAnchor: [7, 3],
-                  iconUrl: './../../../assets/icono/marcadores/intermedios/punto_trazado.svg',
-                })
+                  // iconSize: [20, 8],
+                  // iconAnchor: [7, 3],
+                  iconSize: [8, 10],
+                  iconAnchor: [4, 3],
+                  iconUrl: './../../../assets/icono/marcadores/flecha/flecha-azul2.svg',
+                }),
+                rotationAngle:indice.course
               };
             }
             else{
@@ -239,7 +322,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
                 icon: L.icon({
                   iconSize: [25, 31],
                   iconAnchor: [12, 31],
-                  iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-amarillo.svg',
+                  iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-amarillo.svg'
                 })
               };
             }
@@ -248,14 +331,14 @@ export class MonitoreoVehiculoComponent implements OnInit {
         }
 
         if(indice.tiempo_parqueo=='00:00:00'){
-            this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
-            this.marker.bindPopup("<div font-size: 10px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
-            "<b>Placa :</b>  "+indice.placa+
-            " <br> <b>Fecha :</b>  "+indice.devicetime+
-            " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
-            " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
-            " <br> <b>Ubicación :</b> </br>"+indice.address+ 
-            "<div> ");
+          this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
+          this.marker.bindPopup("<div font-size: 10px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
+          "<b>Placa :</b>  "+indice.placa+
+          " <br> <b>Fecha :</b>  "+indice.devicetime+
+          " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
+          " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
+          " <br> <b>Ubicación :</b> </br>"+indice.address+ 
+          "<div> ");
         }else{
           this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
           this.marker.bindPopup("<div font-size: 10px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
@@ -267,7 +350,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
           " <br> <b>Ubicación :</b> </br>"+indice.address+ 
           "<div> ");
         }
-
+        
         this.lista_marcadores.push(this.marker);
 
         linea_rutas.push(this.marker.getLatLng());
@@ -285,13 +368,14 @@ export class MonitoreoVehiculoComponent implements OnInit {
       if(this.tipo_monitoreo_seleccionado.code!="tiempo_real"){
         this.polylines = L.polyline(linea_rutas, {
           color: '#58ACFA', // color de linea
-          weight: 7, // grosor de línea
+          // weight: 7, // grosor de línea
+          weight: 6, // grosor de línea
         }).addTo(this.map);
         
         this.map.fitBounds(this.polylines.getBounds());
       }
       if(this.contador_zoom_mapa==0){
-        this.map.setView([lat, lon], 18);  
+        this.map.setView([lat, lon], 16);  
       }else{
         this.map.setView([lat, lon]);  
       }

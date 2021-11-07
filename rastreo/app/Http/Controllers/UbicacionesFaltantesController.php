@@ -17,7 +17,7 @@ class UbicacionesFaltantesController extends Controller
         $coordenadas=DB::select("select p.id,p.latitude,p.longitude,p.address
         from public.tc_positions p
         where p.address is null
-        and (p.latitude !=0 or p.latitude is null) limit 5 ");
+        and (p.latitude !=0 or p.latitude is null) order by p.id asc limit 5 ");
 
         $ubicaciones=[];
 

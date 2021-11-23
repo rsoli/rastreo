@@ -1,4 +1,4 @@
-<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'330px'}" [modal]="false">
+<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="false">
     <h5>FILTROS</h5>
     <br>
     <div>
@@ -29,7 +29,7 @@
     <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
             Fecha
             <br>
-            <p-calendar  [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            <p-calendar    [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
     </div>
     <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
             Hora inicio
@@ -40,7 +40,7 @@
     <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
             Hora fin
             <br>
-            <p-calendar [(ngModel)]="hora_fin" [timeOnly]="true" inputId="timeonly"></p-calendar>
+            <p-calendar [(ngModel)]="hora_fin"  [timeOnly]="true" inputId="timeonly"></p-calendar>
     </div>
     <br>
     <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>

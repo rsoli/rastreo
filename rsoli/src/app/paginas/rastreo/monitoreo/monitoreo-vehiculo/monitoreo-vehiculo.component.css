@@ -45,7 +45,7 @@
 .my-float{
 	margin-top:98px;
   margin-left: 31px;
-  position: fixed;
+  position: absolute;
   z-index: 1000;
 
   border-left: 2px solid rgba(0,0,0,0.2);
@@ -60,4 +60,18 @@
 .my-float :hover {
   color: #999;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

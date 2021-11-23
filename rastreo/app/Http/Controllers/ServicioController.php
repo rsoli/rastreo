@@ -97,7 +97,7 @@ class ServicioController extends Controller
                                     p.latitude,
                                     p.longitude,
                                     p.address,
-                                    p.speed,
+                                    (p.speed * 1.852)::numeric as speed,
                                     p.devicetime,
                                     p.course,
                                     p.attributes,
@@ -115,32 +115,19 @@ class ServicioController extends Controller
     }
     public function monitoreo_rutas(Request $request){
 
-
-        $id_vehiculos=$request->id_vehiculos;
-
-        $filtros_fechas=" p.devicetime >= '".$request->fecha_inicio."'::timestamp and p.devicetime <= '".$request->fecha_fin."'::timestamp";
-
-        $lista_monitoreo_tiempo_real=DB::select(" with rutas as(
-            select
-            distinct on (p.latitude)
-            v.placa,
-            p.latitude,
-            p.longitude,
-            p.address,
-            p.speed,
-            p.devicetime,
-            p.course,
-            p.attributes,
-            (p.attributes::json->'power')::varchar as bateria_vehiculo
-            from ras.tvehiculo v
-            inner join public.tc_devices d on v.uniqueid=d.uniqueid
-            inner join public.tc_positions p on p.deviceid=d.id
-            where v.id_vehiculo in(".$id_vehiculos.")  and ".$filtros_fechas." 
-            and p.latitude is not null
-            and p.latitude::varchar !=0::varchar
-            and ( (p.attributes::json->'event')::varchar='0' or (p.attributes::json->'event') is null )  )
-            select * from rutas r
-            order by r.devicetime asc ");
+        $lista_monitoreo_tiempo_real=DB::select(" select  
+        placa,
+        latitude,
+        longitude,
+        address,
+        speed,
+        devicetime,
+        course,
+        bateria_vehiculo,
+        encendido,
+        evento,
+        tiempo_parqueo
+        from ras.f_get_parqueos(?,?,?) ",[$request->id_vehiculos,$request->fecha_inicio,$request->fecha_fin]);
 
         $arrayParametros=[
             'lista_monitoreo_tiempo_real'=>$lista_monitoreo_tiempo_real

@@ -6,10 +6,14 @@ import { MonitoreoVehiculoComponent } from './monitoreo/monitoreo-vehiculo/monit
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { PrimengModule } from '../../componentes/primeng/primeng/primeng.module';
 import { FormsModule } from '@angular/forms';
+import { RecorridoComponent } from './reportes/recorrido/recorrido.component';
+import { ParqueoComponent } from './reportes/parqueo/parqueo.component';
 
 @NgModule({
   declarations: [
-    MonitoreoVehiculoComponent
+    MonitoreoVehiculoComponent,
+    RecorridoComponent,
+    ParqueoComponent
   ],
   imports: [
     CommonModule,

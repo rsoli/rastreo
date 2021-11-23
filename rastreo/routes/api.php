@@ -6,6 +6,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\ParametrosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,24 @@ Route::group([
         Route::post('monitoreo_tiempo_real', [ServicioController::class, 'monitoreo_tiempo_real']);
         Route::post('monitoreo_rutas', [ServicioController::class, 'monitoreo_rutas']);
     
+    });
+});
+
+Route::group([
+    'prefix' => 'parametros'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_departamento', [ParametrosController::class, 'lista_departamento']);
+        Route::post('post_departamento', [ParametrosController::class, 'post_departamento']);
+        Route::get('eliminar_departamento/{id}', [ParametrosController::class, 'eliminar_departamento']);
+
+        Route::get('lista_gestion', [ParametrosController::class, 'lista_gestion']);
+        Route::post('post_gestion', [ParametrosController::class, 'post_gestion']);
+
     });
 });
 

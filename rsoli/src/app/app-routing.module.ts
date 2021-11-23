@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
 const routes: Routes = [
   {
     path: 'shared',
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'rastreo',
     loadChildren: () => import('./paginas/rastreo/rastreo.module').then(m => m.RastreoModule)
+  },
+  {
+    path: 'parametros',
+    loadChildren: () => import('./paginas/parametros/parametros.module').then(m => m.ParametrosModule)
   },
   {
     path: '**',

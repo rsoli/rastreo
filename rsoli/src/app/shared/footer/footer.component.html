@@ -79,163 +79,17 @@
     </div>
     <br><br><br>
 </div>
-<style>
-    .footer {
-        width: 100%;
-        padding: 0px 0px;
-        background-color: #016CBA;
-        color: #fff;
-    }
 
-    .container_footer {
-        display: flex;
-        /*separar en columnas */
-        flex-wrap: wrap;
-        /*se pongan una debajo de otra*/
-        justify-content: space-between;
-        /*espacio completo*/
-        max-width: 1400px;
-        margin: auto;
-        margin-top: 50px;
-        /*espacio de arriba*/
-    }
-
-    .logo_footer {
-        position: static !important;
-        width: 100%;
-        align-items: center;
-    }
-
-    .box_footer {
-        display: flex;
-        /*para que los elementos se pongan uno ensima de otro*/
-        flex-direction: column;
-        padding: 30px;
-    }
-
-    .box_footer .logo img {
-        width: 150px;
-    }
-
-    .box_footer .terms {
-        max-width: 350px;
-        margin-top: 20px;
-
-        color: #ffffff;
-        /* font-size: px; */
-    }
-
-    .box_footer h6 {
-        margin-bottom: 18px;
-        /*espacio del titulo  y los links*/
-        color: #ffffff;
-        font-weight: 500;
-    }
-
-    .box_footer a {
-        margin-top: 10px;
-        color: #ffffff;
-        font-size: 16px;
-        border-radius: 50%;
-    }
-
-    .titulo_footer {
-        padding: 18px 18px 0 0px;
-    }
-
-    i.fas {
-        display: inline-block;
-        border-radius: 60px;
-
-        box-shadow: 0px 0px 2px #fff;
-        padding: 0.1em 0.2em;
-    }
-
-    .box_footer a:hover {
-        color: rgb(231, 231, 231);
-    }
-
-    .box_footer a .fa {
-        font-size: 30px;
-        display: inline;
-    }
-
-    .box_copyright {
-        max-width: 1200px;
-        margin: auto;
-        text-align: center;
-        padding: 0px 20px;
-    }
-
-    .box_copyright p {
-        margin-top: 0px;
-        margin-bottom: 20px;
-        color: #7a7a7a !important;
-        font-size: 16px;
-    }
-
-    .box_copyright hr {
-        border: none;
-    }
-
-    .titulo-footer {
-        text-align: left;
-        color: white;
-        font-weight: 800;
-        font-size: 16px;
-        display: flex;
-        text-decoration: none;
-        /* padding: 30px; */
-    }
-
-    .subtitulo-footer {
-        color: white;
-        font-weight: 650;
-        font-size: 16px;
-        margin-top: 5px;
-        display: flex;
-        text-align: left;
-        text-decoration: none;
-        margin-bottom: 0 !important;
-    }
-
-    .contenido-footer {
-        color: white;
-        /* font-weight: 640; */
-        font-size: 16px;
-        margin-top: 0px !important;
-        display: flex;
-        text-align: left;
-        font-weight: 200;
-        text-decoration: none;
-
-    }
-
-    .img-footer {
-        height: 50px;
-        padding: 2px;
-    }
-
-    .inline {
-        align-items: inline;
-    }
-
-    @media only screen and (max-width: 555px) {
-        .logo_footer {
-            align-items: left !important;
-        }
-    }
-</style>
 <div class="footer">
-    <div class="container_footer">
 
-        <div class=" box_footer logo_footer">
+    <div class="container_footer">
+        <div class=" box_footer1 logo_footer">
             <br><br>
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="logo" style="width: 250px; height: 100px;">
-                        <img src="assets/logo/logoblanco.png" alt="..." height="40"
-                            class="imgzoom p-mr-2 ng-star-inserted" style="width: 100%; height: 100%;">
+                    <div class="logo">
+                        <img src="assets/logo/logoblanco.png" alt="logo rsoli.com " height="70"
+                            class="imgzoom p-mr-2 ng-star-inserted">
                     </div>
                 </div>
 
@@ -243,39 +97,40 @@
 
         </div>
         <div class="box_footer">
-            <p class="titulo-footer">QUIENES SOMOS</p>
+            <h3 class="titulo-footer">SOBRE NOSOTROS</h3>
             <p class="contenido-footer">
-                Somos un grupo de profesionales,
-                <br>
-                creadores en soluciones de software
-                <br>
-                a medida, enfocados en las tecnologías
-                <br>
-                más innovadoras y adaptables a las
-                <br>
-                necesidades de cada cliente en
-                <br>
-                tiempo record.
+                Somos un grupo de profesionales, <br>
+                creadores en soluciones de software<br>
+                a medida, enfocados en las tecnologías<br>
+                más innovadoras y adaptables a las<br>
+                necesidades de cada cliente en<br>
+                tiempo record <br>
             </p>
         </div>
         <div class="box_footer">
-            <p class="titulo-footer" style="letter-spacing: 1pt;">NUESTRAS REDES SOCIALES</p>
+            <h3 class="titulo-footer">UBICACIÓN</h3>
+            <p class="subtitulo-footer"> Dirección</p>
+            <p class="contenido-footer">Av. Blanco Galindo Km 8.5</p>
+            <p class="subtitulo-footer">Correo</p>
+            <p class="contenido-footer" href="#">Propioj@gmail.com</p>
             <br>
             <div class="inline">
-                <img src="assets/icono/redes_sociales/facebook.svg" class="img-footer imgzoom">
-                <img src="assets/icono/redes_sociales/instagram.svg" class="img-footer imgzoom">
-                <img src="assets/icono/redes_sociales/tiktok.svg" class="img-footer imgzoom">
-                <img src="assets/icono/redes_sociales/youtube.svg" class="img-footer imgzoom">
+
+                <a href="" target="_blank" class="icono-redsocial"><i
+                        class="icono-social fab fa-facebook-square"></i></a>
+                <a href="" target="_blank" class="icono-redsocial"><i class="icono-social fab fa-instagram"></i></a>
+                <a href="" target="_blank" class="icono-redsocial"><i class="icono-social fab fa-tiktok"></i></a>
+                <a href="" target="_blank" class="icono-redsocial"><i class="icono-social fab fa-whatsapp"></i></a>
+                <a href="" target="_blank" class="icono-redsocial"><i class="icono-social far fa-envelope"></i></a>
             </div>
         </div>
         <div class="box_footer">
-            <p class="titulo-footer">UBICACIÓN</p>
-            <p class="subtitulo-footer"> Dirección</p>
-            <a class="contenido-footer">Av. Blanco Galindo Km 8.5</a>
-            <p class="subtitulo-footer">Teléfonos</p>
-            <a class="contenido-footer" href="#">77444482</a>
-            <p class="subtitulo-footer">Correo</p>
-            <a class="contenido-footer" href="#">Propioj@gmail.com</a>
+            <h3 class="titulo-footer">SEVICIOS</h3>
+
+            <p class="contenido-footer">Inteligencia de negocios</p>
+            <p class="contenido-footer">Rastreo satelital</p>
+            <p class="contenido-footer">Desarrollo de software y asesoria</p>
+            <p class="contenido-footer">Diseño web</p>
         </div>
     </div>
     <div class="box_copyright">
@@ -288,14 +143,14 @@
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         &copy;
                         <script>document.write(new Date().getFullYear());</script>
-                        Rsoli 2021 Reservados todos los
-                        derechos&nbsp;<a href="#" style="color: #fff;"></a>
+                        Rsoli 2021 &nbsp;<a href="#" style="color: #fff;"></a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </span>
+
+                    <br><br>
                 </div>
             </div>
             <!-- /row -->
         </div>
-        <br>
     </div>
 </div>

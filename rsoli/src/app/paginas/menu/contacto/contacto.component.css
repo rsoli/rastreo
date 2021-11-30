@@ -1,30 +1,36 @@
 
 
-.mapa{
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin: 0 20px 0 20px;
+.informacion{
+    text-align:right;
+    padding-top:40px;
+    border: 15px;
+    padding-bottom: 15px;
+    padding-right: 80px;
+}
 
+.map-responsive{
+  overflow:hidden;
+  padding-bottom:56.25%;
+  position:relative;
+  height: 520px;
+  /* margin: 15px; */
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-/* .formulario{
-    width: 100%;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  
+.map-responsive iframe{
+  left:0;
+  top:0;
+  height:100%;
+  width:100%;
+  position:absolute;
 }
-.form-title{
-    width: 100%;
-    background-color: #2196F3;
-    color: #fff;
-    display: flex;
-    padding: 20px 20px 20px 55px;
+@media only screen and (max-width: 780px) {
+  
+    .informacion p{
+      display: none;
+    }
+    p{
+      font-size: 13px !important;
+    }
     
-
-}
-.form-contenido{
-    padding: 30px 20px 20px 30px;
-    border:solid 2px rgb(241, 241, 241);
-}
-.input{
-    padding: 10px 10px 10px 10px;
-    border-radius: 15px;
-    margin: 10px 0px 0px 0px;
-    width: 100%;
-} */
+  }

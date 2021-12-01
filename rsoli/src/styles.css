@@ -120,6 +120,7 @@ h1, h2, h3, h4, h5, h6{
     .btn_inicio_sesion {
         width: 140px !important;
     }
+    
 } 
 @media only screen and (max-width: 1246px) and (min-width: 739px)  {
     .btn_inicio_sesion {

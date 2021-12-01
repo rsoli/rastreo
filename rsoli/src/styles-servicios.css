@@ -5,7 +5,6 @@
     padding-bottom: 50px;
     padding-left: 30px;
     padding-right: 30px;
-    
 }
 .servicio-contenido{
     border-radius: 5px;
@@ -42,6 +41,13 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background-color: #fff;
     border-radius: 5px;
+}
+.formulario-servicio2{
+    width: 100%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 95px;
 }
 .form-title{
     width: 100%;
@@ -84,7 +90,7 @@
 
 /* texto relleno de servicio */
 .servicio-relleno{
-    padding: 20px;
+    padding: 30px;
 }
 /* frase */
 .frase-content{
@@ -113,3 +119,4 @@ style="font-size: 1rem; width: 30px; font-weight: bold;" */
 .p-dropdown{
     width: 100% !important;
 }
+

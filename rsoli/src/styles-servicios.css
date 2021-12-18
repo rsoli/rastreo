@@ -12,7 +12,7 @@
     padding: 40px;
     text-align: center;
     background-color: #ffffff;
-    border-left: 6px solid #85c0ff;
+    border-bottom: 6px solid #85c0ff;
     
 }
 .servicio-contenido2{
@@ -41,6 +41,7 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background-color: #fff;
     border-radius: 5px;
+    text-align: center;
 }
 .formulario-servicio2{
     width: 100%;
@@ -63,6 +64,10 @@
     padding: 30px 45px 30px 45px;
     border-radius:solid 2px rgb(241, 241, 241);
 }
+.form-contenido p{
+    text-align: center;
+    font-weight: 800;
+}
   /* arriba   izquierda   abajo    derecha*/
 .form-input{
     padding: 10px 16px 10px 16px;
@@ -70,14 +75,22 @@
     margin: 10px 0px 0px 0px;
     width: 100%;
 }
-.boton-servicio{
+.form-contenido a{
     font-weight: 700 !important;
     border-radius: 50px;
-    width: 100%;
     text-align: center;
     background-color: #2196F3 !important;
     border: 0px solid #2196F3!important;
-    border-radius: 5px;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px 10px 20px;
+    width: 100% !important;
+    
+}
+.form-contenido a:hover{
+    background-color: #379cf0 !important;
+    color: #fff;
     
 }
 

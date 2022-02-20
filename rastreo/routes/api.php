@@ -7,6 +7,8 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\ParametrosController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\VehiculoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +110,35 @@ Route::group([
     });
 });
 
+Route::group([
+    'prefix' => 'cliente'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_cliente', [ClienteController::class, 'lista_cliente']);
+        Route::get('get_cliente/{id}', [ClienteController::class, 'get_cliente']);
+        Route::post('post_cliente', [ClienteController::class, 'post_cliente']);
+        Route::get('eliminar_cliente/{id}', [ClienteController::class, 'eliminar_cliente']);
+    });                                                                                                     
+});
+
+Route::group([
+    'prefix' => 'vehiculo'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_vehiculos/{id}', [VehiculoController::class, 'lista_vehiculos']);
+        Route::get('get_vehiculo/{id}', [VehiculoController::class, 'get_vehiculo']);
+        Route::post('post_vehiculo', [VehiculoController::class, 'post_vehiculo']);
+        Route::get('eliminar_vehiculo/{id}', [VehiculoController::class, 'eliminar_vehiculo']);
+    });                                                                                                     
+});
 // Route::middleware('auth:api')->group(function () {
 //     Route::resource('posts', PostController::class);
 // });

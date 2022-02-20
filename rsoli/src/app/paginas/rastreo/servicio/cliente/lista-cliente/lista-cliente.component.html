@@ -3,32 +3,39 @@
     <div style="padding: 50px;">
         <div class="row" >
             <div class="col-lg-12">
-                <p class="tarjeta-titulo"> Lista de roles </p>
+                <p class="tarjeta-titulo"> Lista de clientes </p>
             </div>
         </div>
-        <p-table #dt [value]="lista_roles" dataKey="id_rol"
+
+        <p-table #dt [value]="lista_clientes" dataKey="id_cliente"
                 [rows]="10" 
                 [loading]="loading" 
-                styleClass="p-datatable-lista_roles"
+                styleClass="p-datatable-lista_clientes"
                 [paginator]="true" 
                 [filterDelay]="0" 
                 [responsive]="true"
-                [globalFilterFields]="['nombre_rol','fecha_reg','fecha_mod']"
+                [globalFilterFields]="['nombre','apellido_paterno','apellido_materno']"
                 [rowHover]="true"
                 >
 
                 <ng-template pTemplate="caption">
                     <div class="row" >
                         <div class="col-lg-6" style="padding: 0px;margin: 0px;">
-                            <button [hidden]="sesion"  pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="FormularioRol(0)">
+                            <button  pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="FormularioCliente(0)">
                                 <i style="color: #3699FF;"  class="pi pi-file-o imgzoom" ></i>
                             </button> 
 
-                            <button [hidden]="sesion"  pTooltip="Editar" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente" (click)="FormularioRol(-1)">
+                            <button  pTooltip="Editar" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente" (click)="FormularioCliente(-1)">
                                 <i  class="far fa-edit imgzoom" style="color: #3CA934 "></i>
                             </button>
-                            <button [hidden]="sesion"  pTooltip="Eliminar" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarPersona()" >
+                            <button  pTooltip="Eliminar" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarCliente()" >
                                 <i   class="far fa-trash-alt bg imgzoom"  style="color: #F64E60;"></i> 
+                            </button>  
+                            <button  pTooltip="Vehículos" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="ListaVehiculo()" >
+                                <i class='fas fa-car-side imgzoom' style="color: #40a1d1;"></i>
+                            </button>  
+                            <button  pTooltip="Pagos" tooltipPosition="top"  type="button"  class="btn IconoEfecto transparente" (click)="EliminarCliente()" >
+                                <i class='pi pi-dollar imgzoom' style="color: #d18534;font-weight: bold;"></i>
                             </button>  
                             <!-- <button pTooltip="Pdf" tooltipPosition="top" type="button"  class="btn IconoEfecto transparente">
                                 <i  class="pi pi-file-pdf imgzoom" style="color: #ff8400;" ></i>
@@ -46,17 +53,17 @@
                 <ng-template pTemplate="header" >
                     <tr>
                         <th>Nro</th>
-                        <th pSortableColumn="usuario">Rol<p-sortIcon field="nombre_rol"></p-sortIcon></th>
-                        <th pSortableColumn="correo">Fecha reg<p-sortIcon field="fecha_reg"></p-sortIcon></th>
-                        <th pSortableColumn="persona">Fecha mod<p-sortIcon field="fecha_mod"></p-sortIcon></th>
+                        <th pSortableColumn="nombre">Cliente<p-sortIcon field="nombre"></p-sortIcon></th>
+                        <th pSortableColumn="fecha_fin_servicio">Fecha fin servicio<p-sortIcon field="fecha_fin_servicio"></p-sortIcon></th>
+                        <th pSortableColumn="fecha_reg">Fecha reg<p-sortIcon field="fecha_reg"></p-sortIcon></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-lista_roles let-rowIndex="rowIndex" >
-                    <tr (click)="SeleccionarRol(lista_roles)" >
+                <ng-template pTemplate="body" let-lista_clientes let-rowIndex="rowIndex" >
+                    <tr (click)="SeleccionarCliente(lista_clientes)" >
                         <td scope="persw">{{rowIndex+1}}</td>
-                        <td>{{lista_roles.nombre_rol}}</td>
-                        <td>{{lista_roles.fecha_reg}}</td>
-                        <td>{{lista_roles.fecha_mod}}</td>
+                        <td>{{lista_clientes.nombre}} {{lista_clientes.apellido_paterno}} {{lista_clientes.apellido_materno}}</td>
+                        <td>{{lista_clientes.fecha_fin_servicio}}</td>
+                        <td>{{lista_clientes.fecha_reg}}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -64,6 +71,9 @@
                         <td colspan="6">No hay datos para mostrar </td>
                     </tr>
                 </ng-template>
+                
         </p-table>
+
+  
     </div>
 </div>

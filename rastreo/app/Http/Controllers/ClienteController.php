@@ -163,6 +163,8 @@ class ClienteController extends Controller
         return $arrayParametros;
     }
     public function eliminar_cliente($id){
+
+        db::update('delete from ras.tvehiculo where id_cliente = ? ',[$id]);
         db::update('delete from ras.tcliente where id_cliente = ? ',[$id]);
 
         $arrayParametros=[

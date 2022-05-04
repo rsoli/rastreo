@@ -33,5 +33,9 @@ export class MonitoreoService {
     const body=JSON.stringify(parametros);
     return this.http.post(this.baseURL + 'monitoreo_rutas',body, this.headers_token);
   }
-
+  reporte_parqueos(parametros:any){
+    this.actualizar_accesos();
+    const body=JSON.stringify(parametros);
+    return this.http.post(this.baseURL + 'reporte_parqueos',body, this.headers_token);
+  }
 }

@@ -135,5 +135,24 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
+    public function reporte_parqueos(Request $request){
+        $lista_parqueos_vehiculos=DB::select(" select  
+        placa,
+        latitude,
+        longitude,
+        address,
+        devicetime::date,
+        tiempo_parqueo,
+        hora_inicio,
+        hora_fin,
+        bateria_vehiculo
+        from ras.f_reporte_parqueos(?,?,?) ",[$request->id_vehiculos,$request->fecha_inicio,$request->fecha_fin]);
+
+        $arrayParametros=[
+            'lista_parqueos_vehiculos'=>$lista_parqueos_vehiculos
+        ]; 
+        
+        return response()->json($arrayParametros);
+    }
 
 }

@@ -14,10 +14,17 @@ class UbicacionesFaltantesController extends Controller
     public function ubicaciones_faltantes(Request $request)
     {
         
-        $coordenadas=DB::select("select p.id,p.latitude,p.longitude,p.address
-        from public.tc_positions p
-        where p.address is null
-        and (p.latitude !=0 or p.latitude is null) order by p.id asc limit 5 ");
+        $coordenadas=DB::select("with position as(
+            select 
+            DISTINCT on (p.latitude,p.longitude,ev.type)
+            p.id,p.latitude,p.longitude,p.address
+                    from public.tc_positions p
+                    left join public.tc_events ev on ev.positionid=p.id
+                    where p.address is null
+                    and (p.latitude !=0 or p.latitude is null))
+                    select 
+                    p.id,p.latitude,p.longitude,p.address
+                    from position p order by p.id asc limit 5 ");
 
         $ubicaciones=[];
 

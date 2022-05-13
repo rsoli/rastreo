@@ -21,7 +21,8 @@ class UbicacionesFaltantesController extends Controller
                     from public.tc_positions p
                     left join public.tc_events ev on ev.positionid=p.id
                     where p.address is null
-                    and (p.latitude !=0 or p.latitude is null))
+                    and (p.latitude !=0 or p.latitude is null)
+                    and p.devicetime::date >= '2022/05/13'::date)
                     select 
                     p.id,p.latitude,p.longitude,p.address
                     from position p order by p.id asc limit 5 ");

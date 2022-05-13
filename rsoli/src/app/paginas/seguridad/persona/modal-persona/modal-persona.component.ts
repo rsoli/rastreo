@@ -43,7 +43,7 @@ export class ModalPersonaComponent implements OnInit {
     nuevo_persona.apellido_materno=this.form_persona.value.apellido_materno.trim();
     nuevo_persona.ci=this.form_persona.value.ci.trim();
     nuevo_persona.celular=this.form_persona.value.celular.trim();
-    nuevo_persona.telefono=this.form_persona.value.telefono.trim();
+    nuevo_persona.telefono=this.form_persona.value.telefono;
     nuevo_persona.id_persona=this.persona.id_persona;
     
     this.persona_servicio.post_personas(nuevo_persona).subscribe(data=>{

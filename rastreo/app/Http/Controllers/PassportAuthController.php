@@ -230,14 +230,27 @@ class PassportAuthController extends Controller
 
         $ruta_imagen_usuario = "";
         //$ruta_imagen_usuario = "http://".request()->server('SERVER_ADDR').":90/public/imagenes/usuarios/";
-        $usuarios=DB::select("select
+        $usuarios=DB::select("
+                        WITH pagos as(
+                            select 
+                            ps.id_servicio,
+                            max(ps.fecha_fin)::TIMESTAMP as fecha_fin 
+                            from ras.tpago_servicio ps 
+                            group by ps.id_servicio)
+                                select
                                  us.id as id_usuario,
                                  us.name as usuario,
                                  us.email as correo,
                                  ?||us.foto::varchar as foto,
-                                 p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno as persona
+                                 p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno as persona,
+                                 pag.fecha_fin::date
+
                                 from segu.users us
                                 left join ras.tpersona p on p.id_persona=us.id_persona
+
+                                left join ras.tcliente c on c.id_persona=p.id_persona
+                                left join ras.tservicio s on s.id_cliente=c.id_cliente
+                                left join pagos pag on pag.id_servicio=s.id_servicio
                                 where ".$ids." and us.estado=?
                             ",[$ruta_imagen_usuario,"activo"]);
 

@@ -10,4 +10,5 @@ export class UsuarioModelo {
     id_roles:any=[];
     contrasena:any="";
     correo:String="";
+    fecha_fin:string=""
 }

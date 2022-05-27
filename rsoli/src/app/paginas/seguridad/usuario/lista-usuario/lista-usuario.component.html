@@ -52,6 +52,7 @@
                         <th pSortableColumn="usuario">Usuario<p-sortIcon field="usuario"></p-sortIcon></th>
                         <th pSortableColumn="correo">Correo<p-sortIcon field="correo"></p-sortIcon></th>
                         <th pSortableColumn="persona">Persona<p-sortIcon field="persona"></p-sortIcon></th>
+                        <th pSortableColumn="persona">Proximo pago<p-sortIcon field="persona"></p-sortIcon></th>
                         <!-- <th pSortableColumn="foto">Foto<p-sortIcon field="foto"></p-sortIcon></th> -->
                     </tr>
                 </ng-template>
@@ -61,6 +62,7 @@
                         <td>{{lista_usuarios.usuario}}</td>
                         <td>{{lista_usuarios.correo}}</td>
                         <td>{{lista_usuarios.persona}}</td>
+                        <td>{{lista_usuarios.fecha_fin | date:'dd-MM-yyyy' }}</td>
                         <!-- <td> <img src="{{lista_usuarios.foto}}" style="width:40px;" alt=""></td> -->
                     </tr>
                 </ng-template>

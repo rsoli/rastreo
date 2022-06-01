@@ -282,7 +282,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
               icon: L.icon({
                 iconSize: [25, 31],
                 iconAnchor: [12, 31],
-                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+                iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
               })
             };
           }else{
@@ -290,7 +290,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
               icon: L.icon({
                 iconSize: [25, 31],
                 iconAnchor: [12, 31],
-                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+                iconUrl: './assets/icono/marcadores/ubicacion/ubi-rojo.svg',
               })
             };
           }
@@ -301,7 +301,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
               icon: L.icon({
                 iconSize: [25, 31],
                 iconAnchor: [12, 31],
-                iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-azul.svg',
+                iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
               })
             };
           }else{
@@ -312,7 +312,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
                   // iconAnchor: [7, 3],
                   iconSize: [8, 10],
                   iconAnchor: [4, 3],
-                  iconUrl: './../../../assets/icono/marcadores/flecha/flecha-azul2.svg',
+                  iconUrl: './assets/icono/marcadores/flecha/flecha-azul2.svg',
                 }),
                 rotationAngle:indice.course
               };
@@ -322,7 +322,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
                 icon: L.icon({
                   iconSize: [25, 31],
                   iconAnchor: [12, 31],
-                  iconUrl: './../../../assets/icono/marcadores/ubicacion/ubi-amarillo.svg'
+                  iconUrl: './assets/icono/marcadores/ubicacion/ubi-amarillo.svg'
                 })
               };
             }

@@ -183,8 +183,8 @@ class ServicioController extends Controller
         if($request->id==0){
             DB::insert('insert into public.tc_geofences (name,description,area) values(?,?,?);',[$request->nombre_geocerca,$request->descripcion," "]); 
             $id_geocerca=DB::select('select max(g.id)::integer as id_geocerca from public.tc_geofences g');
-            DB::insert('insert into public.tc_user_geofence (userid,geofenceid) values(1,?);',[$id_geocerca]); 
-            DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca) values(?,?);',[($request->user()->id),$id_geocerca]);     
+            DB::insert('insert into public.tc_user_geofence (userid,geofenceid) values(1,?);',[(int)$id_geocerca[0]->id_geocerca]); 
+            DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca) values(?,?);',[($request->user()->id),(int)$id_geocerca[0]->id_geocerca]);     
         }
         else{
             DB::update('update public.tc_geofences set name =?,description=? where id=?; ',[$request->nombre_geocerca,$request->descripcion,$request->id]);

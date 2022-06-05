@@ -89,7 +89,7 @@ Route::group([
         Route::post('monitoreo_tiempo_real', [ServicioController::class, 'monitoreo_tiempo_real']);
         Route::post('monitoreo_rutas', [ServicioController::class, 'monitoreo_rutas']);
         Route::post('reporte_parqueos', [ServicioController::class, 'reporte_parqueos']);
-    
+        Route::get('lista_geocercas', [ServicioController::class, 'lista_geocercas']);
     });
 });
 

@@ -154,5 +154,29 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
+    public function lista_geocercas (Request $request){
 
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" ug.id_usuario in (".$request->user()->id.")";
+        }
+
+        $geocerca=DB::select("select g.id,
+                            g.name::varchar as nombre_geocerca,
+                            g.description::varchar as descripcion,
+                            g.area,
+                            us.name as usuario,
+                            ug.tipo_geocerca
+                            from public.tc_geofences g
+                            join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                            join segu.users us on us.id=ug.id_usuario
+                            where ".$ids."  ");
+
+        $arrayParametros=[
+            'lista_geocercas'=>$geocerca
+        ];
+        
+        return response()->json($arrayParametros);
+    }
 }

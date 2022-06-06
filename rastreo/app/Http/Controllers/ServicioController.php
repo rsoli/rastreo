@@ -241,5 +241,14 @@ class ServicioController extends Controller
         ];
         return $arrayParametros;
     }
+    public function eliminar_geocerca($id){
+        db::delete('delete from public.tc_geofences where id=? ',[$id]);
+        
+        $arrayParametros=[
+            'mensaje'=>"exito"
+        ];
+        
+        return response()->json($arrayParametros);
+    }
 
 }

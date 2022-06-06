@@ -201,8 +201,7 @@ class ServicioController extends Controller
         }
         $arrayParametros=[
             'mensaje'=>$validacion["mensaje"],
-            'validacion'=>$validacion["validacion"],
-            'rol'=>$rol
+            'validacion'=>$validacion["validacion"]
         ]; 
 
         return response()->json($arrayParametros);

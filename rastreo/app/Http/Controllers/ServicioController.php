@@ -221,7 +221,7 @@ class ServicioController extends Controller
 
         if((bool)$validacion["validacion"]==true){
             DB::update('update public.tc_geofences set area =? where id=?; ',[$request->area,$request->id]);
-            DB::update('update public.tusuario_geocerca set tipo_geocerca =? where id_geocerca=?; ',[$request->tipo_geocerca,$request->id]);
+            DB::update('update ras.tusuario_geocerca set tipo_geocerca =? where id_geocerca=?; ',[$request->tipo_geocerca,$request->id]);
         }
        
         $arrayParametros=[

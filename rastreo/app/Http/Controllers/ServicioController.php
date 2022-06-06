@@ -215,5 +215,30 @@ class ServicioController extends Controller
         ];
         return $arrayParametros;
     }
+    public function post_area(Request $request){
+
+        $validacion = $this->validar_geocerca($request);
+
+        if((bool)$validacion["validacion"]==true){
+            DB::update('update public.tc_geofences set area =? where id=?; ',[$request->area,$request->id]);
+        }
+       
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ]; 
+
+        return response()->json($arrayParametros);
+
+    }
+    public function validar_area($request){
+        $mensaje=[];
+        $validacion=true;
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+        return $arrayParametros;
+    }
 
 }

@@ -4,8 +4,10 @@ import 'leaflet-rotatedmarker';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { formatDate } from '@angular/common';
+
+
+
 
 @Component({
   selector: 'app-monitoreo-vehiculo',
@@ -38,6 +40,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
   contador_zoom_mapa:number=0;
 
   visibleSidebar1: any;
+
+  //boton input mapa search
+
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -72,7 +77,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
         var  osm, controlCapas;
 
-        this.map = L.map('map', {
+        this.map = L.map('map1', {
           center: [-16.6574403011881, -64.95190911770706],
           zoom: 6
         });
@@ -138,8 +143,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
         controlEscala.addTo(this.map);
 
 
-
-    
 
   }
   initMap2(){

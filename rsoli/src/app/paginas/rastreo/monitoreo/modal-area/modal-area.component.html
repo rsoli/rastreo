@@ -1,0 +1,42 @@
+
+<div class="row" style="padding:0;margin: 0;">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="padding:0;margin: 0;">
+        <div class="margen-mapa margen2"> 
+            <button  pTooltip="Volver" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="Volver()">
+                <i style="color: #201a1a;font-weight: bold;"  class="pi pi-arrow-left imgzoom" ></i>
+            </button> 
+            <button  pTooltip="Nuevo" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="BorrarArea()">
+                <i style="color: #3699FF;"  class="pi pi-file-o imgzoom" ></i>
+            </button> 
+            <button  pTooltip="Guardar" tooltipPosition="top"  type="button" class="btn IconoEfecto transparente" (click)="GuardarArea()">
+                <i style="color: #7180d8;font-weight: bold;"  class="pi pi-save imgzoom" ></i>
+            </button> 
+            <div id="mapgeo">
+                <!-- <div
+                leaflet
+                leafletDraw
+                style="height: 100%;"
+                [leafletOptions]="options"
+                
+                (leafletDrawCreated)="onDrawCreated($event)">
+                <div [leafletLayer]="drawnItems"> 
+                </div>
+                </div> -->
+
+                <div leaflet style="height: 100%; margin: 0; padding: 0;"
+                leafletDraw
+                style="height: 100%;"
+                [leafletOptions]="options"
+                [leafletDrawOptions]="drawOptions"
+                [leafletDrawLocal]="drawLocal"
+                (leafletDrawCreated)="onDrawCreated($event)"
+                >
+
+                <!-- Add the drawnItems featureGroup to the map -->
+                <div [leafletLayer]="drawnItems"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

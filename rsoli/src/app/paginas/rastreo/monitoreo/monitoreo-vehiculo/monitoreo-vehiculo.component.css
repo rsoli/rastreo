@@ -15,10 +15,11 @@
   padding:30px !important;
   border-left: 4px solid #007bff !important;
 }
-#map {
+#map1 {
   height: 100%;
   padding: 0%;
   width: 100%;
+  z-index: 1;
 }
 @media only screen and (max-width: 738px) {
   .margen1{

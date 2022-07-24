@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
+
 @NgModule({
   declarations: [
     AppComponent,

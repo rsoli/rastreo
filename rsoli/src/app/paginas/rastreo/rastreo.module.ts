@@ -14,6 +14,13 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListaVehiculoComponent } from './servicio/vehiculo/lista-vehiculo/lista-vehiculo.component';
 import { ModalVehiculoComponent } from './servicio/vehiculo/modal-vehiculo/modal-vehiculo.component';
+import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
+
+//import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
+import { ModalGeocercaComponent } from './monitoreo/modal-geocerca/modal-geocerca.component';
+import { ModalAreaComponent } from './monitoreo/modal-area/modal-area.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +30,10 @@ import { ModalVehiculoComponent } from './servicio/vehiculo/modal-vehiculo/modal
     ListaClienteComponent,
     ModalClienteComponent,
     ListaVehiculoComponent,
-    ModalVehiculoComponent
+    ModalVehiculoComponent,
+    GeocercaComponent,
+    ModalGeocercaComponent,
+    ModalAreaComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +42,8 @@ import { ModalVehiculoComponent } from './servicio/vehiculo/modal-vehiculo/modal
     PrimengModule,
     FormsModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LeafletDrawModule
   ],
   providers: [BsModalService],
 })

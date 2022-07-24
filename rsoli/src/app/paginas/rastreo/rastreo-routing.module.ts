@@ -5,6 +5,9 @@ import { RecorridoComponent } from './reportes/recorrido/recorrido.component';
 import { ParqueoComponent } from './reportes/parqueo/parqueo.component';
 import { ListaClienteComponent } from './servicio/cliente/lista-cliente/lista-cliente.component';
 import { ListaVehiculoComponent } from './servicio/vehiculo/lista-vehiculo/lista-vehiculo.component';
+import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
+import { ModalAreaComponent } from './monitoreo/modal-area/modal-area.component';
+
 const routes: Routes = [
   {
     path: 'monitoreo_vehiculo',
@@ -25,6 +28,14 @@ const routes: Routes = [
   {
     path: 'lista_vehiculo/:id',
     component: ListaVehiculoComponent
+  },
+  {
+    path: 'lista_geocerca',
+    component: GeocercaComponent
+  },
+  {
+    path: 'area/:id',
+    component: ModalAreaComponent
   },
   {
     path: '**',

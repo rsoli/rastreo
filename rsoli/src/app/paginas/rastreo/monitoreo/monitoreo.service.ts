@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { GeocercaModelo } from './geocerca-model';
 
 // import { PersonaModelo } from './persona-modelo';
 
@@ -37,5 +38,23 @@ export class MonitoreoService {
     this.actualizar_accesos();
     const body=JSON.stringify(parametros);
     return this.http.post(this.baseURL + 'reporte_parqueos',body, this.headers_token);
+  }
+  get_geocercas(){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'lista_geocercas', this.headers_token);
+  }
+  post_geocerca(geocerca:GeocercaModelo){
+    this.actualizar_accesos();
+    const body=JSON.stringify(geocerca);
+    return this.http.post(this.baseURL + 'post_geocerca',body,this.headers_token);
+  }
+  post_area(geocerca:GeocercaModelo){
+    this.actualizar_accesos();
+    const body=JSON.stringify(geocerca);
+    return this.http.post(this.baseURL + 'post_area',body,this.headers_token);
+  }
+  eliminar_geocerca(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'eliminar_geocerca/' + id, this.headers_token);
   }
 }

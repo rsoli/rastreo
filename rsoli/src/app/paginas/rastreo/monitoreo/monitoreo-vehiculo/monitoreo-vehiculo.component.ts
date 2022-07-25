@@ -277,6 +277,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     let icon:any;
 
     for (let indice of marcadores.lista_monitoreo_tiempo_real ){
+      
         contador++;
         if(contador==1){
 
@@ -359,6 +360,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
         linea_rutas.push(this.marker.getLatLng());
         lat=indice.latitude;
         lon=indice.longitude;
+
+
     }
 
     if(this.polylines){
@@ -389,8 +392,11 @@ export class MonitoreoVehiculoComponent implements OnInit {
       this.messageService.add({severity: 'info', summary: 'Mensaje', detail: 'No existe datos en la fecha' });
     }
 
-
-
+    //solucion a problema de boton close de popop
+    document.querySelector('.leaflet-pane.leaflet-popup-pane')!.addEventListener('click', event => {
+      event.preventDefault();
+    });
+    
   }
   TiempoInterval(){
       this.id_interval = setInterval(() => {

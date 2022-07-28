@@ -139,6 +139,7 @@ Route::group([
     ], function() {
 
         Route::get('lista_vehiculos/{id}', [VehiculoController::class, 'lista_vehiculos']);
+        Route::get('lista_vehiculos_usuario', [VehiculoController::class, 'lista_vehiculos_usuario']);
         Route::get('get_vehiculo/{id}', [VehiculoController::class, 'get_vehiculo']);
         Route::post('post_vehiculo', [VehiculoController::class, 'post_vehiculo']);
         Route::get('eliminar_vehiculo/{id}', [VehiculoController::class, 'eliminar_vehiculo']);

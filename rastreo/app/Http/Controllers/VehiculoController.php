@@ -183,6 +183,10 @@ class VehiculoController extends Controller
         $vehiculo=DB::select("select
                                 v.id_vehiculo,
                                 v.placa,
+                                v.marca,
+                                v.modelo,
+                                v.color,
+                                v.cilindrada,
                                 v.uniqueid,
                                 v.linea_gps,
                                 v.modelo_gps,

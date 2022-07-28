@@ -171,5 +171,43 @@ class VehiculoController extends Controller
         ];
         return $arrayParametros;
     }
+    public function lista_vehiculos_usuario(Request $request)
+    {
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" us.id in (".$request->user()->id.")";
+        }
+
+        $vehiculo=DB::select("select
+                                v.id_vehiculo,
+                                v.placa,
+                                v.uniqueid,
+                                v.linea_gps,
+                                v.modelo_gps,
+                                v.fecha_registro,
+                                v.id_cliente,
+                                v.id_departamento,
+                                d.nombre_departamento,
+                                us.name as nombre_usuario,
+                                p.nombre nombre_persona,
+                                p.apellido_paterno,
+                                p.apellido_materno
+                                from ras.tvehiculo v
+                                join ras.tdepartamento d on d.id_departamento=v.id_departamento
+                                join ras.tcliente c on c.id_cliente=v.id_cliente
+                                join ras.tpersona p on p.id_persona=c.id_persona
+                                join segu.users us on us.id_persona=p.id_persona
+                                where ".$ids." and us.estado=?
+                                order by p.nombre,p.apellido_paterno,p.apellido_materno asc ",["activo"]);
+
+        $arrayParametros=[
+            'vehiculo'=>$vehiculo
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
 
 }

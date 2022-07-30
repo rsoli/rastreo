@@ -63,6 +63,40 @@ class ServicioController extends Controller
         
         return response()->json($arrayParametros);
     }
+    public function lista_pago_servicio_usuario(Request $request){
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" us.id in (".$request->user()->id.")";
+        }
+
+        $servicio=DB::select("select
+                                p.nombre,
+                                p.apellido_paterno,
+                                p.apellido_materno,
+                                p.ci,
+                                p.celular,
+                                ps.fecha_pago::date,
+                                ps.fecha_inicio::Date,
+                                ps.fecha_fin::Date,
+                                ps.cantidad_vehiculos,
+                                ps.precio_mensual,
+                                ps.sub_total
+                            from  ras.tcliente c
+                                join ras.tservicio s on s.id_cliente=c.id_cliente
+                                join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
+                                join ras.tpersona p on p.id_persona=c.id_persona
+                                join segu.users us on us.id_persona=p.id_persona
+                            where ".$ids." and us.estado=?
+                            order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",["activo"]);
+
+        $arrayParametros=[
+            'pago_servicio'=>$servicio
+        ];
+
+        return response()->json($arrayParametros);
+    }
     public function filtros_monitoreo(Request $request){
 
 

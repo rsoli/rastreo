@@ -126,4 +126,407 @@ class Controller extends BaseController
         return $bandera;
     }
 
+    //////////////////////////////////////// Api traccar  /////////////////////////////////////////
+
+    public function post_geocerca($cookies,$nombre_geocerca,$description,$area_geocerca){
+
+        $id='-1';
+        $name=$nombre_geocerca;
+        $description=$description;
+        $area=$area_geocerca;
+        $calendarId='0';
+        $attributes='{}';
+
+        $data='{
+                "id":'.$id.',
+                "name":"'.$name.'",
+                "description":"'.$description.'",
+                "area":"'.$area.'",
+                "calendarId":'.$calendarId.',
+                "attributes":'.$attributes.
+            '}';
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences',
+
+            CURLOPT_POST=> true,
+
+            CURLOPT_RETURNTRANSFER => true,
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        curl_close($curl);
+    }
+
+    public function put_geocerca($cookies,$id_geocerca,$nombre_geocerca,$description,$area_geocerca){
+
+        $id=$id_geocerca;
+        $name=$nombre_geocerca;
+        $description=$description;
+        $area=$area_geocerca;
+        $calendarId='0';
+        $attributes='{}';
+
+        $data='{
+                "id":'.$id.',
+                "name":"'.$name.'",
+                "description":"'.$description.'",
+                "area":"'.$area.'",
+                "calendarId":'.$calendarId.',
+                "attributes":'.$attributes.
+            '}';
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences/'.$id,
+
+            //CURLOPT_POST=> true,
+
+            CURLOPT_RETURNTRANSFER => true,
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        curl_close($curl);
+    }
+
+    public function delete_geocerca($cookies,$id){
+
+        $id=$id;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences/'.$id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            //CURLOPT_POSTFIELDS =>  $data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        curl_close($curl);
+
+    }
+
+    public function put_device($cookies,$id_dispositivo,$nombre_dispositivo,$imei){
+
+        $id=$id_dispositivo;
+        $name=$nombre_dispositivo;
+        $uniqueId=$imei;
+        $status='';
+        $disabled='false';
+        $lastUpdate='null';
+        $positionId='0';
+        $groupId='0';
+        $phone='';
+        $model='';
+        $contact='';
+        $category='';
+        $geofenceIds='[0]';
+        $attributes='{}';
+
+        $data='{
+                "id":'.$id.',
+                "name":"'.$name.'",
+                "uniqueId":"'.$uniqueId.'",
+                "status":"'.$status.'",
+                "disabled":"'.$disabled.'",
+                "lastUpdate":"'.$lastUpdate.'",
+                "positionId":'.$positionId.',
+                "groupId":'.$groupId.',
+                "phone":"'.$phone.'",
+                "model":"'.$model.'",
+                "contact":"'.$contact.'",
+                "category":"'.$category.'",
+                "geofenceIds":'.$geofenceIds.',
+                "attributes":'.$attributes.
+            '}';
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/devices/'.$id,
+
+            //CURLOPT_PUT=> true,
+            CURLOPT_RETURNTRANSFER => true,
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        var_dump($res);
+
+        curl_close($curl);
+    }
+
+    public function delete_device($cookies,$id){
+
+
+        $id=$id;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/devices/'.$id,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            //CURLOPT_POSTFIELDS =>  $data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        //echo "string".$response;
+        //$res=json_decode($response, true);
+
+        /*foreach($res as $item) {
+            var_dump($item['name']);
+        }*/
+
+        curl_close($curl);
+
+
+    }
+
+    public function post_device($cookies,$nombre_dispositivo,$imei){
+
+
+        $id='-1';
+        $name=$nombre_dispositivo;
+        $uniqueId=$imei;
+        $status='';
+        $disabled='false';
+        $lastUpdate='null';
+        $positionId='0';
+        $groupId='0';
+        $phone='';
+        $model='';
+        $contact='';
+        $category='';
+        $geofenceIds='[0]';
+        $attributes='{}';
+
+        $data='{
+                "id":'.$id.',
+                "name":"'.$name.'",
+                "uniqueId":"'.$uniqueId.'",
+                "status":"'.$status.'",
+                "disabled":"'.$disabled.'",
+                "lastUpdate":"'.$lastUpdate.'",
+                "positionId":'.$positionId.',
+                "groupId":'.$groupId.',
+                "phone":"'.$phone.'",
+                "model":"'.$model.'",
+                "contact":"'.$contact.'",
+                "category":"'.$category.'",
+                "geofenceIds":'.$geofenceIds.',
+                "attributes":'.$attributes.
+            '}';
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/devices',
+
+            CURLOPT_POST=> true,
+
+            CURLOPT_RETURNTRANSFER => true,
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        curl_close($curl);
+
+    }
+
+    public function get_device($cookies){
+
+        //echo($cookies);
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/devices',
+            CURLOPT_RETURNTRANSFER => true,
+
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
+
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_POSTFIELDS => 'email=admin&password=75319462',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        foreach($res as $item) {
+            var_dump($item['name']);
+        }
+
+
+        //var_dump($cookies);
+
+        curl_close($curl);
+
+    }
+
+    public function iniciar_sesion(){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/session',
+            CURLOPT_RETURNTRANSFER => true,
+
+            curl_setopt($curl, CURLOPT_HEADER, 1),
+
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => 'email=admin&password=75319462',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded',
+                // 'Cookie: JSESSIONID=node0spbxks097p05bxx5mupjqry13638.node0'
+                "Cookie: Name=Value",
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $response, $matches);
+        $cookies = array();
+        foreach($matches[1] as $item) {
+            parse_str($item, $cookie);
+            $cookies = array_merge($cookies, $cookie);
+        }
+        //var_dump($response);
+        //var_dump($cookies);
+
+        curl_close($curl);
+
+        return $cookies;
+    }
+
+    public function cerrar_sesion($cookies){
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://rsoli.com:8082/api/session',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            //CURLOPT_POSTFIELDS =>  $data,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        curl_close($curl);
+    }
+
 }

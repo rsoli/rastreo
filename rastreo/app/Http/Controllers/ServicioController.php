@@ -205,7 +205,7 @@ class ServicioController extends Controller
                             from public.tc_geofences g
                             join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
                             join segu.users us on us.id=ug.id_usuario
-                            where ".$ids."  ");
+                            where ".$ids."  order by g.id desc ");
 
         $arrayParametros=[
             'lista_geocercas'=>$geocerca
@@ -214,25 +214,33 @@ class ServicioController extends Controller
         return response()->json($arrayParametros);
     }
     public function post_geocerca(Request $request){
+
         $validacion = $this->validar_geocerca($request);
+        $coockies = $this->iniciar_sesion_traccar();
+
         if($request->id==0){
             if((bool)$validacion["validacion"]==true){
 
-                DB::insert('insert into public.tc_geofences (name,description,area) values(?,?,?);',[$request->nombre_geocerca,$request->descripcion," "]); 
+                $this->post_geocerca_traccar($coockies,$request->nombre_geocerca,$request->descripcion,$request->area);
+                //DB::insert('insert into public.tc_geofences (name,description,area) values(?,?,?);',[$request->nombre_geocerca,$request->descripcion,$request->area]);
                 $id_geocerca=DB::select('select max(g.id)::integer as id_geocerca from public.tc_geofences g');
-                DB::insert('insert into public.tc_user_geofence (userid,geofenceid) values(1,?);',[(int)$id_geocerca[0]->id_geocerca]); 
-                DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca) values(?,?);',[($request->user()->id),(int)$id_geocerca[0]->id_geocerca]);     
+                //DB::insert('insert into public.tc_user_geofence (userid,geofenceid) values(1,?);',[(int)$id_geocerca[0]->id_geocerca]);
+                DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca,tipo_geocerca) values(?,?,?);',[($request->user()->id),(int)$id_geocerca[0]->id_geocerca,$request->tipo_geocerca]);
             
             }
-          
         }
         else{
             if((bool)$validacion["validacion"]==true){
-                DB::update('update public.tc_geofences set name =?,description=? where id=?; ',[$request->nombre_geocerca,$request->descripcion,$request->id]);
-        
+
+                $this->put_geocerca_traccar($coockies,$request->id,$request->nombre_geocerca,$request->descripcion,$request->area);
+                //DB::update('update public.tc_geofences set name =?,description=? ,area=? where id=?; ',[$request->nombre_geocerca,$request->descripcion,$request->area,$request->id]);
+                DB::update('update ras.tusuario_geocerca set tipo_geocerca=? where id_geocerca = ?;',[$request->tipo_geocerca,$request->id]);
             }
             
         }
+
+        $this->cerrar_sesion_traccar($coockies);
+
         $arrayParametros=[
             'mensaje'=>$validacion["mensaje"],
             'validacion'=>$validacion["validacion"]
@@ -249,34 +257,12 @@ class ServicioController extends Controller
         ];
         return $arrayParametros;
     }
-    public function post_area(Request $request){
-
-        $validacion = $this->validar_geocerca($request);
-
-        if((bool)$validacion["validacion"]==true){
-            DB::update('update public.tc_geofences set area =? where id=?; ',[$request->area,$request->id]);
-            DB::update('update ras.tusuario_geocerca set tipo_geocerca =? where id_geocerca=?; ',[$request->tipo_geocerca,$request->id]);
-        }
-       
-        $arrayParametros=[
-            'mensaje'=>$validacion["mensaje"],
-            'validacion'=>$validacion["validacion"]
-        ]; 
-
-        return response()->json($arrayParametros);
-
-    }
-    public function validar_area($request){
-        $mensaje=[];
-        $validacion=true;
-        $arrayParametros=[
-            'mensaje'=>$mensaje,
-            'validacion'=>$validacion
-        ];
-        return $arrayParametros;
-    }
     public function eliminar_geocerca($id){
-        db::delete('delete from public.tc_geofences where id=? ',[$id]);
+
+        $coockies = $this->iniciar_sesion_traccar();
+        $this->delete_geocerca_traccar($coockies,$id);
+        $this->cerrar_sesion_traccar($coockies);
+        //db::delete('delete from public.tc_geofences where id=? ',[$id]);
 
         $arrayParametros=[
             'mensaje'=>"ok"

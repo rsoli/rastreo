@@ -126,9 +126,9 @@ class Controller extends BaseController
         return $bandera;
     }
 
-    //////////////////////////////////////// Api traccar  /////////////////////////////////////////
+    /*                      Servicio de traccar         */
 
-    public function post_geocerca($cookies,$nombre_geocerca,$description,$area_geocerca){
+    public function post_geocerca_traccar($cookies,$nombre_geocerca,$description,$area_geocerca){
 
         $id='-1';
         $name=$nombre_geocerca;
@@ -177,7 +177,7 @@ class Controller extends BaseController
         curl_close($curl);
     }
 
-    public function put_geocerca($cookies,$id_geocerca,$nombre_geocerca,$description,$area_geocerca){
+    public function put_geocerca_traccar($cookies,$id_geocerca,$nombre_geocerca,$description,$area_geocerca){
 
         $id=$id_geocerca;
         $name=$nombre_geocerca;
@@ -201,10 +201,8 @@ class Controller extends BaseController
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://rsoli.com:8082/api/geofences/'.$id,
 
-            //CURLOPT_POST=> true,
 
             CURLOPT_RETURNTRANSFER => true,
-            //curl_setopt($curl, CURLOPT_HEADER, 1),
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
@@ -226,7 +224,7 @@ class Controller extends BaseController
         curl_close($curl);
     }
 
-    public function delete_geocerca($cookies,$id){
+    public function delete_geocerca_traccar($cookies,$id){
 
         $id=$id;
         $curl = curl_init();
@@ -240,7 +238,6 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'DELETE',
-            //CURLOPT_POSTFIELDS =>  $data,
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
@@ -254,7 +251,7 @@ class Controller extends BaseController
 
     }
 
-    public function put_device($cookies,$id_dispositivo,$nombre_dispositivo,$imei){
+    public function put_device_traccar($cookies,$id_dispositivo,$nombre_dispositivo,$imei){
 
         $id=$id_dispositivo;
         $name=$nombre_dispositivo;
@@ -295,9 +292,7 @@ class Controller extends BaseController
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://rsoli.com:8082/api/devices/'.$id,
 
-            //CURLOPT_PUT=> true,
             CURLOPT_RETURNTRANSFER => true,
-            //curl_setopt($curl, CURLOPT_HEADER, 1),
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
@@ -321,7 +316,7 @@ class Controller extends BaseController
         curl_close($curl);
     }
 
-    public function delete_device($cookies,$id){
+    public function delete_device_traccar($cookies,$id){
 
 
         $id=$id;
@@ -344,19 +339,14 @@ class Controller extends BaseController
         ));
 
         $response = curl_exec($curl);
-        //echo "string".$response;
-        //$res=json_decode($response, true);
 
-        /*foreach($res as $item) {
-            var_dump($item['name']);
-        }*/
 
         curl_close($curl);
 
 
     }
 
-    public function post_device($cookies,$nombre_dispositivo,$imei){
+    public function post_device_traccar($cookies,$nombre_dispositivo,$imei){
 
 
         $id='-1';
@@ -401,7 +391,6 @@ class Controller extends BaseController
             CURLOPT_POST=> true,
 
             CURLOPT_RETURNTRANSFER => true,
-            //curl_setopt($curl, CURLOPT_HEADER, 1),
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
@@ -424,16 +413,13 @@ class Controller extends BaseController
 
     }
 
-    public function get_device($cookies){
+    public function get_device_traccar($cookies){
 
-        //echo($cookies);
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://rsoli.com:8082/api/devices',
             CURLOPT_RETURNTRANSFER => true,
-
-            //curl_setopt($curl, CURLOPT_HEADER, 1),
 
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -456,14 +442,11 @@ class Controller extends BaseController
             var_dump($item['name']);
         }
 
-
-        //var_dump($cookies);
-
         curl_close($curl);
 
     }
 
-    public function iniciar_sesion(){
+    public function iniciar_sesion_traccar(){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -495,15 +478,13 @@ class Controller extends BaseController
             parse_str($item, $cookie);
             $cookies = array_merge($cookies, $cookie);
         }
-        //var_dump($response);
-        //var_dump($cookies);
 
         curl_close($curl);
 
         return $cookies;
     }
 
-    public function cerrar_sesion($cookies){
+    public function cerrar_sesion_traccar($cookies){
 
         $curl = curl_init();
 
@@ -516,7 +497,6 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'DELETE',
-            //CURLOPT_POSTFIELDS =>  $data,
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
@@ -525,8 +505,8 @@ class Controller extends BaseController
 
         $response = curl_exec($curl);
 
-
         curl_close($curl);
     }
+
 
 }

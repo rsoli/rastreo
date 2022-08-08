@@ -311,7 +311,7 @@ class Controller extends BaseController
         $res=json_decode($response, true);
 
 
-        var_dump($res);
+        //var_dump($res);
 
         curl_close($curl);
     }

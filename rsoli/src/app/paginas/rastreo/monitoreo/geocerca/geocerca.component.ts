@@ -9,6 +9,7 @@ import { Router} from '@angular/router';
 import {ModalGeocercaComponent} from '../modal-geocerca/modal-geocerca.component';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-geocerca',
   templateUrl: './geocerca.component.html',
@@ -41,35 +42,68 @@ export class GeocercaComponent implements OnInit {
         this.cargar_areas();
 
 		this.GetGeocercas();
+		
     }
 	FormularioGeocerca(id:number){
-		this.BorrarToast();
 
+		this.BorrarToast();
+		/*this.router.navigate(['/rastreo/formulario_geocerca'],  
+		{ queryParams: 
+			{ 
+				id: id , 
+				nombre_geocerca:this.geocerca_seleccionado.nombre_geocerca ,
+				area:this.geocerca_seleccionado.area ,
+				descripcion:this.geocerca_seleccionado.descripcion ,
+				tipo_geocerca:this.geocerca_seleccionado.tipo_geocerca,
+				titulo_formulario:''
+			} 
+		} ); */
+
+
+
+		
 		if(id==0){
 		  let nuevo_geocerca =new GeocercaModelo();
-		  this.modalRef = this.modalService.show(ModalGeocercaComponent);
-		  this.modalRef.content.titulo="Nuevo geocerca";
-		  this.modalRef.content.persona=nuevo_geocerca;
-	  
-		  this.modalRef.onHide?.subscribe((reasor: string|any)=>{
-			this.GetGeocercas();
-		  });
+		//   this.modalRef = this.modalService.show(ModalGeocercaComponent);
+		//   this.modalRef.content.titulo="Nuevo geocerca";
+		//   this.modalRef.content.persona=nuevo_geocerca;
+
+		  this.router.navigate(['/rastreo/formulario_geocerca'],  
+		  { queryParams: 
+			  { 
+				  id: 0 , 
+				  nombre_geocerca:nuevo_geocerca.nombre_geocerca ,
+				  area:nuevo_geocerca.area ,
+				  descripcion:nuevo_geocerca.descripcion ,
+				  tipo_geocerca:nuevo_geocerca.tipo_geocerca,
+				  titulo_formulario:'Nuevo geocerca'
+			  } 
+		  } ); 
+		 
 		}else{
 		   if(this.geocerca_seleccionado.id==0){
 		 	this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un geocerca para editar'});
 		   }else{
-		 	this.modalRef = this.modalService.show(ModalGeocercaComponent);
-		 	this.modalRef.content.titulo="Editar geocerca";
-		 	this.modalRef.content.geocerca=this.geocerca_seleccionado;
-		 	this.modalRef.content.IniciarFormulario();
+		 	// this.modalRef = this.modalService.show(ModalGeocercaComponent);
+		 	// this.modalRef.content.titulo="Editar geocerca";
+		 	// this.modalRef.content.geocerca=this.geocerca_seleccionado;
+		 	// this.modalRef.content.IniciarFormulario();
+			 this.router.navigate(['/rastreo/formulario_geocerca'],  
+			 { queryParams: 
+				 { 
+					 id: this.geocerca_seleccionado.id , 
+					 nombre_geocerca:this.geocerca_seleccionado.nombre_geocerca ,
+					 area:this.geocerca_seleccionado.area ,
+					 descripcion:this.geocerca_seleccionado.descripcion ,
+					 tipo_geocerca:this.geocerca_seleccionado.tipo_geocerca,
+					 titulo_formulario:'Editar geocerca'
+				 } 
+			 } ); 
 			
-			
-		 	this.modalRef.onHide?.subscribe((reasor: string|any)=>{
-		 	  this.GetGeocercas();
-		 	});
 		   }
 	
 		}
+		
 	
 	}
 	EliminarGeocerca(){

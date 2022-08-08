@@ -19,7 +19,6 @@ import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
 //import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ModalGeocercaComponent } from './monitoreo/modal-geocerca/modal-geocerca.component';
-import { ModalAreaComponent } from './monitoreo/modal-area/modal-area.component';
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
 
 
@@ -34,7 +33,6 @@ import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/for
     ModalVehiculoComponent,
     GeocercaComponent,
     ModalGeocercaComponent,
-    ModalAreaComponent,
     FormularioGeocercaComponent
   ],
   imports: [

@@ -48,11 +48,6 @@ export class MonitoreoService {
     const body=JSON.stringify(geocerca);
     return this.http.post(this.baseURL + 'post_geocerca',body,this.headers_token);
   }
-  post_area(geocerca:GeocercaModelo){
-    this.actualizar_accesos();
-    const body=JSON.stringify(geocerca);
-    return this.http.post(this.baseURL + 'post_area',body,this.headers_token);
-  }
   eliminar_geocerca(id:number){
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'eliminar_geocerca/' + id, this.headers_token);

@@ -4,7 +4,6 @@ import { MonitoreoService } from '../monitoreo.service';
 import { GeocercaModelo } from '../geocerca-model';
 import { MessageService } from 'primeng/api';
 
-import {ModalAreaComponent} from '../modal-area/modal-area.component';
 import { Router} from '@angular/router';
 import {ModalGeocercaComponent} from '../modal-geocerca/modal-geocerca.component';
 import Swal from 'sweetalert2';
@@ -39,7 +38,6 @@ export class GeocercaComponent implements OnInit {
 	) { }
 
     ngOnInit(): void {
-        this.cargar_areas();
 
 		this.GetGeocercas();
 		
@@ -132,7 +130,7 @@ export class GeocercaComponent implements OnInit {
 		}else{  
 		  this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un geocerca para eliminar'});
 		}
-	  }
+	}
 
 	BorrarToast() {
 		this.messageService.clear();
@@ -149,25 +147,6 @@ export class GeocercaComponent implements OnInit {
 		this.geocerca_seleccionado=lista_geocercas;
 		this.messageService.add({severity: 'info', summary: 'Geocerca seleccionado', detail: (this.geocerca_seleccionado.nombre_geocerca).toString() });
 	}
-	DibujarArea(){
-		this.BorrarToast();
-		
-		if(this.geocerca_seleccionado.id==0){
-			this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un geocerca'});
-		}else{
-			this.router.navigate(['/rastreo/area',this.geocerca_seleccionado.id]); 
-		}		  
-	}
-    cargar_areas() {
-        this.tipo_area = [
-        { nombre: 'Polígono', code: 'poligono' },
-        { nombre: 'Circulo', code: 'circulo' },
-        { nombre: 'Rectangulo', code: 'regtangulo' },
-        ];
-    }
-    aplicar_filtros(){
-
-    }
 	loading_alert(){
 		Swal.fire({
 		  title: 'Verificando datos',

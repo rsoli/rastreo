@@ -79,6 +79,7 @@ class VehiculoController extends Controller
 
     public function post_vehiculo(Request $request){
         $validacion = $this->validar_vehiculo($request);
+        $coockies = $this->iniciar_sesion_traccar();
 
         if($request->id_vehiculo==0){
             if((bool)$validacion["validacion"]==true){
@@ -86,10 +87,16 @@ class VehiculoController extends Controller
                 fecha_registro,id_cliente,id_departamento)
                 values(?,?,?,?,now()::timestamp,?,?)
                 ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento]);
+                $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
             }
         }
         else{
             if((bool)$validacion["validacion"]==true){
+
+                $uniqueid=DB::select('select v.uniqueid from ras.tvehiculo v where v.id_vehiculo = ? ',[(int)$request->id_vehiculo]);
+                $id_geocerca = DB::select('select id from public.tc_devices where uniqueid=? ',[$uniqueid[0]->uniqueid]);
+                $this->put_device_traccar($coockies,(int)$id_geocerca[0]->id,$request->placa,$request->uniqueid);
+
                 DB::update('update ras.tvehiculo 
                 set placa=?,
                 uniqueid=?,
@@ -100,9 +107,11 @@ class VehiculoController extends Controller
                 id_departamento= ?
                 where id_vehiculo=?',
                 [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,(int)$request->id_vehiculo]);
-                
+
             }
         }
+
+        $this->cerrar_sesion_traccar($coockies);
 
         $arrayParametros=[
         'mensaje'=>$validacion["mensaje"],
@@ -164,7 +173,17 @@ class VehiculoController extends Controller
         return $arrayParametros;
     }
     public function eliminar_vehiculo($id){
+
+        $coockies = $this->iniciar_sesion_traccar();
+
+        $uniqueid=DB::select('select v.uniqueid from ras.tvehiculo v where v.id_vehiculo = ? ',[$id]);
+
+        $id_geocerca = DB::select('select id from public.tc_devices where uniqueid=? ',[$uniqueid[0]->uniqueid]);
+        $this->delete_device_traccar($coockies,(int)$id_geocerca[0]->id );
+
         db::update('delete from ras.tvehiculo  where id_vehiculo = ? ',[$id]);
+
+        $this->cerrar_sesion_traccar($coockies);
 
         $arrayParametros=[
           'mensaje'=>"ok"

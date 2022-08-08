@@ -92,7 +92,6 @@ Route::group([
         Route::post('reporte_parqueos', [ServicioController::class, 'reporte_parqueos']);
         Route::get('lista_geocercas', [ServicioController::class, 'lista_geocercas']);
         Route::post('post_geocerca', [ServicioController::class, 'post_geocerca']);
-        Route::post('post_area', [ServicioController::class, 'post_area']);  
         Route::get('eliminar_geocerca/{id}', [ServicioController::class, 'eliminar_geocerca']);
         Route::get('lista_pago_servicio_usuario', [ServicioController::class, 'lista_pago_servicio_usuario']);
         

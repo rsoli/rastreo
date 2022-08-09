@@ -38,6 +38,64 @@
                     </span>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <label style="margin: 0px;padding: 0px;">
+                    <span style="color: red;" *ngIf="form_vehiculo.controls['marca'].errors" >*</span>
+                    <span style="color: green;" *ngIf="!form_vehiculo.controls['marca'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                    Marca
+                    </label>
+             
+                    <input type="text" pInputText formControlName="marca"> 
+                    <span class=" form-error text-danger small" *ngIf="form_vehiculo.controls['marca'].errors?.maxlength">
+                        Máximo caracteres permitidos 20
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label style="margin: 0px;padding: 0px;">
+                    <span style="color: red;" *ngIf="form_vehiculo.controls['modelo'].errors" >*</span>
+                    <span style="color: green;" *ngIf="!form_vehiculo.controls['modelo'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                    Modelo
+                    </label>
+             
+                    <input type="text" pInputText formControlName="modelo"> 
+                    <span class=" form-error text-danger small" *ngIf="form_vehiculo.controls['modelo'].errors?.maxlength">
+                        Máximo caracteres permitidos 20
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label style="margin: 0px;padding: 0px;">
+                    <span style="color: red;" *ngIf="form_vehiculo.controls['color'].errors" >*</span>
+                    <span style="color: green;" *ngIf="!form_vehiculo.controls['color'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                    Color
+                    </label>
+             
+                    <input type="text" pInputText formControlName="color"> 
+                    <span class=" form-error text-danger small" *ngIf="form_vehiculo.controls['color'].errors?.maxlength">
+                        Máximo caracteres permitidos 20
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label style="margin: 0px;padding: 0px;">
+                    <span style="color: red;" *ngIf="form_vehiculo.controls['cilindrada'].errors" >*</span>
+                    <span style="cilindrada: green;" *ngIf="!form_vehiculo.controls['cilindrada'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                    Cilindrada
+                    </label>
+             
+                    <input type="text" pInputText formControlName="cilindrada"> 
+                    <span class=" form-error text-danger small" *ngIf="form_vehiculo.controls['cilindrada'].errors?.maxlength">
+                        Máximo caracteres permitidos 10
+                    </span>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <label style="margin: 0px;padding: 0px;">

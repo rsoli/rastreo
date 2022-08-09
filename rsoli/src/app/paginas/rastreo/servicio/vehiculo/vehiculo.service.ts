@@ -36,5 +36,8 @@ export class VehiculoService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'eliminar_vehiculo/' + id, this.headers_token);
   }
-
+  get_vehiculos_usuario(){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'lista_vehiculos_usuario', this.headers_token);
+  }
 }

@@ -7,6 +7,8 @@ import { ListaClienteComponent } from './servicio/cliente/lista-cliente/lista-cl
 import { ListaVehiculoComponent } from './servicio/vehiculo/lista-vehiculo/lista-vehiculo.component';
 import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
+import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
+
 
 const routes: Routes = [
   {
@@ -36,6 +38,10 @@ const routes: Routes = [
   {
     path: 'formulario_geocerca',
     component: FormularioGeocercaComponent
+  },
+  {
+    path: 'lista_vehiculo',
+    component: VehiculoComponent
   },
   {
     path: '**',

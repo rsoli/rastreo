@@ -36,18 +36,31 @@ export class ModalVehiculoComponent implements OnInit {
       this.form_vehiculo = new FormGroup({
         lista_departamento_seleccionados: new FormControl(this.lista_departamento_seleccionados, [Validators.required]),
         placa: new FormControl(this.vehiculo.placa, [Validators.required,Validators.maxLength(10)]),
+
+        marca: new FormControl(this.vehiculo.marca, [Validators.maxLength(20)]),
+        modelo: new FormControl(this.vehiculo.modelo, [Validators.maxLength(20)]),
+        color: new FormControl(this.vehiculo.color, [Validators.maxLength(20)]),
+        cilindrada: new FormControl(this.vehiculo.cilindrada, [Validators.maxLength(10)]),
+
         uniqueid: new FormControl(this.vehiculo.uniqueid, [Validators.required,Validators.maxLength(20)]),
         linea_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(10)]),
-        modelo_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(20)]),
+        modelo_gps: new FormControl(this.vehiculo.modelo_gps, [Validators.required,Validators.maxLength(20)]),
         
       }); 
     }else{
        this.form_vehiculo = new FormGroup({
         lista_departamento_seleccionados: new FormControl(this.lista_departamento_seleccionados, [Validators.required]),
         placa: new FormControl(this.vehiculo.placa, [Validators.required,Validators.maxLength(10)]),
+
+        marca: new FormControl(this.vehiculo.marca, [Validators.maxLength(20)]),
+        modelo: new FormControl(this.vehiculo.modelo, [Validators.maxLength(20)]),
+        color: new FormControl(this.vehiculo.color, [Validators.maxLength(20)]),
+        cilindrada: new FormControl(this.vehiculo.cilindrada, [Validators.maxLength(10)]),
+
+
         uniqueid: new FormControl(this.vehiculo.uniqueid, [Validators.required,Validators.maxLength(20)]),
         linea_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(10)]),
-        modelo_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(20)]),
+        modelo_gps: new FormControl(this.vehiculo.modelo_gps, [Validators.required,Validators.maxLength(20)]),
        }); 
     }
   }
@@ -86,6 +99,13 @@ export class ModalVehiculoComponent implements OnInit {
 
       this.vehiculo.id_departamento=this.form_vehiculo.controls.lista_departamento_seleccionados.value.id_departamento;
       this.vehiculo.placa=this.form_vehiculo.controls.placa.value;
+
+      this.vehiculo.marca=this.form_vehiculo.controls.marca.value;
+      this.vehiculo.modelo=this.form_vehiculo.controls.modelo.value;
+      this.vehiculo.color=this.form_vehiculo.controls.color.value;
+      this.vehiculo.cilindrada=this.form_vehiculo.controls.cilindrada.value;
+
+
       this.vehiculo.uniqueid=this.form_vehiculo.controls.uniqueid.value;
 
       this.vehiculo.linea_gps=this.form_vehiculo.controls.linea_gps.value;

@@ -51,6 +51,12 @@
                     <tr>
                         <th>Nro</th>
                         <th pSortableColumn="placa">Placa<p-sortIcon field="placa"></p-sortIcon></th>
+
+                        <th pSortableColumn="marca">Marca<p-sortIcon field="marca"></p-sortIcon></th>
+                        <th pSortableColumn="modelo">Modelo<p-sortIcon field="modelo"></p-sortIcon></th>
+                        <th pSortableColumn="color">Color<p-sortIcon field="color"></p-sortIcon></th>
+                        <th pSortableColumn="cilindrada">Cilindrada<p-sortIcon field="cilindrada"></p-sortIcon></th>
+
                         <th pSortableColumn="uniqueid">Imei<p-sortIcon field="uniqueid"></p-sortIcon></th>
                         <th pSortableColumn="modelo_gps">Modelo Gps<p-sortIcon field="modelo_gps"></p-sortIcon></th>
                         <th pSortableColumn="linea_gps">Línea gps<p-sortIcon field="linea_gps"></p-sortIcon></th>
@@ -61,6 +67,12 @@
                     <tr (click)="SeleccionarVehiculo(lista_vehiculos)" >
                         <td scope="persw">{{rowIndex+1}}</td>
                         <td>{{lista_vehiculos.placa}}</td>
+
+                        <td>{{lista_vehiculos.marca}}</td>
+                        <td>{{lista_vehiculos.modelo}}</td>
+                        <td>{{lista_vehiculos.color}}</td>
+                        <td>{{lista_vehiculos.cilindrada}}</td>
+
                         <td>{{lista_vehiculos.uniqueid}}</td>
                         <td>{{lista_vehiculos.modelo_gps}}</td>
                         <td>{{lista_vehiculos.linea_gps}}</td>

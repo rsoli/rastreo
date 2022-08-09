@@ -16,6 +16,12 @@ class VehiculoController extends Controller
         $vehiculo=DB::select("select  
         v.id_vehiculo,
         v.placa,
+        
+        v.marca,
+        v.modelo,
+        v.color,
+        v.cilindrada,
+        
         v.uniqueid,
         v.linea_gps,
         v.modelo_gps,
@@ -40,6 +46,12 @@ class VehiculoController extends Controller
         $vehiculo=DB::select("select  
         v.id_vehiculo,
         v.placa,
+        
+        v.marca,
+        v.modelo,
+        v.color,
+        v.cilindrada,
+        
         v.uniqueid,
         v.linea_gps,
         v.modelo_gps,
@@ -84,9 +96,9 @@ class VehiculoController extends Controller
         if($request->id_vehiculo==0){
             if((bool)$validacion["validacion"]==true){
                 DB::insert('insert into ras.tvehiculo(placa,uniqueid,linea_gps,modelo_gps,
-                fecha_registro,id_cliente,id_departamento)
-                values(?,?,?,?,now()::timestamp,?,?)
-                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento]);
+                fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada)
+                values(?,?,?,?,now()::timestamp,?,?,?,?,?,?)
+                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada]);
                 $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
             }
         }
@@ -104,9 +116,13 @@ class VehiculoController extends Controller
                 modelo_gps= ?,
                 fecha_registro= now()::timestamp,
                 id_cliente= ?,
-                id_departamento= ?
+                id_departamento= ?,
+                marca = ?,
+                modelo = ?,
+                color = ?,
+                cilindrada = ?
                 where id_vehiculo=?',
-                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,(int)$request->id_vehiculo]);
+                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_vehiculo]);
 
             }
         }

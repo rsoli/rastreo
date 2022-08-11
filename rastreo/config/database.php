@@ -66,7 +66,7 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('134.122.21.117', '134.122.21.117'),
+            'host' => env('154.53.46.118', '154.53.46.118'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('bd_rastreo', 'bd_rastreo'),
             'username' => env('postgres', 'postgres'),

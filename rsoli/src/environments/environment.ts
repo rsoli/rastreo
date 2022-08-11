@@ -9,8 +9,8 @@ export const environment = {
   // apiUrl: "http://192.81.210.243:81/api"
 
   //apiUrl: "http://134.122.21.117:81/api"
-  apiUrl: "https://rsoli.com/rastreo/rastreo/public/api"
-
+  //apiUrl: "https://rsoli.com/rastreo/rastreo/public/api"
+  apiUrl: "http://154.53.46.118/rastreo/rastreo/public/api"
 };
 
 /*

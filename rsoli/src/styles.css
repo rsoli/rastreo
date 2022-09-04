@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6{
   /*   
     color:#fff !important; */
     font-size: 20px !important;
-    font-weight: 800 !important;
+    font-weight: 545 !important; 
     padding-top: 15px !important;
     
   }
@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6{
   h4 {
     font-size: 18px;
     text-transform: uppercase;
-    font-weight: 800 !important; 
+    font-weight: 545 !important; 
     color: #000;
   }
   
@@ -113,10 +113,10 @@ h1, h2, h3, h4, h5, h6{
     display: block !important;
 }
 
-.btn_inicio_sesion{
+/* .btn_inicio_sesion{
     width: 100px !important;
-}
- @media only screen and (max-width: 738px) {
+} */
+ /* @media only screen and (max-width: 738px) {
     .btn_inicio_sesion {
         width: 140px !important;
     }
@@ -126,7 +126,7 @@ h1, h2, h3, h4, h5, h6{
     .btn_inicio_sesion {
         width: 140px !important;
     }
-} 
+}  */
 
 
 /* side bar derecha */

@@ -196,6 +196,17 @@ class ServicioController extends Controller
             $ids=" ug.id_usuario in (".$request->user()->id.")";
         }
 
+        $query_notificacion = "select
+        n.id as id_notificacion,
+        case when n.type = 'geofenceExit' then 'Salio del geocerca'
+        when n.type = 'geofenceEnter' then 'Entro al geocerca'
+        when n.type = 'deviceOverspeed' then 'Exceso de velocidad'
+        when n.type = 'maintenance' then 'Mantenimineto'
+        when n.type = 'alarm' then 'Alarmas' else n.type end as notificacion
+        from public.tc_notifications n ";
+        
+        $lista_notificacion =DB::select($query_notificacion);
+
         $geocerca=DB::select("select g.id,
                             g.name::varchar as nombre_geocerca,
                             g.description::varchar as descripcion,
@@ -208,7 +219,8 @@ class ServicioController extends Controller
                             where ".$ids."  order by g.id desc ");
 
         $arrayParametros=[
-            'lista_geocercas'=>$geocerca
+            'lista_geocercas'=>$geocerca,
+            'lista_notificacion'=>$lista_notificacion 
         ];
         
         return response()->json($arrayParametros);

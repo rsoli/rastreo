@@ -52,5 +52,12 @@ export class MonitoreoService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'eliminar_geocerca/' + id, this.headers_token);
   }
+  post_geocerca_notificacion(parametros:any){
+
+    this.actualizar_accesos();
+    const body=JSON.stringify(parametros);
+    return this.http.post(this.baseURL + 'geocerca_notificacion',body, this.headers_token);
+
+  }
   
 }

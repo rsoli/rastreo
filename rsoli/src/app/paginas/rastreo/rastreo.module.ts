@@ -21,6 +21,7 @@ import { LeafletDrawModule } from '@asymmetrik/ngx-leaflet-draw';
 import { ModalGeocercaComponent } from './monitoreo/modal-geocerca/modal-geocerca.component';
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
 import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
+import { VehiculoGeocercaComponent } from './monitoreo/vehiculo-geocerca/vehiculo-geocerca.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
     GeocercaComponent,
     ModalGeocercaComponent,
     FormularioGeocercaComponent,
-    VehiculoComponent
+    VehiculoComponent,
+    VehiculoGeocercaComponent
   ],
   imports: [
     CommonModule,

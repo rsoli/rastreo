@@ -5,6 +5,9 @@ import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Router} from '@angular/router';
 
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { VehiculoGeocercaComponent} from '../vehiculo-geocerca/vehiculo-geocerca.component';
+
 @Component({
   selector: 'app-vehiculo',
   templateUrl: './vehiculo.component.html',
@@ -17,10 +20,13 @@ export class VehiculoComponent implements OnInit {
   lista_vehiculos :Array<VehiculoModelo>=[];
   vehiculo_seleccionado=new VehiculoModelo();
 
+  public modalRef!: BsModalRef;
+
   constructor(
     private monitoreo_servicio:VehiculoService,
     private router: Router,
     private messageService: MessageService,
+	private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -38,48 +44,21 @@ export class VehiculoComponent implements OnInit {
 		this.vehiculo_seleccionado=lista_vehiculos;
 		this.messageService.add({severity: 'info', summary: 'Vehículo seleccionado', detail: (this.vehiculo_seleccionado.placa).toString() });
 	}
-	FormularioVehiculo(id:number){
+	FormularioGeocerca(){
 
 		this.BorrarToast();
+		if(this.vehiculo_seleccionado.id_vehiculo!=0){
+			this.modalRef = this.modalService.show(VehiculoGeocercaComponent);
+			this.modalRef.content.titulo="Geocerca";
+			// this.modalRef.content.persona=nuevo_persona;
+			// this.modalRef.content.CargarValores();
+			this.modalRef.onHide?.subscribe((reasor: string|any)=>{
+			   this.GetVehiculoss();
+			 });
+		}else{
+			this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un vehículo'});
+		}
 
-
-		
-		// if(id==0){
-		//   let nuevo_geocerca =new VehiculoModelo();
-
-		//   this.router.navigate(['/rastreo/formulario_geocerca'],  
-		//   { queryParams: 
-		// 	  { 
-		// 		  id: 0 , 
-		// 		  nombre_geocerca:nuevo_geocerca.nombre_geocerca ,
-		// 		  area:nuevo_geocerca.area ,
-		// 		  descripcion:nuevo_geocerca.descripcion ,
-		// 		  tipo_geocerca:nuevo_geocerca.tipo_geocerca,
-		// 		  titulo_formulario:'Nuevo geocerca'
-		// 	  } 
-		//   } ); 
-		 
-		// }else{
-		//    if(this.vehiculo_seleccionado.id==0){
-		//  	this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un geocerca para editar'});
-		//    }else{
-		// 	 this.router.navigate(['/rastreo/formulario_geocerca'],  
-		// 	 { queryParams: 
-		// 		 { 
-		// 			 id: this.vehiculo_seleccionado.id , 
-		// 			 nombre_geocerca:this.vehiculo_seleccionado.nombre_geocerca ,
-		// 			 area:this.vehiculo_seleccionado.area ,
-		// 			 descripcion:this.vehiculo_seleccionado.descripcion ,
-		// 			 tipo_geocerca:this.vehiculo_seleccionado.tipo_geocerca,
-		// 			 titulo_formulario:'Editar geocerca'
-		// 		 } 
-		// 	 } ); 
-			
-		//    }
-	
-		// }
-		
-	
 	}
 	EliminarVehiculo(){
 		this.BorrarToast();

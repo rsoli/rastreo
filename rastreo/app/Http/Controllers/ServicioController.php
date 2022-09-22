@@ -355,12 +355,32 @@ class ServicioController extends Controller
 
         $coockies = $this->iniciar_sesion_traccar();
 
+
         $longitud_geocerca = count($request->lista_geocercas_seleccionados);
         $deviceid =DB::select("
         select d.id as deviceid
         from public.tc_devices d
         join ras.tvehiculo v on v.uniqueid=d.uniqueid
         where v.id_vehiculo = ?",[(int)$request->id_vehiculo]);
+
+        
+        $lista_eliminar_geocerca=DB::select("
+                                    select deviceid,geofenceid from tc_device_geofence where deviceid =?
+                                    ",[(int)$deviceid[0]->deviceid]);
+
+        for ($i=0; $i < count($lista_eliminar_geocerca); $i++) { 
+
+            $this->delete_permissions_geocerca_device((int)$lista_eliminar_geocerca[$i]->deviceid,(int)$lista_eliminar_geocerca[$i]->geofenceid); 
+        }
+
+        $lista_eliminar_notificacion=DB::select("
+                                    select deviceid,notificationid from tc_device_notification where deviceid = ?
+                                    ",[(int)$deviceid[0]->deviceid]);
+
+        for ($i=0; $i < count($lista_eliminar_notificacion); $i++) { 
+
+            $this->delete_permissions_geocerca_device((int)$lista_eliminar_notificacion[$i]->deviceid,(int)$lista_eliminar_notificacion[$i]->notificationid); 
+        }
 
         //DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
         for($i=0; $i<$longitud_geocerca; $i++){      

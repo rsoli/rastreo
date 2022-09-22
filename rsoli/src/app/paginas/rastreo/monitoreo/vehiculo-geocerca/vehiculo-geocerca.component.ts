@@ -85,8 +85,10 @@ export class VehiculoGeocercaComponent implements OnInit {
       // contrasena: new FormControl(this.usuario.password, [Validators.required,Validators.minLength(8),Validators.maxLength(50)]),
       // repetir_contrasena: new FormControl('', [Validators.required,Validators.minLength(8),Validators.maxLength(50)]),
       // email: new FormControl(this.usuario.email, [Validators.required,Validators.maxLength(50),Validators.email]),
-      lista_geocercas_seleccionados: new FormControl(this.lista_geocercas_seleccionados, [Validators.required]),
-      lista_notificacion_seleccionados: new FormControl(this.lista_notificacion_seleccionados, [Validators.required]),
+      //lista_geocercas_seleccionados: new FormControl(this.lista_geocercas_seleccionados, [Validators.required]),
+      //lista_notificacion_seleccionados: new FormControl(this.lista_notificacion_seleccionados, [Validators.required]),
+      lista_geocercas_seleccionados: new FormControl(this.lista_geocercas_seleccionados),
+      lista_notificacion_seleccionados: new FormControl(this.lista_notificacion_seleccionados),
     }); 
 
     // if(this.usuario.id_usuario==0){

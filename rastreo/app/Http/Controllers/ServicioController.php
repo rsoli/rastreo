@@ -372,14 +372,21 @@ class ServicioController extends Controller
         }
 
 
-        $mensaje=[];
-        $validacion=true;
-
+        $validacion = $this->validar_geocercas_seleccionados($request);
         $arrayParametros=[
             'mensaje'=>$validacion["mensaje"],
             'validacion'=>$validacion["validacion"]
         ]; 
 
         return response()->json($arrayParametros);
+    }
+    public function validar_geocercas_seleccionados($request){
+        $mensaje=[];
+        $validacion=true;
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+        return $arrayParametros;
     }
 }

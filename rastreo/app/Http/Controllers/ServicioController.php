@@ -353,6 +353,8 @@ class ServicioController extends Controller
     }
     public function post_geocercas_seleccionados (Request $request){
 
+        $coockies = $this->iniciar_sesion_traccar();
+
         $longitud_geocerca = count($request->lista_geocercas_seleccionados);
         $deviceid =DB::select("
         select d.id as deviceid
@@ -360,19 +362,22 @@ class ServicioController extends Controller
         join ras.tvehiculo v on v.uniqueid=d.uniqueid
         where v.id_vehiculo = ?",[(int)$request->id_vehiculo]);
 
-        DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
+        //DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
         for($i=0; $i<$longitud_geocerca; $i++){      
-            DB::insert('insert into public.tc_device_geofence (deviceid,geofenceid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_geocercas_seleccionados[$i]["id"]]);
+            //DB::insert('insert into public.tc_device_geofence (deviceid,geofenceid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_geocercas_seleccionados[$i]["id"]]);
+            $this->post_permissions_geocerca_device($coockies, (int)$deviceid[0]->deviceid, (int)$request->lista_geocercas_seleccionados[$i]["id"]);
         }
 
         $longitud_notificaciones = count($request->lista_notificaciones_seleccionados);
-        DB::delete("delete from public.tc_device_notification where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
+        //DB::delete("delete from public.tc_device_notification where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
         for($i=0; $i<$longitud_notificaciones; $i++){      
-            DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_notificaciones_seleccionados[$i]["id_notificacion"]]);
+            $this->post_permissions_notificacion_device($coockies, (int)$deviceid[0]->deviceid, (int)$request->lista_notificaciones_seleccionados[$i]["id_notificacion"]);
+            //DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_notificaciones_seleccionados[$i]["id_notificacion"]]);
         }
 
-
         $validacion = $this->validar_geocercas_seleccionados($request);
+
+        $this->cerrar_sesion_traccar($coockies);
         $arrayParametros=[
             'mensaje'=>$validacion["mensaje"],
             'validacion'=>$validacion["validacion"]

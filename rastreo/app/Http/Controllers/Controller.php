@@ -521,15 +521,8 @@ class Controller extends BaseController
         $managedUserId='0';
 
         $data='{
-                "userId":'.$userId.',
                 "deviceId":'.$deviceId.',
-                "groupId":'.$groupId.',
-                "geofenceId":'.$geofenceId.',
-                "notificationId":'.$notificationId.',
-                "calendarId":'.$calendarId.',
-                "attributeId":'.$attributeId.',
-                "driverId":'.$driverId.',
-                "managedUserId":'.$managedUserId.
+                "notificationId":'.$notificationId.
             '}';
 
         //$data2 = array('deviceId' => $deviceId, 'notificationId' => $notificationId);
@@ -564,6 +557,55 @@ class Controller extends BaseController
         curl_close($curl);
 
     }
+    public function delete_permissions_notificacion_device($cookies,$deviceId,$notificationId){
+
+        $userId='0';
+        $deviceId=$deviceId;
+        $groupId='0';
+        $geofenceId='0';
+        $notificationId=$notificationId;
+        $calendarId='0';
+        $attributeId='0';
+        $driverId='0';
+        $managedUserId='0';
+
+        $data='{
+                "deviceId":'.$deviceId.',
+                "notificationId":'.$notificationId.
+            '}';
+
+        //$data2 = array('deviceId' => $deviceId, 'notificationId' => $notificationId);
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://kolosu.com:8082/api/permissions',
+
+            CURLOPT_POST=> true,
+
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        curl_close($curl);
+
+    }
     public function post_permissions_geocerca_device($cookies,$deviceId,$geofenceId){
 
         $userId='0';
@@ -577,15 +619,8 @@ class Controller extends BaseController
         $managedUserId='0';
 
         $data='{
-                "userId":'.$userId.',
                 "deviceId":'.$deviceId.',
-                "groupId":'.$groupId.'",
-                "geofenceId":'.$geofenceId.',
-                "notificationId":'.$notificationId.'",
-                "calendarId":'.$calendarId.'",
-                "attributeId":'.$attributeId.',
-                "driverId":'.$driverId.',
-                "managedUserId":'.$managedUserId.
+                "geofenceId":'.$geofenceId.
             '}';
 
         //$data2 = array('deviceId' => $deviceId, 'geofenceId' => $geofenceId);
@@ -605,6 +640,55 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>  $data,
+
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $res=json_decode($response, true);
+
+
+        curl_close($curl);
+
+    }
+    public function delete_permissions_geocerca_device($cookies,$deviceId,$geofenceId){
+
+        $userId='0';
+        $deviceId=$deviceId;
+        $groupId='0';
+        $geofenceId=$geofenceId;
+        $notificationId='0';
+        $calendarId='0';
+        $attributeId='0';
+        $driverId='0';
+        $managedUserId='0';
+
+        $data='{
+                "deviceId":'.$deviceId.',
+                "geofenceId":'.$geofenceId.
+            '}';
+
+        //$data2 = array('deviceId' => $deviceId, 'geofenceId' => $geofenceId);
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://kolosu.com:8082/api/permissions',
+
+            CURLOPT_POST=> true,
+
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
             CURLOPT_POSTFIELDS =>  $data,
 
             CURLOPT_HTTPHEADER => array(

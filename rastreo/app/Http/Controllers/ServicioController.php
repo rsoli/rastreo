@@ -282,5 +282,85 @@ class ServicioController extends Controller
         
         return $arrayParametros;
     }
+    public function lista_geocercas_seleccionados (Request $request){
 
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" ug.id_usuario in (".$request->user()->id.")";
+        }
+
+        $query_notificacion = "select
+        n.id as id_notificacion,
+        case when n.type = 'geofenceExit' then 'Salio del geocerca'
+        when n.type = 'geofenceEnter' then 'Entro al geocerca'
+        when n.type = 'deviceOverspeed' then 'Exceso de velocidad'
+        when n.type = 'maintenance' then 'Mantenimineto'
+        when n.type = 'alarm' then 'Alarmas' else n.type end as notificacion
+        from public.tc_notifications n ";
+
+        $query_notificacion_seleccionados ="select
+        n.id as id_notificacion,
+        case when n.type = 'geofenceExit' then 'Salio del geocerca'
+             when n.type = 'geofenceEnter' then 'Entro al geocerca'
+             when n.type = 'deviceOverspeed' then 'Exceso de velocidad'
+             when n.type = 'maintenance' then 'Mantenimineto'
+             when n.type = 'alarm' then 'Alarmas' else n.type end as notificacion
+
+        from public.tc_notifications n
+        join public.tc_device_notification dn on dn.notificationid = n.id
+        join public.tc_devices d on d.id=dn.deviceid
+        join ras.tvehiculo v on v.uniqueid=d.uniqueid
+        where v.id_vehiculo = ? ";
+        
+        $lista_notificacion =DB::select($query_notificacion);
+        $lista_notificacion_seleccionados =DB::select($query_notificacion_seleccionados,[$request->id_vehiculo]);
+
+        $geocerca=DB::select("select g.id,
+                            g.name::varchar as nombre_geocerca,
+                            g.description::varchar as descripcion,
+                            g.area,
+                            us.name as usuario,
+                            ug.tipo_geocerca
+                            from public.tc_geofences g
+                            join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                            join segu.users us on us.id=ug.id_usuario
+                            where ".$ids."  order by g.id desc ");
+
+        $lista_geocercas_seleccionados=DB::select("select g.id,
+                            g.name::varchar as nombre_geocerca,
+                            g.description::varchar as descripcion,
+                            g.area ,
+                            us.name as usuario ,
+                            ug.tipo_geocerca
+                            from public.tc_geofences g
+                            join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                            join segu.users us on us.id=ug.id_usuario
+                            join public.tc_device_geofence dg on dg.geofenceid=g.id
+                            join public.tc_devices d on d.id=dg.deviceid
+                            join ras.tvehiculo v on v.uniqueid=d.uniqueid
+                            where v.id_vehiculo = ? ",[$request->id_vehiculo]);
+
+        $arrayParametros=[
+            'lista_geocercas'=>$geocerca,
+            'lista_geocercas_seleccionados'=>$lista_geocercas_seleccionados,
+            'lista_notificacion'=>$lista_notificacion,
+            'lista_notificacion_seleccionados'=>$lista_notificacion_seleccionados 
+        ];
+        
+        return response()->json($arrayParametros);
+    }
+    public function post_geocercas_seleccionados (Request $request){
+        $longitud_geocerca = count($request->lista_geocercas_seleccionados);
+        DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$request->deviceid]);
+        for($i=0; $i<$longitud_geocerca; $i++){      
+            DB::insert('insert into public.tc_device_geofence (deviceid,geofenceid) values(?,?)',[(int)$request->lista_geocercas_seleccionados[$i]["deviceid"],(int)$request->lista_geocercas_seleccionados[$i]["geofenceid"]]);
+        }
+
+        $longitud_notificaciones = count($request->lista_notificaciones_seleccionados);
+        DB::delete("delete from public.tc_device_notification where deviceid = ? ",[(int)$request->deviceid]);
+        for($i=0; $i<$longitud_notificaciones; $i++){      
+            DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$request->lista_notificaciones_seleccionados[$i]["deviceid"],(int)$request->lista_notificaciones_seleccionados[$i]["notificationid"]]);
+        }
+    }
 }

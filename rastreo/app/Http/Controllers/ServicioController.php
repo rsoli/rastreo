@@ -282,7 +282,7 @@ class ServicioController extends Controller
         
         return $arrayParametros;
     }
-    public function lista_geocercas_seleccionados (Request $request){
+    public function lista_geocercas_seleccionados (Request $request ,$id_vehiculo){
 
         if($this->es_admin($request->user()->id)==true){
             $ids=" 0=0 ";
@@ -299,7 +299,10 @@ class ServicioController extends Controller
         when n.type = 'alarm' then 'Alarmas' else n.type end as notificacion
         from public.tc_notifications n ";
 
-        $query_notificacion_seleccionados ="select
+        
+        $lista_notificacion =DB::select($query_notificacion);
+        
+        $lista_notificacion_seleccionados =DB::select("select
         n.id as id_notificacion,
         case when n.type = 'geofenceExit' then 'Salio del geocerca'
              when n.type = 'geofenceEnter' then 'Entro al geocerca'
@@ -311,10 +314,8 @@ class ServicioController extends Controller
         join public.tc_device_notification dn on dn.notificationid = n.id
         join public.tc_devices d on d.id=dn.deviceid
         join ras.tvehiculo v on v.uniqueid=d.uniqueid
-        where v.id_vehiculo = ? ";
-        
-        $lista_notificacion =DB::select($query_notificacion);
-        $lista_notificacion_seleccionados =DB::select($query_notificacion_seleccionados,[$request->id_vehiculo]);
+        where v.id_vehiculo = ? ",[$id_vehiculo]);
+
 
         $geocerca=DB::select("select g.id,
                             g.name::varchar as nombre_geocerca,
@@ -339,7 +340,7 @@ class ServicioController extends Controller
                             join public.tc_device_geofence dg on dg.geofenceid=g.id
                             join public.tc_devices d on d.id=dg.deviceid
                             join ras.tvehiculo v on v.uniqueid=d.uniqueid
-                            where v.id_vehiculo = ? ",[$request->id_vehiculo]);
+                            where v.id_vehiculo = ? ",[$id_vehiculo]);
 
         $arrayParametros=[
             'lista_geocercas'=>$geocerca,

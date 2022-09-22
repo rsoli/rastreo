@@ -94,7 +94,7 @@ Route::group([
         Route::post('post_geocerca', [ServicioController::class, 'post_geocerca']);
         Route::get('eliminar_geocerca/{id}', [ServicioController::class, 'eliminar_geocerca']);
         Route::get('lista_pago_servicio_usuario', [ServicioController::class, 'lista_pago_servicio_usuario']);
-        Route::post('lista_geocercas_seleccionados', [ServicioController::class, 'lista_geocercas_seleccionados']);
+        Route::get('lista_geocercas_seleccionados', [ServicioController::class, 'lista_geocercas_seleccionados']);
         Route::post('post_geocercas_seleccionados', [ServicioController::class, 'post_geocercas_seleccionados']);
     });
 });

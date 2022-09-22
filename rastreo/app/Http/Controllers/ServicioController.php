@@ -301,7 +301,7 @@ class ServicioController extends Controller
 
         
         $lista_notificacion =DB::select($query_notificacion);
-        
+
         $lista_notificacion_seleccionados =DB::select("select
         n.id as id_notificacion,
         case when n.type = 'geofenceExit' then 'Salio del geocerca'
@@ -363,5 +363,16 @@ class ServicioController extends Controller
         for($i=0; $i<$longitud_notificaciones; $i++){      
             DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$request->lista_notificaciones_seleccionados[$i]["deviceid"],(int)$request->lista_notificaciones_seleccionados[$i]["notificationid"]]);
         }
+
+
+        $mensaje=[];
+        $validacion=true;
+
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ]; 
+        
+        return response()->json($arrayParametros);
     }
 }

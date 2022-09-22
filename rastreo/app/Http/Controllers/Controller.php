@@ -150,7 +150,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences',
+            CURLOPT_URL => 'http://kolosu.com:8082/api/geofences',
 
             CURLOPT_POST=> true,
 
@@ -199,7 +199,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences/'.$id,
+            CURLOPT_URL => 'http://kolosu.com:8082/api/geofences/'.$id,
 
 
             CURLOPT_RETURNTRANSFER => true,
@@ -230,7 +230,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/geofences/'.$id,
+            CURLOPT_URL => 'http://kolosu.com:8082/api/geofences/'.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -290,7 +290,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/devices/'.$id,
+            CURLOPT_URL => 'http://kolosu.com:8082/api/devices/'.$id,
 
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
@@ -323,7 +323,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/devices/'.$id,
+            CURLOPT_URL => 'http://kolosu.com:8082/api/devices/'.$id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -386,7 +386,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/devices',
+            CURLOPT_URL => 'http://kolosu.com:8082/api/devices',
 
             CURLOPT_POST=> true,
 
@@ -418,7 +418,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/devices',
+            CURLOPT_URL => 'http://kolosu.com:8082/api/devices',
             CURLOPT_RETURNTRANSFER => true,
 
             CURLOPT_ENCODING => '',
@@ -450,7 +450,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/session',
+            CURLOPT_URL => 'http://kolosu.com:8082/api/session',
             CURLOPT_RETURNTRANSFER => true,
 
             curl_setopt($curl, CURLOPT_HEADER, 1),
@@ -489,7 +489,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://rsoli.com:8082/api/session',
+            CURLOPT_URL => 'http://kolosu.com:8082/api/session',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

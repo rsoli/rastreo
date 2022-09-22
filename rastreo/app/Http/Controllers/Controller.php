@@ -532,6 +532,7 @@ class Controller extends BaseController
                 "managedUserId":"'.$managedUserId.
             '}';
 
+        $data2 = array('deviceId' => $deviceId, 'notificationId' => $notificationId);
 
 
         $curl = curl_init();
@@ -548,7 +549,7 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>  $data,
+            CURLOPT_POSTFIELDS =>  $data2,
 
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
@@ -587,6 +588,7 @@ class Controller extends BaseController
                 "managedUserId":"'.$managedUserId.
             '}';
 
+        $data2 = array('deviceId' => $deviceId, 'geofenceId' => $geofenceId);
 
 
         $curl = curl_init();
@@ -603,7 +605,7 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>  $data,
+            CURLOPT_POSTFIELDS =>  $data2,
 
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',

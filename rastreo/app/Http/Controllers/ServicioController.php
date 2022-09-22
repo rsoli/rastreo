@@ -365,7 +365,7 @@ class ServicioController extends Controller
 
         
         $lista_eliminar_geocerca=DB::select("
-                                    select deviceid,geofenceid from tc_device_geofence where deviceid =?
+                                    select deviceid,geofenceid from public.tc_device_geofence where deviceid =?
                                     ",[(int)$deviceid[0]->deviceid]);
 
         for ($i=0; $i < count($lista_eliminar_geocerca); $i++) { 
@@ -374,7 +374,7 @@ class ServicioController extends Controller
         }
 
         $lista_eliminar_notificacion=DB::select("
-                                    select deviceid,notificationid from tc_device_notification where deviceid = ?
+                                    select deviceid,notificationid from public.tc_device_notification where deviceid = ?
                                     ",[(int)$deviceid[0]->deviceid]);
 
         for ($i=0; $i < count($lista_eliminar_notificacion); $i++) { 

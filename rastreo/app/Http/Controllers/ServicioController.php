@@ -352,16 +352,23 @@ class ServicioController extends Controller
         return response()->json($arrayParametros);
     }
     public function post_geocercas_seleccionados (Request $request){
+
         $longitud_geocerca = count($request->lista_geocercas_seleccionados);
-        DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$request->deviceid]);
+        $deviceid =DB::select("
+        select d.id as deviceid
+        from public.tc_devices d
+        join ras.tvehiculo v on v.uniqueid=d.uniqueid
+        where v.id_vehiculo = ?",[(int)$request->id_vehiculo]);
+
+        DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
         for($i=0; $i<$longitud_geocerca; $i++){      
-            DB::insert('insert into public.tc_device_geofence (deviceid,geofenceid) values(?,?)',[(int)$request->lista_geocercas_seleccionados[$i]["deviceid"],(int)$request->lista_geocercas_seleccionados[$i]["geofenceid"]]);
+            DB::insert('insert into public.tc_device_geofence (deviceid,geofenceid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_geocercas_seleccionados[$i]["id"]]);
         }
 
         $longitud_notificaciones = count($request->lista_notificaciones_seleccionados);
-        DB::delete("delete from public.tc_device_notification where deviceid = ? ",[(int)$request->deviceid]);
+        DB::delete("delete from public.tc_device_notification where deviceid = ? ",[(int)$deviceid[0]->deviceid]);
         for($i=0; $i<$longitud_notificaciones; $i++){      
-            DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$request->lista_notificaciones_seleccionados[$i]["deviceid"],(int)$request->lista_notificaciones_seleccionados[$i]["notificationid"]]);
+            DB::insert('insert into public.tc_device_notification (deviceid,notificationid) values(?,?)',[(int)$deviceid[0]->deviceid,(int)$request->lista_notificaciones_seleccionados[$i]["id_notificacion"]]);
         }
 
 
@@ -372,7 +379,7 @@ class ServicioController extends Controller
             'mensaje'=>$validacion["mensaje"],
             'validacion'=>$validacion["validacion"]
         ]; 
-        
+
         return response()->json($arrayParametros);
     }
 }

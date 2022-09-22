@@ -56,8 +56,12 @@ export class MonitoreoService {
 
     this.actualizar_accesos();
     const body=JSON.stringify(parametros);
-    return this.http.post(this.baseURL + 'geocerca_notificacion',body, this.headers_token);
+    return this.http.post(this.baseURL + 'post_geocercas_seleccionados',body, this.headers_token);
 
+  }
+  get_geocercas_seleccionado(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'lista_geocercas_seleccionados/' + id, this.headers_token);
   }
   
 }

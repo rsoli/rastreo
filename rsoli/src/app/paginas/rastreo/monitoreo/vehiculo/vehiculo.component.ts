@@ -51,7 +51,7 @@ export class VehiculoComponent implements OnInit {
 			this.modalRef = this.modalService.show(VehiculoGeocercaComponent);
 			this.modalRef.content.titulo="Geocerca";
 			// this.modalRef.content.persona=nuevo_persona;
-			// this.modalRef.content.CargarValores();
+			this.modalRef.content.set_valores_iniciales(this.vehiculo_seleccionado.id_vehiculo);
 			this.modalRef.onHide?.subscribe((reasor: string|any)=>{
 			   this.GetVehiculoss();
 			 });

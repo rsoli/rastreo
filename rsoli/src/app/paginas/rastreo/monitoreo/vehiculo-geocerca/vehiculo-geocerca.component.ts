@@ -14,6 +14,8 @@ import { GeocercaModelo } from '../geocerca-model';
 export class VehiculoGeocercaComponent implements OnInit {
 
   @Input() titulo: string = "";
+  id_vehiculo:number = 0;
+
   form_geocerca!: FormGroup;
 
   lista_geocercas :Array<GeocercaModelo>=[];
@@ -29,20 +31,26 @@ export class VehiculoGeocercaComponent implements OnInit {
     public bsModalRef: BsModalRef,
     private monitoreo_servicio:MonitoreoService,
 
-  ) { }
+  ) {
+    
+   }
 
   ngOnInit(): void {
-    this.GetGeocercas();
+    
     this.IniciarFormulario();
   }
+  set_valores_iniciales(id:number){
+
+    this.id_vehiculo = id;
+    this.GetGeocercas();
+    
+
+  }
   GuardarGeocerca(){
-    console.log("geocercas ",this.form_geocerca.controls.lista_geocercas_seleccionados.value );
-    console.log("notificaciones ",this.form_geocerca.controls.lista_notificacion_seleccionados.value);
-
-    var geocerca=this.form_geocerca.controls.lista_geocercas_seleccionados.value ;
-    var notificacion=this.form_geocerca.controls.lista_notificacion_seleccionados.value;
-
-    this.monitoreo_servicio.post_geocerca_notificacion([{geocercas:geocerca,notificaciones:notificacion }]).subscribe(data=>{
+    this.loading();
+    let lista_geocercas=this.form_geocerca.controls.lista_geocercas_seleccionados.value;
+    let lista_notificaciones = this.form_geocerca.controls.lista_notificacion_seleccionados.value;
+    this.monitoreo_servicio.post_geocerca_notificacion({id_vehiculo:this.id_vehiculo,lista_notificaciones_seleccionados:lista_notificaciones,lista_geocercas_seleccionados:lista_geocercas}).subscribe(data=>{
       this.close();
       if(JSON.parse(JSON.stringify(data)).mensaje[0]){
         this.error('Error!!',JSON.parse(JSON.stringify(data)).mensaje[0]);
@@ -54,15 +62,17 @@ export class VehiculoGeocercaComponent implements OnInit {
       this.error("Error","Verifique su conexion a internet");
       console.log(error);
     });
-
   }
 	GetGeocercas(){
     this.loading();
-		this.monitoreo_servicio.get_geocercas().subscribe(data=>{
+		this.monitoreo_servicio.get_geocercas_seleccionado(this.id_vehiculo).subscribe(data=>{
 			this.close();
 			this.lista_geocercas=JSON.parse(JSON.stringify(data)).lista_geocercas;
+      this.lista_geocercas_seleccionados=JSON.parse(JSON.stringify(data)).lista_geocercas_seleccionados;
       this.lista_notificacion=JSON.parse(JSON.stringify(data)).lista_notificacion ;
-			console.log("ver res ",this.lista_notificacion );
+      this.lista_notificacion_seleccionados=JSON.parse(JSON.stringify(data)).lista_notificacion_seleccionados ;
+			console.log("ver res ultimo ",data );
+      this.IniciarFormulario();
 		  },
       error=>{
         console.log("ver errores ",error);
@@ -100,6 +110,7 @@ export class VehiculoGeocercaComponent implements OnInit {
     // }
 
   }
+
   loading(){
     Swal.fire({
       title: 'Verificando datos',

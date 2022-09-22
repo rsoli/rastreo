@@ -370,7 +370,7 @@ class ServicioController extends Controller
 
         for ($i=0; $i < count($lista_eliminar_geocerca); $i++) { 
 
-            $this->delete_permissions_geocerca_device((int)$lista_eliminar_geocerca[$i]->deviceid,(int)$lista_eliminar_geocerca[$i]->geofenceid); 
+            $this->delete_permissions_geocerca_device($cookies,(int)$lista_eliminar_geocerca[$i]->deviceid,(int)$lista_eliminar_geocerca[$i]->geofenceid); 
         }
 
         $lista_eliminar_notificacion=DB::select("
@@ -379,7 +379,7 @@ class ServicioController extends Controller
 
         for ($i=0; $i < count($lista_eliminar_notificacion); $i++) { 
 
-            $this->delete_permissions_geocerca_device((int)$lista_eliminar_notificacion[$i]->deviceid,(int)$lista_eliminar_notificacion[$i]->notificationid); 
+            $this->delete_permissions_geocerca_device($cookies,(int)$lista_eliminar_notificacion[$i]->deviceid,(int)$lista_eliminar_notificacion[$i]->notificationid); 
         }
 
         //DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);

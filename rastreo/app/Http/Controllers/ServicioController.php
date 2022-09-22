@@ -379,7 +379,7 @@ class ServicioController extends Controller
 
         for ($i=0; $i < count($lista_eliminar_notificacion); $i++) { 
 
-            $this->delete_permissions_geocerca_device($coockies,(int)$lista_eliminar_notificacion[$i]->deviceid,(int)$lista_eliminar_notificacion[$i]->notificationid); 
+            $this->delete_permissions_notificacion_device($coockies,(int)$lista_eliminar_notificacion[$i]->deviceid,(int)$lista_eliminar_notificacion[$i]->notificationid); 
         }
 
         //DB::delete("delete from public.tc_device_geofence where deviceid = ? ",[(int)$deviceid[0]->deviceid]);

@@ -263,6 +263,21 @@ class ServicioController extends Controller
     public function validar_geocerca($request){
         $mensaje=[];
         $validacion=true;
+
+
+        $cantidad_geocerca=DB::select("select count(*) as cantidad
+        from public.tc_geofences g
+                 join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                 join segu.users us on us.id=ug.id_usuario
+        where us.id = ? ",[(int)$request->user()->id]);
+
+        if($request->id==0){//para nuevo geocerca
+            if((int)($cantidad_geocerca[0]->cantidad) > 4){ //limite de geocerca 5 por usuario solo validamos en registros nuevos
+                array_push($mensaje,'El limite de geocercas es de 5 por usuario, para incrementar el limite de geocerca contactese con el administrador ');
+                $validacion=false;
+            }
+        }
+
         $arrayParametros=[
             'mensaje'=>$mensaje,
             'validacion'=>$validacion

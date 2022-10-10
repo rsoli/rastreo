@@ -69,6 +69,7 @@ export class FormularioGeocercaComponent implements OnInit {
 		const { layerType, layer } = e;
 		this.BorrarArea();
 		this.tipo_area="";
+		this.area="";
 		console.log("Layer type ",layerType	);
 		if (layerType === "polygon") {
 			this.tipo_area="Polígono";
@@ -178,6 +179,8 @@ export class FormularioGeocercaComponent implements OnInit {
 		this.titulo=parametros.params.titulo_formulario;
 		this.geocerca.id=parametros.params.id;
 
+		this.area=parametros.params.area; //aux
+
 		//dibujar en mapa
 		if(Number(this.geocerca.id)>0){
 			if(this.tipo_area=='this.tipo_area'){
@@ -285,7 +288,7 @@ export class FormularioGeocercaComponent implements OnInit {
         
     this.geocerca.nombre_geocerca=this.form_geocerca.controls.nombre_geocerca.value;
     this.geocerca.descripcion=this.form_geocerca.controls.descripcion.value;
-	this.geocerca.area=this.form_geocerca.controls.area.value;
+	this.geocerca.area=this.area;
 	this.geocerca.tipo_geocerca=this.tipo_area;
 	console.log("ver res ",this.geocerca);
 	

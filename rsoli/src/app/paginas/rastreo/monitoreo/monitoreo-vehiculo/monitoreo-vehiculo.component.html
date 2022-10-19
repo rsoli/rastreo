@@ -22,7 +22,7 @@
     <div  style="margin-top: 9px;">
             Vehiculo
             <br>
-            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos" [filter]="false" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
             optionLabel="placa">
         </p-multiSelect>
     </div>

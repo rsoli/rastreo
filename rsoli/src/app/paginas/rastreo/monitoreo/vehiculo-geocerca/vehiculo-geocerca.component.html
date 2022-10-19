@@ -15,7 +15,7 @@
                         <span style="color: green;" *ngIf="!form_geocerca.controls['lista_geocercas_seleccionados'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
                         Geocercas
                     </label>
-                    <p-multiSelect [options]="lista_geocercas" formControlName="lista_geocercas_seleccionados" defaultLabel="Seleccionar" display="chip"
+                    <p-multiSelect [options]="lista_geocercas" [filter]="false" formControlName="lista_geocercas_seleccionados" defaultLabel="Seleccionar" display="chip"
                         optionLabel="nombre_geocerca">
                     </p-multiSelect>
                 </div>
@@ -28,7 +28,7 @@
                         <span style="color: green;" *ngIf="!form_geocerca.controls['lista_notificacion_seleccionados'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
                         Notificaciones
                     </label>
-                    <p-multiSelect [options]="lista_notificacion" formControlName="lista_notificacion_seleccionados" defaultLabel="Seleccionar" display="chip"
+                    <p-multiSelect [options]="lista_notificacion" [filter]="false" formControlName="lista_notificacion_seleccionados" defaultLabel="Seleccionar" display="chip"
                         optionLabel="notificacion">
                     </p-multiSelect>
                 </div>

@@ -175,6 +175,7 @@ class ClienteController extends Controller
     public function get_pagos_cliente($id_cliente){
       
         $servicio=DB::select("select
+                                id_pago_servicio,
                                 p.nombre,
                                 p.apellido_paterno,
                                 p.apellido_materno,

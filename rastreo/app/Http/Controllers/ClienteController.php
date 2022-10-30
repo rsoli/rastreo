@@ -185,6 +185,7 @@ class ClienteController extends Controller
                                 ps.fecha_inicio::Date,
                                 ps.fecha_fin::Date,
                                 ps.cantidad_vehiculos,
+                                ps.cantidad_meses,
                                 ps.precio_mensual,
                                 ps.sub_total
                             from  ras.tcliente c

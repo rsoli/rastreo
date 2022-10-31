@@ -228,7 +228,7 @@ class ClienteController extends Controller
         }
 
         if( (int)($request->id_pago_servicio) == 0 ){
-            return $servicio[0]->id_servicio;
+            
             db::insert('INSERT INTO ras.tpago_servicio (precio_mensual,fecha_inicio,fecha_fin,cantidad_vehiculos,cantidad_meses,sub_total,fecha_pago,id_usuario_reg,id_servicio) 
             VALUES (?::NUMERIC,?::TIMESTAMP,?::TIMESTAMP,?::INTEGER,?::INTEGER,?::NUMERIC,NOW()::TIMESTAMP,?,?  ) '
                 ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,(int)$request->user()->id,(int)$servicio[0]->id_servicio ]);

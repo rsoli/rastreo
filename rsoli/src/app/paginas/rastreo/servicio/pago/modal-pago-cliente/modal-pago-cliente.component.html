@@ -1,0 +1,69 @@
+<div class="modal-header" style="border-top: 4px solid #007bff !important;">
+    <h4 class="modal-title pull-left">{{titulo}}</h4>
+
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
+</div>
+
+<form [formGroup]="form_pago" (submit)="GuardarPago()">
+    <div style="padding:20px 40px 20px 40px;" class="modal-body">
+
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Fecha inicio
+                <br>
+                <p-calendar  formControlName="fecha_inicio" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            </div>
+        </div>
+         <div class="row">
+            <div  style="margin-top: 10px;">
+                Fecha fin
+                <br>
+                <p-calendar  formControlName="fecha_fin" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            </div>
+        </div>
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Fecha pago
+                <br>
+                <p-calendar  formControlName="fecha_pago" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            </div>
+        </div> 
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Precio mensual
+                <br>
+                <input type="text" pInputText formControlName="precio_mensual"> 
+            </div>
+        </div>
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Cantidad dispositivos
+                <br>
+                <input type="text" pInputText formControlName="cantidad_vehiculos"> 
+            </div>
+        </div> 
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Cantidad meses
+                <br>
+                <input type="text" pInputText formControlName="cantidad_meses"> 
+            </div>
+        </div> 
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Sub total
+                <br>
+                <input type="text" pInputText formControlName="sub_total"> 
+            </div>
+        </div> 
+    </div>
+    <div class="modal-footer">
+        <div style="padding-left: 2px;">
+            <button pButton pRipple type="submit" label="Guardar" class="p-button-raised" [disabled]="form_pago.invalid" ></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger" (click)="bsModalRef.hide()"></button>
+        </div>
+    </div>
+</form>
+

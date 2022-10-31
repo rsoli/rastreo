@@ -187,7 +187,8 @@ class ClienteController extends Controller
                                 ps.cantidad_vehiculos,
                                 ps.cantidad_meses,
                                 ps.precio_mensual,
-                                ps.sub_total
+                                ps.sub_total,
+                                c.id_cliente
                             from  ras.tcliente c
                                 join ras.tservicio s on s.id_cliente=c.id_cliente
                                 join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
@@ -204,6 +205,8 @@ class ClienteController extends Controller
     }
     public function post_pagos_cliente(Request $request){
 
+        $validacion = $this->validar_pago($request);
+
         $cantidad_servicio=db::select('select count(*) as cantidad
         from ras.tcliente c
         join ras.tservicio s on s.id_cliente = c.id_cliente
@@ -217,7 +220,7 @@ class ClienteController extends Controller
             where c.id_cliente = ?::integer ',[$request->id_cliente]);
         }else{
             db::insert('insert into ras.tservicio (id_cliente,id_usuario_reg,costo_total,fecha_reg,id_tipo_servicio) VALUES (?::integer,?::integer,?::numeric,now()::TIMESTAMP,1 ) ',
-                    [$request->id_cliente,$request->user()->id,$request->sub_total]);
+                [$request->id_cliente,$request->user()->id,$request->sub_total]);
             $servicio=db::select('select s.id_servicio
             from ras.tcliente c
             join ras.tservicio s on s.id_cliente = c.id_cliente
@@ -225,8 +228,10 @@ class ClienteController extends Controller
         }
 
         if( (int)($request->id_cliente) == 0 ){
-            db::insert('INSERT INTO ras.tpago_servicio (precio_mensual,fecha_inicio,fecha_fin,cantidad_vehiculos,cantidad_meses,sub_total,fecha_pago,id_usuario_reg,id_servicio) VALUES (?::NUMERIC,?::TIMESTAMP,?::TIMESTAMP,?::INTEGER,?::INTEGER,?::NUMERIC,NOW()::TIMESTAMP,?,?  ) '
-            ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->user()->id,$servicio[0]->id_servicio ]);
+            return $servicio[0]->id_servicio;
+            db::insert('INSERT INTO ras.tpago_servicio (precio_mensual,fecha_inicio,fecha_fin,cantidad_vehiculos,cantidad_meses,sub_total,fecha_pago,id_usuario_reg,id_servicio) 
+            VALUES (?::NUMERIC,?::TIMESTAMP,?::TIMESTAMP,?::INTEGER,?::INTEGER,?::NUMERIC,NOW()::TIMESTAMP,?,?  ) '
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,(int)$request->user()->id,(int)$servicio[0]->id_servicio ]);
         }else{
             db::insert('UPDATE  ras.tpago_servicio 
             SET precio_mensual = ?,
@@ -237,9 +242,26 @@ class ClienteController extends Controller
             sub_total = ?,
             fecha_pago = NOW()::TIMESTAMP,
             id_servicio = ? '
-            ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$servicio[0]->id_servicio ]);
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$servicio[0]->id_servicio ]);
         }
 
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function validar_pago($request){
+        $mensaje=[];
+        $validacion=true;
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+
+        return $arrayParametros;
     }
     public function eliminar_pagos_cliente($id_pago_servicio){
         db::update('delete from ras.tpago_servicio where id_pago_servicio = ? ',[$id_pago_servicio]);

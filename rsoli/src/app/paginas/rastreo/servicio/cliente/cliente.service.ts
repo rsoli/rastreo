@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { PagosClienteModelo } from '../pago/pago-cliente/pagos-cliente-modelo';
 import { ClienteModelo } from './cliente-modelo';
 
 @Injectable({
@@ -36,5 +37,17 @@ export class ClienteService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'eliminar_cliente/' + id, this.headers_token);
   }
-
+  get_pagos_cliente(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'get_pagos_cliente/'+id, this.headers_token);
+  }
+  post_pagos_cliente(pago:any){
+    this.actualizar_accesos();
+    const body=JSON.stringify(pago);
+    return this.http.post(this.baseURL + 'post_pagos_cliente',body, this.headers_token);
+  }
+  eliminar_pagos_cliente(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'eliminar_pagos_cliente/' + id, this.headers_token);
+  }
 }

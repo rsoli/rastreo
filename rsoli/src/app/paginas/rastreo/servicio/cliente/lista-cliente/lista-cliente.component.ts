@@ -70,6 +70,18 @@ export class ListaClienteComponent implements OnInit {
       }
     }
   }
+  PagosCliente(){
+    this.BorrarToast();
+    if(this.cliente_seleccionado.id_persona){
+
+      this.router.navigate(['/rastreo/pagos_cliente',this.cliente_seleccionado.id_cliente]); 
+
+    }else{  
+
+      this.messageService.add({severity:'warn', summary: 'Alerta', detail: 'Seleccione un cliente para realizar pagos'});
+
+    }
+  }
   EliminarCliente(){
     this.BorrarToast();
     if(this.cliente_seleccionado.id_persona){

@@ -8,6 +8,7 @@ import { ListaVehiculoComponent } from './servicio/vehiculo/lista-vehiculo/lista
 import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
 import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
+import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'lista_vehiculo',
     component: VehiculoComponent
+  },
+  {
+    path: 'pagos_cliente/:id',
+    component: PagoClienteComponent
   },
   {
     path: '**',

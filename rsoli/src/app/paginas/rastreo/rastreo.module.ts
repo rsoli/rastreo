@@ -22,6 +22,8 @@ import { ModalGeocercaComponent } from './monitoreo/modal-geocerca/modal-geocerc
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
 import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
 import { VehiculoGeocercaComponent } from './monitoreo/vehiculo-geocerca/vehiculo-geocerca.component';
+import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.component';
+import { ModalPagoClienteComponent } from './servicio/pago/modal-pago-cliente/modal-pago-cliente.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { VehiculoGeocercaComponent } from './monitoreo/vehiculo-geocerca/vehicul
     ModalGeocercaComponent,
     FormularioGeocercaComponent,
     VehiculoComponent,
-    VehiculoGeocercaComponent
+    VehiculoGeocercaComponent,
+    PagoClienteComponent,
+    ModalPagoClienteComponent
   ],
   imports: [
     CommonModule,

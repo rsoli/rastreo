@@ -276,7 +276,7 @@ class ClienteController extends Controller
 
         $lista_servicios=db::select("select
         s.id_servicio,s.id_cliente,s.costo_total,
-        s.id_tipo_servicio,ts.tipo_servicio
+        s.id_tipo_servicio,ts.tipo_servicio,ts.codigo
         from ras.tservicio s
         join ras.ttipo_servicio ts on ts.id_tipo_servicio=s.id_tipo_servicio
         where s.id_cliente = ? ",[$id_cliente]);

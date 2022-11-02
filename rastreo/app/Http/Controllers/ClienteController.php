@@ -272,4 +272,76 @@ class ClienteController extends Controller
         ];
         return $arrayParametros;
     }
+    public function get_servicios($id_cliente){
+
+        $lista_servicios=db::select("select
+        s.id_servicio,s.id_cliente,s.costo_total,
+        s.id_tipo_servicio,ts.tipo_servicio
+        from ras.tservicio s
+        join ras.ttipo_servicio ts on ts.id_tipo_servicio=s.id_tipo_servicio
+        where s.id_cliente = ? ",[$id_cliente]);
+
+        $lista_tipo_servicio = db::select('select ts.id_tipo_servicio,ts.tipo_servicio,ts.codigo
+        from ras.ttipo_servicio ts');
+
+        $lista_tipo_servicio_seleccionado = db::select('select ts.id_tipo_servicio,ts.tipo_servicio,ts.codigo
+        from ras.ttipo_servicio ts
+        join ras.tservicio s on s.id_tipo_servicio=ts.id_tipo_servicio
+        where s.id_cliente = ?::integer ',[$id_cliente]);
+
+        $arrayParametros=[
+            'lista_servicios'=>$lista_servicios,
+            'lista_tipo_servicio'=>$lista_tipo_servicio,
+            'lista_tipo_servicio_seleccionado'=>$lista_tipo_servicio_seleccionado,
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
+    public function post_servicio(Request $request){
+
+        $validacion = $this->validar_servicio($request);
+
+        if( (int)($request->id_servicio) == 0 ){
+            
+            db::insert('insert into ras.tservicio (id_cliente,id_usuario_reg,costo_total,fecha_reg,id_tipo_servicio)
+            values (?::integer,?::integer,?::numeric,now()::timestamp,?::integer)'
+                ,[(int)$request->id_cliente,(int)$request->user()->id,$request->costo_total,$request->id_tipo_servicio ]);
+        }else{
+            db::insert('update ras.tservicio 
+            id_cliente = ?::integer,
+            id_usuario_mod = ?::integer,
+            costo_total = ?,
+            fecha_mod = now()::timestamp,
+            id_tipo_servicio = ?::integer
+        where id_servicio = ?::integer '
+                ,[(int)$request->id_cliente,(int)$request->user()->id,$request->costo_total,$request->id_tipo_servicio,$request->id_servicio ]);
+        }
+
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function eliminar_servicio($id_servicio){
+        db::update('delete from ras.tservicio where id_servicio = ? ',[$id_servicio]);
+
+        $arrayParametros=[
+          'mensaje'=>"ok"
+        ];
+        return $arrayParametros;
+    }
+    public function validar_servicio($request){
+        $mensaje=[];
+        $validacion=true;
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+
+        return $arrayParametros;
+    }
 }

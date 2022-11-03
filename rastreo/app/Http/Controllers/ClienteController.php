@@ -216,7 +216,7 @@ class ClienteController extends Controller
     public function get_pago_cliente($id_pago_servicio){
 
 
-        $lista_tipo_pago_seleccionado=db:select('select
+        $lista_tipo_pago_seleccionado=db::select('select
                                     ts.id_tipo_servicio,
                                     ts.tipo_servicio,
                                     ts.codigo,

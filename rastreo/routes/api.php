@@ -135,7 +135,7 @@ Route::group([
         Route::get('get_servicios/{id}', [ClienteController::class, 'get_servicios']);
         Route::post('post_servicio', [ClienteController::class, 'post_servicio']);
         Route::get('eliminar_servicio/{id}', [ClienteController::class, 'eliminar_servicio']);
-        Route::get('get_pago_cliente/{id}', [ClienteController::class, 'get_vehiculo']);
+        Route::get('get_pago_cliente/{id}', [ClienteController::class, 'get_pago_cliente']);
 
     });                                                                                                     
 });

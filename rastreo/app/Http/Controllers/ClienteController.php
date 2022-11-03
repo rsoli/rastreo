@@ -197,11 +197,41 @@ class ClienteController extends Controller
                             where c.id_cliente = ?::INTEGER 
                             order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",[$id_cliente]);
 
+        $lista_tipo_servicio=db:select('select
+                            ts.id_tipo_servicio,
+                            ts.tipo_servicio,
+                            ts.codigo,
+                            s.id_servicio
+                        from ras.ttipo_servicio ts
+                        join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+                        where  s.id_cliente = ?::INTEGER ',[$id_cliente]);
+
         $arrayParametros=[
-            'pago_servicio'=>$servicio
+            'pago_servicio'=>$servicio,
+            'lista_tipo_servicio'=>$lista_tipo_servicio
         ];
 
         return response()->json($arrayParametros);
+    }
+    public function get_pago_cliente($id_pago_servicio){
+
+
+        $lista_tipo_pago_seleccionado=db:select('select
+                                    ts.id_tipo_servicio,
+                                    ts.tipo_servicio,
+                                    ts.codigo,
+                                    s.id_servicio
+                                from ras.ttipo_servicio ts
+                                join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+                                join ras.tpago_servicio ps on ps.id_servicio = s.id_servicio
+                                where  ps.id_pago_servicio = ? ',[$id_pago_servicio]);
+
+        $arrayParametros=[
+            'lista_tipo_pago_seleccionado'=>$lista_tipo_pago_seleccionado
+        ];
+
+        return response()->json($arrayParametros);
+
     }
     public function post_pagos_cliente(Request $request){
 
@@ -213,7 +243,7 @@ class ClienteController extends Controller
         where c.id_cliente = ?::integer ',[$request->id_cliente]);
 
         //verificamos que exista un servicio para el cliente y sino insertamos el servicio por defecto tipo_servicio = 1
-        if((int)$cantidad_servicio[0]->cantidad > 0 ){
+        /*if((int)$cantidad_servicio[0]->cantidad > 0 ){
             $servicio=db::select('select s.id_servicio
             from ras.tcliente c
             join ras.tservicio s on s.id_cliente = c.id_cliente
@@ -225,13 +255,13 @@ class ClienteController extends Controller
             from ras.tcliente c
             join ras.tservicio s on s.id_cliente = c.id_cliente
             where c.id_cliente = ?::integer ',[$request->id_cliente]);
-        }
+        }*/
 
         if( (int)($request->id_pago_servicio) == 0 ){
             
             db::insert('INSERT INTO ras.tpago_servicio (precio_mensual,fecha_inicio,fecha_fin,cantidad_vehiculos,cantidad_meses,sub_total,fecha_pago,id_usuario_reg,id_servicio) 
             VALUES (?::NUMERIC,?::TIMESTAMP,?::TIMESTAMP,?::INTEGER,?::INTEGER,?::NUMERIC,?::TIMESTAMP,?,?  ) '
-                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,(int)$request->user()->id,(int)$servicio[0]->id_servicio ]);
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,(int)$request->user()->id,(int)$request->id_servicio ]);
         }else{
             db::insert('UPDATE  ras.tpago_servicio 
             SET precio_mensual = ?,
@@ -243,7 +273,7 @@ class ClienteController extends Controller
             fecha_pago = ?::TIMESTAMP,
             id_servicio = ? 
             where id_pago_servicio = ? '
-                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,$servicio[0]->id_servicio,(int)$request->id_pago_servicio ]);
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,(int)$request->id_servicio,(int)$request->id_pago_servicio ]);
         }
 
         $arrayParametros=[

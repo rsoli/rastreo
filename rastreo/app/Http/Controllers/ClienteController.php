@@ -308,7 +308,7 @@ class ClienteController extends Controller
             values (?::integer,?::integer,?::numeric,now()::timestamp,?::integer)'
                 ,[(int)$request->id_cliente,(int)$request->user()->id,$request->costo_total,$request->id_tipo_servicio ]);
         }else{
-            db::insert('update ras.tservicio 
+            db::insert('update ras.tservicio set
             id_cliente = ?::integer,
             id_usuario_mod = ?::integer,
             costo_total = ?,

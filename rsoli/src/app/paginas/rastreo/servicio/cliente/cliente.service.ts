@@ -41,6 +41,10 @@ export class ClienteService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'get_pagos_cliente/'+id, this.headers_token);
   }
+  get_pago_cliente(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'get_pago_cliente/'+id, this.headers_token);
+  }
   post_pagos_cliente(pago:any){
     this.actualizar_accesos();
     const body=JSON.stringify(pago);
@@ -49,5 +53,18 @@ export class ClienteService {
   eliminar_pagos_cliente(id:number){
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'eliminar_pagos_cliente/' + id, this.headers_token);
+  }
+  get_servicios(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'get_servicios/'+id, this.headers_token);
+  }
+  post_servicio(servicio:any){
+    this.actualizar_accesos();
+    const body=JSON.stringify(servicio);
+    return this.http.post(this.baseURL + 'post_servicio',body, this.headers_token);
+  }
+  eliminar_servicio(id:number){
+    this.actualizar_accesos();
+    return this.http.get(this.baseURL + 'eliminar_servicio/' + id, this.headers_token);
   }
 }

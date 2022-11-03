@@ -9,7 +9,7 @@ import { GeocercaComponent } from './monitoreo/geocerca/geocerca.component';
 import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/formulario-geocerca.component';
 import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
 import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.component';
-
+import { ListaServicioComponent } from './servicio/cliente/lista-servicio/lista-servicio.component';
 
 const routes: Routes = [
   {
@@ -48,6 +48,11 @@ const routes: Routes = [
     path: 'pagos_cliente/:id',
     component: PagoClienteComponent
   },
+  {
+    path: 'lista_servicio/:id',
+    component: ListaServicioComponent
+  },
+  
   {
     path: '**',
     redirectTo: '/shared/slider',

@@ -1,0 +1,47 @@
+<div class="modal-header" style="border-top: 4px solid #007bff !important;">
+    <h4 class="modal-title pull-left">{{titulo}}</h4>
+
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
+</div>
+
+<form [formGroup]="form_servicio" (submit)="GuardarServicio()">
+    <div style="padding:20px 40px 20px 40px;" class="modal-body">
+
+        <div class="col-lg-12">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_servicio.controls['lista_servicios_seleccionados'].errors?.required" >*</span>
+                <span style="color: green;" *ngIf="!form_servicio.controls['lista_servicios_seleccionados'].errors?.required" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Tipo servicio
+            </label>
+            <p-dropdown [options]="lista_servicios" formControlName="lista_servicios_seleccionados" optionLabel="tipo_servicio"
+            [filter]="false" filterBy="tipo_servicio" [showClear]="true" placeholder="Seleccionar" >
+                <!-- <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="lista_servicios_seleccionados">
+                        <div>{{lista_servicios_seleccionados.tipo_servicio}}</div>
+                    </div>
+                </ng-template> -->
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.tipo_servicio}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Precio
+                <br>
+                <input type="text" pInputText formControlName="costo_total"> 
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div style="padding-left: 2px;">
+            <button pButton pRipple type="submit" label="Guardar" class="p-button-raised" [disabled]="form_servicio.invalid" ></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger" (click)="bsModalRef.hide()"></button>
+        </div>
+    </div>
+</form>
+

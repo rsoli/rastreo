@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {ModalPagoClienteComponent} from '../modal-pago-cliente/modal-pago-cliente.component';
 import Swal from 'sweetalert2';
+import { TipoServicioModelo } from '../../../servicio/cliente/tipo-servicio-modelo';
 
 @Component({
   selector: 'app-pago-cliente',
@@ -23,6 +24,7 @@ export class PagoClienteComponent implements OnInit {
   loading: boolean = true;
   pago_seleccionado=new PagosClienteModelo();
   public modalRef!: BsModalRef;
+  lista_tipo_servicio = new TipoServicioModelo();
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +45,8 @@ export class PagoClienteComponent implements OnInit {
     this.cliente_service.get_pagos_cliente(Number(this.id_cliente)).subscribe(data=>{
        this.loading = false;
        this.lista_pagos=JSON.parse(JSON.stringify(data)).pago_servicio;
-       console.log("ver res ",this.lista_pagos);
+       this.lista_tipo_servicio=JSON.parse(JSON.stringify(data)).lista_tipo_servicio;
+      //  console.log("ver res ",JSON.parse(JSON.stringify(data)).lista_tipo_servicio);
     })
   }
   FormularioVehiculo(bandera:Number){
@@ -55,7 +58,7 @@ export class PagoClienteComponent implements OnInit {
       this.modalRef.content.titulo="Nuevo pago";
       // this.modalRef.content.pago=nuevo_pago_cliente;
       this.modalRef.content.IniciarFormulario();
-      this.modalRef.content.CargarValores(nuevo_pago_cliente);
+      this.modalRef.content.CargarValores(nuevo_pago_cliente,this.lista_tipo_servicio);
       this.modalRef.onHide?.subscribe((reasor: string|any)=>{
         this.GetPagos();
       });
@@ -70,7 +73,7 @@ export class PagoClienteComponent implements OnInit {
         this.modalRef.content.titulo="Editar pago";  
         this.modalRef.content.IniciarFormulario();
         // this.modalRef.content.pago.fecha_inicio=this.pago_seleccionado.fecha_inicio;
-        this.modalRef.content.CargarValores(this.pago_seleccionado);
+        this.modalRef.content.CargarValores(this.pago_seleccionado,this.lista_tipo_servicio);
         this.modalRef.onHide?.subscribe((reasor: string|any)=>{
           this.GetPagos();
         });

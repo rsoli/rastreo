@@ -24,6 +24,8 @@ import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
 import { VehiculoGeocercaComponent } from './monitoreo/vehiculo-geocerca/vehiculo-geocerca.component';
 import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.component';
 import { ModalPagoClienteComponent } from './servicio/pago/modal-pago-cliente/modal-pago-cliente.component';
+import { ListaServicioComponent } from './servicio/cliente/lista-servicio/lista-servicio.component';
+import { ModalServicioComponent } from './servicio/cliente/modal-servicio/modal-servicio.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { ModalPagoClienteComponent } from './servicio/pago/modal-pago-cliente/mo
     VehiculoComponent,
     VehiculoGeocercaComponent,
     PagoClienteComponent,
-    ModalPagoClienteComponent
+    ModalPagoClienteComponent,
+    ListaServicioComponent,
+    ModalServicioComponent
   ],
   imports: [
     CommonModule,

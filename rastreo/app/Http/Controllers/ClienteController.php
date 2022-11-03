@@ -197,7 +197,7 @@ class ClienteController extends Controller
                             where c.id_cliente = ?::INTEGER 
                             order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",[$id_cliente]);
 
-        $lista_tipo_servicio=db:select('select
+        $lista_tipo_servicio=db::select('select
                             ts.id_tipo_servicio,
                             ts.tipo_servicio,
                             ts.codigo,

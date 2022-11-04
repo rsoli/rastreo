@@ -174,7 +174,33 @@ class ClienteController extends Controller
     }
     public function get_pagos_cliente($id_cliente){
       
-        $servicio=DB::select("select
+        $servicio=DB::select("
+        with meses as (
+            select 1 as id_periodo, 'Enero' as mes
+            union all
+            select 2 as id_periodo, 'Febrero' as mes
+            union all
+            select 3 as id_periodo, 'Marzo' as mes
+            union all
+            select 4 as id_periodo, 'Abril' as mes
+            union all
+            select 5 as id_periodo, 'Mayo' as mes
+            union all
+            select 6 as id_periodo, 'Junio' as mes
+            union all
+            select 7 as id_periodo, 'Julio' as mes
+            union all
+            select 8 as id_periodo, 'Agosto' as mes
+            union all
+            select 9 as id_periodo, 'Septiembre' as mes
+            union all
+            select 10 as id_periodo, 'Octubre' as mes
+            union all
+            select 11 as id_periodo, 'Noviembre' as mes
+            union all
+            select 12 as id_periodo, 'Diciembre' as mes )
+
+                                select
                                 id_pago_servicio,
                                 p.nombre,
                                 p.apellido_paterno,
@@ -188,12 +214,22 @@ class ClienteController extends Controller
                                 ps.cantidad_meses,
                                 ps.precio_mensual,
                                 ps.sub_total,
-                                c.id_cliente
+                                c.id_cliente,
+
+                                (case when extract(MONTH from ps.fecha_inicio)::integer = extract(MONTH from ps.fecha_fin)::integer then
+                                mi.mes::varchar
+                                else 
+                                mi.mes||' - '||mf.mes
+                                end)::varchar as mes_pagado
                             from  ras.tcliente c
                                 join ras.tservicio s on s.id_cliente=c.id_cliente
                                 join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
                                 join ras.tpersona p on p.id_persona=c.id_persona
                                 join segu.users us on us.id_persona=p.id_persona
+
+                                left join meses mi on (mi.id_periodo)::integer = extract (MONTH from ps.fecha_inicio )::integer
+                                left join meses mf on (mf.id_periodo)::integer = extract (MONTH from ps.fecha_fin )::integer
+
                             where c.id_cliente = ?::INTEGER 
                             order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",[$id_cliente]);
 

@@ -14,4 +14,6 @@ export class PagosClienteModelo {
     precio_mensual:number=0;
     sub_total:number=0;
     id_cliente:number=0;
+    mes_pagado:String="";
+    tipo_servicio:String="";
 }

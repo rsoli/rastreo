@@ -220,9 +220,15 @@ class ClienteController extends Controller
                                 mi.mes::varchar
                                 else 
                                 mi.mes||' - '||mf.mes
-                                end)::varchar as mes_pagado
+                                end)::varchar as mes_pagado,
+                                ts.tipo_servicio::varchar
+
+                                
                             from  ras.tcliente c
                                 join ras.tservicio s on s.id_cliente=c.id_cliente
+
+                                join ras.ttipo_servicio ts on ts.id_tipo_servicio = s.id_tipo_servicio
+
                                 join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
                                 join ras.tpersona p on p.id_persona=c.id_persona
                                 join segu.users us on us.id_persona=p.id_persona

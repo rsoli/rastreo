@@ -88,9 +88,11 @@ class VehiculoController extends Controller
 
         $id_departamento = 0;
         $id_tipo_servicio = 0;
+        $id_cliente = 0;
         if($id!=0){
             $id_departamento = $vehiculo[0]->id_departamento;
             $id_tipo_servicio = $vehiculo[0]->id_tipo_servicio;
+            $id_cliente = $vehiculo[0]->id_cliente;
         }
         $departamento_seleccionado=DB::select("select 
                     d.id_departamento,
@@ -107,6 +109,14 @@ class VehiculoController extends Controller
                 join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
                 where  ts.id_tipo_servicio = ? ',[$id_tipo_servicio]);
 
+        $lista_tipo_servicio=db::select('select
+                ts.id_tipo_servicio,
+                ts.tipo_servicio,
+                ts.codigo,
+                s.id_servicio
+                from ras.ttipo_servicio ts
+                join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+                where  s.id_cliente = ?::INTEGER ',[$id_cliente]);
         //return $json;
         $arrayParametros=[
             'vehiculo'=>$vehiculo,

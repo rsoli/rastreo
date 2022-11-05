@@ -28,13 +28,27 @@ class VehiculoController extends Controller
         v.fecha_registro,
         v.id_cliente,
         v.id_departamento,
-        d.nombre_departamento
+        d.nombre_departamento,
+        ts.id_tipo_servicio,
+        ts.tipo_servicio
         from ras.tvehiculo v
         join ras.tdepartamento d on d.id_departamento=v.id_departamento 
+        left join ras.ttipo_servicio ts on ts.id_tipo_servicio = v.id_tipo_servicio
         where v.id_cliente = ? ",[$id]);
 
+
+        $lista_tipo_servicio=db::select('select
+        ts.id_tipo_servicio,
+        ts.tipo_servicio,
+        ts.codigo,
+        s.id_servicio
+        from ras.ttipo_servicio ts
+        join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+        where  s.id_cliente = ?::INTEGER ',[$id]);
+
         $arrayParametros=[
-            'vehiculo'=>$vehiculo
+            'vehiculo'=>$vehiculo,
+            'lista_tipo_servicio'=>$lista_tipo_servicio
         ];
         
         return response()->json($arrayParametros);
@@ -58,9 +72,12 @@ class VehiculoController extends Controller
         v.fecha_registro,
         v.id_cliente,
         v.id_departamento,
-        d.nombre_departamento
+        d.nombre_departamento,
+        ts.id_tipo_servicio,
+        ts.tipo_servicio
         from ras.tvehiculo v
         join ras.tdepartamento d on d.id_departamento=v.id_departamento
+        left join ras.ttipo_servicio ts on ts.id_tipo_servicio = v.id_tipo_servicio
         where v.id_vehiculo = ? ",[$id]);
                     
         
@@ -70,8 +87,10 @@ class VehiculoController extends Controller
                     from ras.tdepartamento d ");
 
         $id_departamento = 0;
+        $id_tipo_servicio = 0;
         if($id!=0){
             $id_departamento = $vehiculo[0]->id_departamento;
+            $id_tipo_servicio = $vehiculo[0]->id_tipo_servicio;
         }
         $departamento_seleccionado=DB::select("select 
                     d.id_departamento,
@@ -79,11 +98,21 @@ class VehiculoController extends Controller
                     from ras.tdepartamento d
                     where d.id_departamento = ? ",[$id_departamento]);
 
+        $lista_tipo_pago_seleccionado=db::select('select
+                    ts.id_tipo_servicio,
+                    ts.tipo_servicio,
+                    ts.codigo,
+                    s.id_servicio
+                from ras.ttipo_servicio ts
+                join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+                where  ps.id_tipo_servicio = ? ',[$id_tipo_servicio]);
+
         //return $json;
         $arrayParametros=[
             'vehiculo'=>$vehiculo,
             'departamentos'=>$departamentos,
-            'departamento_seleccionado'=>$departamento_seleccionado
+            'departamento_seleccionado'=>$departamento_seleccionado,
+            'lista_tipo_pago_seleccionado'=>$lista_tipo_pago_seleccionado
         ];
         
         return response()->json($arrayParametros);
@@ -96,9 +125,9 @@ class VehiculoController extends Controller
         if($request->id_vehiculo==0){
             if((bool)$validacion["validacion"]==true){
                 DB::insert('insert into ras.tvehiculo(placa,uniqueid,linea_gps,modelo_gps,
-                fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada)
+                fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada,id_tipo_servicio)
                 values(?,?,?,?,now()::timestamp,?,?,?,?,?,?)
-                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada]);
+                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_tipo_servicio]);
                 $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
             }
         }
@@ -120,9 +149,10 @@ class VehiculoController extends Controller
                 marca = ?,
                 modelo = ?,
                 color = ?,
-                cilindrada = ?
+                cilindrada = ?,
+                id_tipo_servicio = ?
                 where id_vehiculo=?',
-                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_vehiculo]);
+                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_vehiculo,(int)$request->id_tipo_servicio]);
 
             }
         }

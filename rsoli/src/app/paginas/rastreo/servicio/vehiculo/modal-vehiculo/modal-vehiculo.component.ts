@@ -8,6 +8,9 @@ import { VehiculoModelo } from '../vehiculo-modelo';
 import Swal from'sweetalert2';
 import { DepartamentoModelo } from 'src/app/paginas/parametros/departamento/departamento-modelo';
 
+import { TipoServicioModelo } from '../../../servicio/cliente/tipo-servicio-modelo';
+
+
 @Component({
   selector: 'app-modal-vehiculo',
   templateUrl: './modal-vehiculo.component.html',
@@ -22,6 +25,9 @@ export class ModalVehiculoComponent implements OnInit {
   lista_departamento_seleccionados:DepartamentoModelo = new DepartamentoModelo();
   lista_departamento :Array<DepartamentoModelo>=[];
   filtro_departamento!: any[];
+
+  lista_tipo_servicio :Array<TipoServicioModelo>=[];
+  lista_tipo_servicio_seleccionado = new TipoServicioModelo();
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -45,6 +51,7 @@ export class ModalVehiculoComponent implements OnInit {
         uniqueid: new FormControl(this.vehiculo.uniqueid, [Validators.required,Validators.maxLength(20)]),
         linea_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(10)]),
         modelo_gps: new FormControl(this.vehiculo.modelo_gps, [Validators.required,Validators.maxLength(20)]),
+        lista_tipo_servicio_seleccionado:new FormControl(this.lista_tipo_servicio_seleccionado, [Validators.required]),
         
       }); 
     }else{
@@ -61,16 +68,20 @@ export class ModalVehiculoComponent implements OnInit {
         uniqueid: new FormControl(this.vehiculo.uniqueid, [Validators.required,Validators.maxLength(20)]),
         linea_gps: new FormControl(this.vehiculo.linea_gps, [Validators.required,Validators.maxLength(10)]),
         modelo_gps: new FormControl(this.vehiculo.modelo_gps, [Validators.required,Validators.maxLength(20)]),
+        lista_tipo_servicio_seleccionado:new FormControl(this.lista_tipo_servicio_seleccionado, [Validators.required]),
        }); 
     }
   }
-  CargarValores(){
+  CargarValores( lista_tipo_servicio:TipoServicioModelo){
     this.loading();
     console.log("ver clientes1",this.vehiculo.id_vehiculo);
     this.vehiculo_servicio.get_vehiculo(this.vehiculo.id_vehiculo).subscribe(data=>{  
       console.log("ver vehiculo",data);
       this.close();
       this.lista_departamento = JSON.parse(JSON.stringify(data)).departamentos;
+
+      this.lista_tipo_servicio = JSON.parse(JSON.stringify(lista_tipo_servicio));
+      this.lista_tipo_servicio_seleccionado = JSON.parse(JSON.stringify(data)).lista_tipo_servicio_seleccionado[0];
       
       if(this.vehiculo.id_vehiculo!=0){
 
@@ -111,7 +122,9 @@ export class ModalVehiculoComponent implements OnInit {
       this.vehiculo.linea_gps=this.form_vehiculo.controls.linea_gps.value;
       this.vehiculo.modelo_gps=this.form_vehiculo.controls.modelo_gps.value;
       this.vehiculo.id_cliente=this.vehiculo.id_cliente;
+      this.vehiculo.id_tipo_servicio=this.form_vehiculo.controls.lista_tipo_servicio_seleccionado.value.id_tipo_servicio;
      
+console.log("veee ",this.vehiculo);
 
       this.vehiculo_servicio.post_vehiculo(this.vehiculo).subscribe(data=>{
          this.close();

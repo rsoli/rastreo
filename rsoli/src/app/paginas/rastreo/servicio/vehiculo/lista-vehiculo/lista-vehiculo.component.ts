@@ -9,6 +9,7 @@ import { Router} from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {ModalVehiculoComponent} from '../modal-vehiculo/modal-vehiculo.component';
 import Swal from 'sweetalert2';
+import { TipoServicioModelo } from '../../../servicio/cliente/tipo-servicio-modelo';
 
 @Component({
   selector: 'app-lista-vehiculo',
@@ -24,6 +25,7 @@ export class ListaVehiculoComponent implements OnInit {
   id_cliente :number =0;
   vehiculo_seleccionado=new VehiculoModelo();
   public modalRef!: BsModalRef;
+  lista_tipo_servicio :Array<TipoServicioModelo>=[];
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +45,8 @@ export class ListaVehiculoComponent implements OnInit {
     this.vehiculo_servicio.get_vehiculos(this.id_cliente).subscribe(data=>{
       this.loading = false;
       this.lista_vehiculos=JSON.parse(JSON.stringify(data)).vehiculo;
-       console.log("ver res ",this.lista_vehiculos);
+      this.lista_tipo_servicio = JSON.parse(JSON.stringify(data)).lista_tipo_servicio;
+       console.log("ver res ",data);
     })
   }
   FormularioVehiculo(bandera:number){
@@ -54,7 +57,7 @@ export class ListaVehiculoComponent implements OnInit {
       this.modalRef = this.modalService.show(ModalVehiculoComponent);
       this.modalRef.content.titulo="Nuevo vehiculo";
       this.modalRef.content.vehiculo=nuevo_vehiculo;
-      this.modalRef.content.CargarValores();
+      this.modalRef.content.CargarValores(this.lista_tipo_servicio );
       this.modalRef.content.IniciarFormulario();
       this.modalRef.onHide?.subscribe((reasor: string|any)=>{
         this.GetVehiculos();
@@ -68,7 +71,7 @@ export class ListaVehiculoComponent implements OnInit {
         this.modalRef = this.modalService.show(ModalVehiculoComponent);
         this.modalRef.content.titulo="Editar vehículo";  
         this.modalRef.content.vehiculo=this.vehiculo_seleccionado;
-        this.modalRef.content.CargarValores();
+        this.modalRef.content.CargarValores(this.lista_tipo_servicio );
         this.modalRef.content.IniciarFormulario();
         this.modalRef.onHide?.subscribe((reasor: string|any)=>{
           this.GetVehiculos();

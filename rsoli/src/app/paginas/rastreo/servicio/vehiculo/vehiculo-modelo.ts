@@ -17,5 +17,7 @@ export class VehiculoModelo {
     nombre_persona:String="";
     apellido_paterno:String="";
     apellido_materno:String="";
+    id_tipo_servicio:number=0;
+    tipo_servicio:String="";
 
 }

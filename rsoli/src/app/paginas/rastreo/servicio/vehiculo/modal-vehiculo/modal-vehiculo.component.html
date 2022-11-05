@@ -9,6 +9,23 @@
 
             <div class="col-lg-12">
                 <label style="margin: 0px;padding: 0px;">
+                    <span style="color: red;" *ngIf="form_vehiculo.controls['lista_tipo_servicio_seleccionado'].errors?.required" >*</span>
+                    <span style="color: green;" *ngIf="!form_vehiculo.controls['lista_tipo_servicio_seleccionado'].errors?.required" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                    Tipo servicio
+                </label>
+                <p-dropdown [options]="lista_tipo_servicio" formControlName="lista_tipo_servicio_seleccionado" optionLabel="tipo_servicio"
+                [filter]="false" filterBy="tipo_servicio" [showClear]="true" placeholder="Seleccionar" >
+                
+                    <ng-template let-country pTemplate="item">
+                        <div class="country-item">
+                            <div>{{country.tipo_servicio}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="col-lg-12">
+                <label style="margin: 0px;padding: 0px;">
                     <span style="color: red;" *ngIf="form_vehiculo.controls['lista_departamento_seleccionados'].errors?.required" >*</span>
                     <span style="color: green;" *ngIf="!form_vehiculo.controls['lista_departamento_seleccionados'].errors?.required" > <i style="width: 10px;" class="fas fa-check"></i></span>
                     Departamento

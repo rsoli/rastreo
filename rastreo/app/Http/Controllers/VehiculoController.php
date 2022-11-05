@@ -93,6 +93,8 @@ class VehiculoController extends Controller
             $id_departamento = $vehiculo[0]->id_departamento;
             $id_tipo_servicio = $vehiculo[0]->id_tipo_servicio;
             $id_cliente = $vehiculo[0]->id_cliente;
+        }else{
+
         }
         $departamento_seleccionado=DB::select("select 
                     d.id_departamento,
@@ -137,7 +139,7 @@ class VehiculoController extends Controller
             if((bool)$validacion["validacion"]==true){
                 DB::insert('insert into ras.tvehiculo(placa,uniqueid,linea_gps,modelo_gps,
                 fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada,id_tipo_servicio)
-                values(?,?,?,?,now()::timestamp,?,?,?,?,?,?)
+                values(?,?,?,?,now()::timestamp,?,?,?,?,?,?,?)
                 ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_tipo_servicio]);
                 $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
             }
@@ -157,7 +159,7 @@ class VehiculoController extends Controller
                 fecha_registro= now()::timestamp,
                 id_cliente= ?,
                 id_departamento= ?,
-                marca = ?,
+                marca = ?, 
                 modelo = ?,
                 color = ?,
                 cilindrada = ?,

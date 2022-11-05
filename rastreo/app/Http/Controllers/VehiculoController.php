@@ -105,7 +105,7 @@ class VehiculoController extends Controller
                     s.id_servicio
                 from ras.ttipo_servicio ts
                 join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
-                where  ps.id_tipo_servicio = ? ',[$id_tipo_servicio]);
+                where  ts.id_tipo_servicio = ? ',[$id_tipo_servicio]);
 
         //return $json;
         $arrayParametros=[

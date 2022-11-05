@@ -122,7 +122,8 @@ class VehiculoController extends Controller
             'vehiculo'=>$vehiculo,
             'departamentos'=>$departamentos,
             'departamento_seleccionado'=>$departamento_seleccionado,
-            'lista_tipo_pago_seleccionado'=>$lista_tipo_pago_seleccionado
+            'lista_tipo_pago_seleccionado'=>$lista_tipo_pago_seleccionado,
+            'lista_tipo_servicio'=>$lista_tipo_servicio 
         ];
         
         return response()->json($arrayParametros);

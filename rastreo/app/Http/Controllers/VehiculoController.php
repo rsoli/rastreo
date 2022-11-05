@@ -109,7 +109,8 @@ class VehiculoController extends Controller
                     s.id_servicio
                 from ras.ttipo_servicio ts
                 join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
-                where  ts.id_tipo_servicio = ? ',[$id_tipo_servicio]);
+                join ras.tvehiculo v on v.id_cliente=s.id_cliente
+                where  ts.id_tipo_servicio = ? and v.id_vehiculo = ?  ',[$id_tipo_servicio,$id ]);
 
         $lista_tipo_servicio=db::select('select
                 ts.id_tipo_servicio,

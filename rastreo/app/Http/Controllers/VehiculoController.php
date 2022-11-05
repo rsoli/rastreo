@@ -165,7 +165,7 @@ class VehiculoController extends Controller
                 cilindrada = ?,
                 id_tipo_servicio = ?
                 where id_vehiculo=?',
-                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_vehiculo,(int)$request->id_tipo_servicio]);
+                [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,(int)$request->id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,(int)$request->id_tipo_servicio,(int)$request->id_vehiculo]);
 
             }
         }

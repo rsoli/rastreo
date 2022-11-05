@@ -100,7 +100,7 @@ class VehiculoController extends Controller
                     from ras.tdepartamento d
                     where d.id_departamento = ? ",[$id_departamento]);
 
-        $lista_tipo_pago_seleccionado=db::select('select
+        $lista_tipo_servicio_seleccionado=db::select('select
                     ts.id_tipo_servicio,
                     ts.tipo_servicio,
                     ts.codigo,
@@ -122,7 +122,7 @@ class VehiculoController extends Controller
             'vehiculo'=>$vehiculo,
             'departamentos'=>$departamentos,
             'departamento_seleccionado'=>$departamento_seleccionado,
-            'lista_tipo_pago_seleccionado'=>$lista_tipo_pago_seleccionado,
+            'lista_tipo_servicio_seleccionado'=>$lista_tipo_servicio_seleccionado,
             'lista_tipo_servicio'=>$lista_tipo_servicio 
         ];
         

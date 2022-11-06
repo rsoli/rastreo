@@ -82,7 +82,12 @@ class ServicioController extends Controller
                                 ps.fecha_fin::Date,
                                 ps.cantidad_vehiculos,
                                 ps.precio_mensual,
-                                ps.sub_total
+                                ps.sub_total,
+                                (case when extract(MONTH from ps.fecha_inicio)::integer = extract(MONTH from ps.fecha_fin)::integer then
+                                mi.mes::varchar
+                                else 
+                                mi.mes||' - '||mf.mes
+                                end)::varchar as mes_pagado
                             from  ras.tcliente c
                                 join ras.tservicio s on s.id_cliente=c.id_cliente
                                 join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio

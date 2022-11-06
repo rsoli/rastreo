@@ -71,7 +71,33 @@ class ServicioController extends Controller
             $ids=" us.id in (".$request->user()->id.")";
         }
 
-        $servicio=DB::select("select
+        $servicio=DB::select("
+        with meses as (
+            select 1 as id_periodo, 'Enero' as mes
+            union all
+            select 2 as id_periodo, 'Febrero' as mes
+            union all
+            select 3 as id_periodo, 'Marzo' as mes
+            union all
+            select 4 as id_periodo, 'Abril' as mes
+            union all
+            select 5 as id_periodo, 'Mayo' as mes
+            union all
+            select 6 as id_periodo, 'Junio' as mes
+            union all
+            select 7 as id_periodo, 'Julio' as mes
+            union all
+            select 8 as id_periodo, 'Agosto' as mes
+            union all
+            select 9 as id_periodo, 'Septiembre' as mes
+            union all
+            select 10 as id_periodo, 'Octubre' as mes
+            union all
+            select 11 as id_periodo, 'Noviembre' as mes
+            union all
+            select 12 as id_periodo, 'Diciembre' as mes )
+
+                            select
                                 p.nombre,
                                 p.apellido_paterno,
                                 p.apellido_materno,
@@ -93,6 +119,10 @@ class ServicioController extends Controller
                                 join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
                                 join ras.tpersona p on p.id_persona=c.id_persona
                                 join segu.users us on us.id_persona=p.id_persona
+
+                                left join meses mi on (mi.id_periodo)::integer = extract (MONTH from ps.fecha_inicio )::integer
+                                left join meses mf on (mf.id_periodo)::integer = extract (MONTH from ps.fecha_fin )::integer
+
                             where ".$ids." and us.estado=?
                             order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",["activo"]);
 

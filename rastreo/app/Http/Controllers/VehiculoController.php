@@ -279,13 +279,16 @@ class VehiculoController extends Controller
                                 p.apellido_materno,
                                 ts.id_tipo_servicio,
                                 ts.tipo_servicio,
-                                ts.codigo
+                                ts.codigo,
+                                dg.activar_motor,
+                                dg.desactivar_motor
                                 from ras.tvehiculo v
                                 join ras.tdepartamento d on d.id_departamento=v.id_departamento
                                 join ras.tcliente c on c.id_cliente=v.id_cliente
                                 join ras.tpersona p on p.id_persona=c.id_persona
                                 join segu.users us on us.id_persona=p.id_persona
                                 left join ras.ttipo_servicio ts on ts.id_tipo_servicio = v.id_tipo_servicio
+                                left join ras.tdispositivo_gps dg on dg.id_dispositivo_gps = v.id_dispositivo_gps
                                 where ".$ids." and us.estado=?
                                 order by p.nombre,p.apellido_paterno,p.apellido_materno asc ",["activo"]);
 

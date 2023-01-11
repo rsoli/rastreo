@@ -427,7 +427,7 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => 'email=admin&password=75319462',
+            CURLOPT_POSTFIELDS => 'email=admin&password=jdjPropio10711@',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
@@ -461,7 +461,7 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'email=admin&password=75319462',
+            CURLOPT_POSTFIELDS => 'email=admin&password=jdjPropio10711@',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/x-www-form-urlencoded',
                 // 'Cookie: JSESSIONID=node0spbxks097p05bxx5mupjqry13638.node0'

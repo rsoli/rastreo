@@ -15,14 +15,14 @@ export class MonitoreoGoogleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.InicarSesion();
-    this.InicioTraccar();
+    this.InicarSesion();
+    //this.InicioTraccar();
   }
   InicioTraccar(){
     this.monitoreo_servicio.inicio_traccar().subscribe(data=>{
       console.log( JSON.parse( JSON.stringify(data)) );
       let token =JSON.parse( JSON.stringify(data)).cookie.JSESSIONID;
-      document.cookie = "JSESSIONID="+token; 
+      //document.cookie = "JSESSIONID="+token; 
 
       this.ConectarSocket(token);
     },

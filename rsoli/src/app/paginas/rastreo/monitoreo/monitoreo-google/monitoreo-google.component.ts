@@ -15,8 +15,8 @@ export class MonitoreoGoogleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.InicarSesion();
-    this.InicioTraccar();
+    this.InicarSesion();
+    //this.InicioTraccar();
   }
   InicioTraccar(){
     this.monitoreo_servicio.inicio_traccar().subscribe(data=>{

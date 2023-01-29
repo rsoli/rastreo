@@ -304,7 +304,7 @@ class VehiculoController extends Controller
         $coockies = $this->iniciar_sesion_traccar();
 
         $arrayParametros=[
-            'cookie'=>$vehicoockiesculo
+            'cookie'=>$coockies
         ];
 
         return response()->json($arrayParametros);

@@ -36,6 +36,7 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "leaflet-search": "^3.0.2",
     "ngx-bootstrap": "^7.1.0",
+    "ngx-cookie-service": "^15.0.0",
     "ngx-webstorage-service": "^4.1.0",
     "popper.js": "^1.16.1",
     "primeicons": "^4.1.0",

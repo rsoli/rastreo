@@ -26,6 +26,7 @@ import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.
 import { ModalPagoClienteComponent } from './servicio/pago/modal-pago-cliente/modal-pago-cliente.component';
 import { ListaServicioComponent } from './servicio/cliente/lista-servicio/lista-servicio.component';
 import { ModalServicioComponent } from './servicio/cliente/modal-servicio/modal-servicio.component';
+import { MonitoreoGoogleComponent } from './monitoreo/monitoreo-google/monitoreo-google.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ModalServicioComponent } from './servicio/cliente/modal-servicio/modal-
     PagoClienteComponent,
     ModalPagoClienteComponent,
     ListaServicioComponent,
-    ModalServicioComponent
+    ModalServicioComponent,
+    MonitoreoGoogleComponent
   ],
   imports: [
     CommonModule,

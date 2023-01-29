@@ -10,6 +10,7 @@ import { FormularioGeocercaComponent } from './monitoreo/formulario-geocerca/for
 import { VehiculoComponent } from './monitoreo/vehiculo/vehiculo.component';
 import { PagoClienteComponent } from './servicio/pago/pago-cliente/pago-cliente.component';
 import { ListaServicioComponent } from './servicio/cliente/lista-servicio/lista-servicio.component';
+import { MonitoreoGoogleComponent } from './monitoreo/monitoreo-google/monitoreo-google.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'lista_servicio/:id',
     component: ListaServicioComponent
+  },
+  {
+    path: 'monitoreo_google',
+    component: MonitoreoGoogleComponent
   },
   
   {

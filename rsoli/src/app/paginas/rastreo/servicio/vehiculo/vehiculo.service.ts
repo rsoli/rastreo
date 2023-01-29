@@ -40,4 +40,9 @@ export class VehiculoService {
     this.actualizar_accesos();
     return this.http.get(this.baseURL + 'lista_vehiculos_usuario', this.headers_token);
   }
+  inicio_traccar(){
+    this.actualizar_accesos();
+    //const body=JSON.stringify(vehiculo);
+    return this.http.post(this.baseURL + 'inicio_traccar',{},this.headers_token);
+  }
 }

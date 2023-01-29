@@ -153,6 +153,7 @@ Route::group([
         Route::get('get_vehiculo/{id}', [VehiculoController::class, 'get_vehiculo']);
         Route::post('post_vehiculo', [VehiculoController::class, 'post_vehiculo']);
         Route::get('eliminar_vehiculo/{id}', [VehiculoController::class, 'eliminar_vehiculo']);
+        Route::post('inicio_traccar', [VehiculoController::class, 'inicio_traccar']);
     });                                                                                                     
 });
 // Route::middleware('auth:api')->group(function () {

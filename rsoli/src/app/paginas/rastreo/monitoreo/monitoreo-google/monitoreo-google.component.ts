@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import{TraccarService} from '../traccar.service';
+import { VehiculoService } from '../../servicio/vehiculo/vehiculo.service';
 
 @Component({
   selector: 'app-monitoreo-google',
@@ -9,11 +10,25 @@ import{TraccarService} from '../traccar.service';
 export class MonitoreoGoogleComponent implements OnInit {
 
   constructor(
-    private traccar:TraccarService
+    private traccar:TraccarService,
+    private monitoreo_servicio:VehiculoService,
   ) { }
 
   ngOnInit(): void {
-    this.InicarSesion();
+    //this.InicarSesion();
+    this.InicioTraccar();
+  }
+  InicioTraccar(){
+    this.monitoreo_servicio.inicio_traccar().subscribe(data=>{
+      console.log( JSON.parse( JSON.stringify(data))  );
+      //let token =JSON.parse( JSON.stringify(data)).token;
+      //document.cookie = "JSESSIONID="+token; 
+
+      //this.ConectarSocket(token);
+    },
+    error=>{
+       
+    })
   }
   InicarSesion(){
     this.traccar.post_iniciar_sesion().subscribe(data=>{

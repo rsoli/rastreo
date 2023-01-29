@@ -299,5 +299,16 @@ class VehiculoController extends Controller
         return response()->json($arrayParametros);
 
     }
+    public function inicio_traccar(Request $request){
+
+        $coockies = $this->iniciar_sesion_traccar();
+
+        $arrayParametros=[
+            'cookie'=>$vehicoockiesculo
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
 
 }

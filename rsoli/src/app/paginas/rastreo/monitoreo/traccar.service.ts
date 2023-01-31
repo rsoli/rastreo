@@ -17,12 +17,12 @@ export class TraccarService {
     //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
     let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
 
-    return this.http.post("http://kolosu.com:8082/api/session", "email=admin&password=jdjPropio10711@",headers);
+    return this.http.post("https://traccarkolosu.com/api/session", "email=admin&password=jdjPropio10711@",headers);
     
   }
   conection(token:String){
     //document.cookie = 'JSESSIONID=' + token + '; path=/';
-    let socket = new WebSocket("ws://kolosu.com:8082/api/socket?token="+token);
+    let socket = new WebSocket("wss://traccarkolosu.com/api/socket");
 
     socket.onopen = function(e) {
       //alert("[open] Connection established");

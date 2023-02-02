@@ -35,7 +35,7 @@ export class MonitoreoGoogleComponent implements OnInit {
       console.log( JSON.parse( JSON.stringify(data))  );
       let token =JSON.parse( JSON.stringify(data)).token;
       //document.cookie = "JSESSIONID="+token; 
-
+      document.cookie = 'JSESSIONID=' + 'node01jdf6t2hpxttetb7xh3jlgm1k242.node0' + '; path=/';
       this.ConectarSocket(token);
     },
     error=>{

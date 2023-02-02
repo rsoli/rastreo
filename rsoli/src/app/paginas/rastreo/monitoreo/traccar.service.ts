@@ -21,7 +21,7 @@ export class TraccarService {
     
   }
   conection(token:String){
-    //document.cookie = 'JSESSIONID=' + token + '; path=/';
+   
     let socket = new WebSocket("wss://kolosu.com/traccar/api/socket");
 
     socket.onopen = function(e) {

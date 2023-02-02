@@ -15,7 +15,12 @@ export class TraccarService {
   post_iniciar_sesion(){
     
     //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
-    let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
+    //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
+    let headers ={ 'headers': 
+        { 'content-type': 'application/json', 
+        'X-Requested-With': 'XMLHttpRequest',
+        'access-control-allow-credentials': 'true'
+      }}; 
 
     return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",headers);
     

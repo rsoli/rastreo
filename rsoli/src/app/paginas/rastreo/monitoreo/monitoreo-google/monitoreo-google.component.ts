@@ -22,7 +22,7 @@ export class MonitoreoGoogleComponent implements OnInit {
     this.monitoreo_servicio.inicio_traccar().subscribe(data=>{
       console.log( JSON.parse( JSON.stringify(data)) );
       let token =JSON.parse( JSON.stringify(data)).cookie.JSESSIONID;
-      document.cookie = "JSESSIONID="+token; 
+      //document.cookie = "JSESSIONID="+token; 
 
       this.ConectarSocket(token);
     },
@@ -35,7 +35,7 @@ export class MonitoreoGoogleComponent implements OnInit {
       console.log( JSON.parse( JSON.stringify(data))  );
       let token =JSON.parse( JSON.stringify(data)).token;
       //document.cookie = "JSESSIONID="+token; 
-      document.cookie = 'JSESSIONID=' + 'node01jdf6t2hpxttetb7xh3jlgm1k242.node0' + '; path=/';
+      //document.cookie = 'JSESSIONID=' + 'node01jdf6t2hpxttetb7xh3jlgm1k242.node0' + '; path=/';
       this.ConectarSocket(token);
     },
     error=>{

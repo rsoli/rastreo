@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHandler, HttpHeaders} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -7,6 +7,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class TraccarService {
 
+  headers_token:any; 
+  
   constructor(
     private http:HttpClient,
     private cookieService: CookieService
@@ -16,13 +18,11 @@ export class TraccarService {
     
     //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
     //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
-    let headers ={ 'headers': 
-        { 'content-type': 'application/json', 
-        'X-Requested-With': 'XMLHttpRequest',
-        'access-control-allow-credentials': 'true'
-      }}; 
+    let headers = new HttpHeaders()
+    .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
+    .set('Accept','*/*');
 
-    return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",headers);
+    return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",{headers});
     
   }
   conection(token:String){

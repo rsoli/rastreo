@@ -15,14 +15,18 @@ export class TraccarService {
   ) { }
 
   post_iniciar_sesion(){
-    
-    //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
-    //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
-    let headers = new HttpHeaders()
+
+  let headers = new HttpHeaders()
     .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
     .set('Accept','*/*');
 
-    return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",{headers});
+   return this.http.post<any>('https://kolosu.com/traccar/api/session', "email=admin&password=jdjPropio10711@", { 'headers':headers, observe: 'response', withCredentials: true })
+
+    //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
+    //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
+
+
+    //return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",{headers});
     
   }
   conection(token:String){

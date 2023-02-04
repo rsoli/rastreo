@@ -19,7 +19,7 @@ export class TraccarService {
   let headers = new HttpHeaders()
     .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
     .set('Accept','*/*')
-    .set('Access-Control-Allow-Origin', 'https://kolosu.com');
+    .set('Access-Control-Allow-Origin', 'https://www.kolosu.com');
 
    return this.http.post<any>('https://kolosu.com/traccar/api/session', "email=admin&password=jdjPropio10711@", { 'headers':headers, observe: 'response', withCredentials: true })
 

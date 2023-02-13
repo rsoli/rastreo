@@ -64,8 +64,6 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
     this.traccar.post_iniciar_sesion().subscribe( data=>{
       console.log( JSON.parse( JSON.stringify(data))  );
       let token =JSON.parse( JSON.stringify(data)).body.token;
-      //document.cookie = "JSESSIONID="+token; 
-      this.cookieService.set( 'JSESSIONID', this.cookieService.get('Set-Cookie') ); 
       this.GetMotorizado(token);
       
 

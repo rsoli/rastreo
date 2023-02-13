@@ -29,6 +29,13 @@ export class TraccarService {
     //return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",{headers});
     
   }
+  get_motorizado(token:any){
+    let headers = new HttpHeaders()
+    .set('content-type','application/json');
+
+    return this.http.get('https://www.kolosu.com/traccar/api/devices', { 'headers':headers,withCredentials: true })
+
+  }
   conection(token:String){
    
     let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket");

@@ -6,7 +6,7 @@ import * as L from 'leaflet';
 import 'leaflet-rotatedmarker';
 import { formatDate } from '@angular/common';
 import DriftMarker from "leaflet-drift-marker";
-
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-monitoreo-google',
   templateUrl: './monitoreo-google.component.html',
@@ -30,6 +30,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:VehiculoService,
+    private cookieService: CookieService 
   ) { }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
       console.log( JSON.parse( JSON.stringify(data))  );
       let token =JSON.parse( JSON.stringify(data)).body.token;
       //document.cookie = "JSESSIONID="+token; 
-   
+      this.cookieService.set( 'JSESSIONID', this.cookieService.get('Set-Cookie') ); 
       this.GetMotorizado(token);
       
 
@@ -91,7 +92,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
   ConectarSocket(token:String){
     //this.traccar.conection(token);
 
-    let socket = new WebSocket("wss://kolosu.com/traccar/api/socket?token="+token);
+    let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+token);
 
     socket.onopen = function(e) {
       //alert("[open] Connection established");

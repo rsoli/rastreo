@@ -80,7 +80,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
       //let token =JSON.parse( JSON.stringify(data)).token;
 
       this.lista_dispositivos=JSON.parse( JSON.stringify(data));
-      this.ConectarSocket();
+      this.ConectarSocket(token);
       this.lista_dispositivos_usuario = JSON.parse(localStorage.getItem('accesos')|| '{}').Vehiculo;
       console.log( "dispositvos test ",this.lista_dispositivos_usuario );
     },
@@ -88,10 +88,10 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
        
     })
   }
-  ConectarSocket(){
+  ConectarSocket(token:String){
     //this.traccar.conection(token);
 
-    let socket = new WebSocket("wss://kolosu.com/traccar/api/socket");
+    let socket = new WebSocket("wss://kolosu.com/traccar/api/socket?token="+token);
 
     socket.onopen = function(e) {
       //alert("[open] Connection established");
@@ -131,17 +131,17 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
       this.ngOnDestroy(); 
     });
     socket.addEventListener('close', (event) => {
-      this.reconecta();
+      this.reconecta(token);
     });
     socket.addEventListener('error', (event) => {
       this.ngOnDestroy(); 
     });
   }
-  reconecta(){
+  reconecta(token:String){
 
     this.timeout = setInterval(() => {
       console.log("enter timeout");
-      this.ConectarSocket();
+      this.ConectarSocket(token);
     }, 5000);
 
   }

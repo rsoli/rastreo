@@ -167,15 +167,24 @@ h1, h2, h3, h4, h5, h6{
 
 
 
-.p-calendar * {
+/*.p-calendar * {
     width: 100% !important; 
     top: 0px !important;
     text-align: center !important;
 
-}
+}*/
 
 @media screen and (max-width: 769px){
     .p-datepicker table th, .p-datepicker table td {
         width: 0px !important; 
     }
+}
+
+
+/* .p-component-overlay {
+    position: inherit !important;
+} */
+
+.p-datepicker-mask{
+    z-index: 1 !important;
 }

@@ -29,10 +29,18 @@ export class MonitoreoVehiculoComponent implements OnInit {
   tipo_monitoreo!: any[];
 
   fecha_ratreo: Date=new Date();
-  hora_inicio=new Date('2023-10-06 01:00:00');
+  fecha_inicio: Date=new Date();
+  fecha_final: Date=new Date();
+  hora_inicio=new Date('2023-10-06 00:00:00');
   hora_fin=new Date('2023-10-06 23:59:59');
 
   bandera_tipo_monitoreo:boolean=false;
+
+  bandera_fecha_ratreo:boolean=false;
+  bandera_fecha_inicio:boolean=false;
+  bandera_fecha_final:boolean=false;
+  bandera_hora_inicio:boolean=false;
+  bandera_hora_fin:boolean=false;
 
   bandera_timer:boolean=false;
   id_interval:any;
@@ -43,6 +51,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   //boton input mapa search
 
+  en: any;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -51,26 +60,50 @@ export class MonitoreoVehiculoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.en = {
+      firstDayOfWeek: 0,
+      dayNames: ["Sunday", "Lunes", "Martes", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayNamesShort: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+      dayNamesMin: ["D","L","Ma","Mi","J","V","S"],
+      monthNames: [ "Enero","Febrero","March","April","May","Junio","Julio","August","September","October","November","December" ],
+      monthNamesShort: [ "Ene", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+      today: 'Today',
+      clear: 'Clear',
+      dateFormat: 'mm/dd/yy',
+      weekHeader: 'Wk'
+  };
+
+
     this.initMap();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.IniciarFiltros();
   }
   IniciarFiltros(){
-    this.loading_alert();
-    this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
-      this.closeLoading_alert();
-      this.vehiculo=JSON.parse(JSON.stringify(data)).lista_vehiculo;
-    },
-    error=>{
-      this.closeLoading_alert();
-    })
+    
+    this.vehiculo=JSON.parse(localStorage.getItem('accesos')|| '{}').Vehiculo;
+    this.bandera_fecha_ratreo=true;
+    this.bandera_fecha_inicio=true;
+    this.bandera_fecha_final=true;
+    this.bandera_hora_inicio=true;
+    this.bandera_hora_fin=true;
+    // this.loading_alert();
+    // this.monitoreo_servicio.get_filtros_monitoreo().subscribe(data=>{
+    //   this.closeLoading_alert();
+    //   this.vehiculo=JSON.parse(JSON.stringify(data)).lista_vehiculo;
+    // },
+    // error=>{
+    //   this.closeLoading_alert();
+    // })
   }
 
   cargarTipoMonitoreo() {
     this.tipo_monitoreo = [
       { nombre: 'Tiempo real', code: 'tiempo_real' },
       { nombre: 'Rutas', code: 'rutas' },
+      { nombre: 'Viajes', code: 'viajes' },
+      { nombre: 'Paradas', code: 'paradas' },
     ];
   }
   initMap() {
@@ -159,17 +192,51 @@ export class MonitoreoVehiculoComponent implements OnInit {
     try {
       this.BorrarTimer();
       this.fecha_ratreo=new Date();
-      this.hora_inicio=new Date('2023-10-06 01:00:00');
+      this.hora_inicio=new Date('2023-10-06 00:00:00');
       this.hora_fin=new Date('2023-10-06 23:59:59');
       
       this.vehiculo_seleccionado=[];
       if(event.value.code=="tiempo_real"){
         this.limite_seleccion_vehiculos=2147483647;
         this.bandera_tipo_monitoreo=true;
-      }else{
+
+        this.bandera_fecha_ratreo=true;
+        this.bandera_fecha_inicio=true;
+        this.bandera_fecha_final=true;
+        this.bandera_hora_inicio=true;
+        this.bandera_hora_fin=true;
+      }
+      if(event.value.code=="rutas"){
         this.limite_seleccion_vehiculos=1;
         this.bandera_tipo_monitoreo=false;
+
+        this.bandera_fecha_ratreo=false;
+        this.bandera_fecha_inicio=true;
+        this.bandera_fecha_final=true;
+        this.bandera_hora_inicio=false;
+        this.bandera_hora_fin=false;
       }
+      if(event.value.code=="viajes"){
+        this.limite_seleccion_vehiculos=1;
+        this.bandera_tipo_monitoreo=false;
+
+        this.bandera_fecha_ratreo=true;
+        this.bandera_fecha_inicio=false;
+        this.bandera_fecha_final=false;
+        this.bandera_hora_inicio=true;
+        this.bandera_hora_fin=true;
+      }
+      if(event.value.code=="paradas"){
+        this.limite_seleccion_vehiculos=1;
+        this.bandera_tipo_monitoreo=false;
+
+        this.bandera_fecha_ratreo=true;
+        this.bandera_fecha_inicio=false;
+        this.bandera_fecha_final=false;
+        this.bandera_hora_inicio=true;
+        this.bandera_hora_fin=true;
+      }
+
 
     } catch (error) {
 
@@ -198,6 +265,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         id_vehiculos_seleccionados+=clave.id_vehiculo+',';
       }
     }
+    console.log("ver tipo monitoreo ",this.tipo_monitoreo_seleccionado.code);
     
     if(this.tipo_monitoreo_seleccionado.code=='tiempo_real'){
 
@@ -214,9 +282,21 @@ export class MonitoreoVehiculoComponent implements OnInit {
     }else{
       this.loading_alert();
 
-      formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')
-      let f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
-      let f_fin=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
+
+      let f_ini='';
+      let f_fin='';
+
+      if(this.tipo_monitoreo_seleccionado.code=='rutas'){
+        f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
+        f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
+      }
+      if(this.tipo_monitoreo_seleccionado.code=='viajes'){
+        f_ini=formatDate(this.fecha_inicio, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+        f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+      }
+      console.log("nueva fecha inicio ",f_ini);
+      console.log("nueva fecha final ",f_fin);
+
 
       this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
         this.closeLoading_alert();

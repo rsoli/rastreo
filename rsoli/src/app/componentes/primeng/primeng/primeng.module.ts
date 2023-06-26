@@ -22,6 +22,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [],
@@ -49,7 +50,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     DropdownModule,
     CalendarModule,
     AutoCompleteModule,
-    InputTextareaModule
+    InputTextareaModule,
+    ToolbarModule
   ]
 })
 export class PrimengModule { }

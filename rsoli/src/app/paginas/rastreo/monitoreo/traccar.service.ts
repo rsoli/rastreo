@@ -18,6 +18,7 @@ export class TraccarService {
 
   let headers = new HttpHeaders()
     .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
+    .set('X-Requested-With','XMLHttpRequest')
     .set('Accept','*/*');
 
    return this.http.post<any>('https://www.kolosu.com/traccar/api/session', "email=admin&password=jdjPropio10711@", { 'headers':headers, observe: 'response', withCredentials: true })
@@ -38,7 +39,7 @@ export class TraccarService {
   }
   conection(token:String){
    
-    let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket");
+    let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+token);
 
     socket.onopen = function(e) {
       //alert("[open] Connection established");

@@ -1,6 +1,6 @@
-<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="false">
+<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="true">
     <h5>FILTROS</h5>
-    <br>
+   
     <div>
             Tipo de monitoreo
             <br>
@@ -22,31 +22,46 @@
     <div  style="margin-top: 9px;">
             Vehiculo
             <br>
-            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos" [filter]="false" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos"  [filter]="false" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
             optionLabel="placa">
-        </p-multiSelect>
+            </p-multiSelect>
+
+           
     </div>
-    <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+    <div  [hidden]="bandera_fecha_ratreo" style="margin-top: 10px;">
             Fecha
             <br>
-            <p-calendar    [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            
+            <p-calendar [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+            <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
     </div>
-    <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+    <div  [hidden]="bandera_hora_inicio" style="margin-top: 10px;">
             Hora inicio
             <br>
             <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" inputId="timeonly"></p-calendar>
     </div>
-    
-    <div  [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
+    <div [hidden]="bandera_hora_fin" style="margin-top: 10px;">
             Hora fin
             <br>
             <p-calendar [(ngModel)]="hora_fin"  [timeOnly]="true" inputId="timeonly"></p-calendar>
     </div>
+
+
+    <div  [hidden]="bandera_fecha_inicio" style="margin-top: 10px;">
+        Fecha inicio
+        <br>
+        <p-calendar [(ngModel)]="fecha_inicio" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+        <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
+    </div>
+
+    <div  [hidden]="bandera_fecha_final" style="margin-top: 10px;">
+            Fecha fin
+        <br>
+        <p-calendar [(ngModel)]="fecha_final" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+</div>
     <br>
     <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>
 </p-sidebar>
-
-
 
 <div  style="background-color: #fff;width: 33px;height: 33px; text-align: center;  display: flex;
 align-items: center;

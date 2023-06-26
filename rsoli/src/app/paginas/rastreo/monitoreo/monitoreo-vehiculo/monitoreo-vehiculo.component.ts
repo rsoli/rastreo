@@ -5,8 +5,8 @@ import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { MonitoreoService } from '../monitoreo.service';
 import Swal from'sweetalert2';
 import { formatDate } from '@angular/common';
-
-
+import{TraccarService} from '../traccar.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -57,6 +57,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
     private monitoreo_servicio:MonitoreoService,
+    private cookieService: CookieService ,
+    private traccar:TraccarService
   ) { }
 
   ngOnInit() {
@@ -74,11 +76,23 @@ export class MonitoreoVehiculoComponent implements OnInit {
       weekHeader: 'Wk'
   };
 
-
+    this.InicarSesion();
     this.initMap();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.IniciarFiltros();
+   
+  }
+  InicarSesion(){
+    this.traccar.post_iniciar_sesion().subscribe( data=>{
+      console.log( JSON.parse( JSON.stringify(data))  );
+      // let token =JSON.parse( JSON.stringify(data)).body.token;
+      //this.GetMotorizado(token);
+    },
+    error=>{
+        console.log("errores ",error);
+        
+    })
   }
   IniciarFiltros(){
     

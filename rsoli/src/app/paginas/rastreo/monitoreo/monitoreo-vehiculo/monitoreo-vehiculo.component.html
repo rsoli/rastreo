@@ -83,74 +83,16 @@ class="my-float" (click)="visibleSidebar1 = true">
 </div>
 
 <div class="row" style="padding:0;margin: 0;">
-    <!-- <div class="col-sm-12 col-md-3 col-lg-3" style="padding:0;margin: 0;">
-        <div class="margen-filtros margen1">
-            <h5>FILTROS</h5>
-            <br>
-            <div class="row">
-                <div class="col-lg-12">
-                    Tipo de monitoreo
-                    <br>
-                    <p-dropdown [options]="tipo_monitoreo" [(ngModel)]="tipo_monitoreo_seleccionado" optionLabel="nombre"
-                    [filter]="false" filterBy="nombre" [showClear]="true" placeholder="Seleccionar" (onChange)="monitoreo_seleccionado($event)" >
-                        <ng-template pTemplate="selectedItem">
-                            <div class="country-item country-item-value" *ngIf="tipo_monitoreo_seleccionado">
-                                <div>{{tipo_monitoreo_seleccionado.nombre}}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-country pTemplate="item">
-                            <div class="country-item">
-                                <div>{{country.nombre}}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-            </div>
-            
-            <div class="row" style="margin-top: 9px;">
-                <div class="col-lg-12">
-                    Vehiculo
-                    <br>
-                    <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
-                    optionLabel="placa">
-                </p-multiSelect>
-                </div>
-            </div>
-            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
-                <div class="col-lg-12">
-                    Fecha
-                    <br>
-                    <p-calendar  [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
-                </div>
-            </div>
-            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
-                <div class="col-lg-12">
-                    Hora inicio
-                    <br>
-                    <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" inputId="timeonly"></p-calendar>
-                </div>
-            </div>
-            
-            <div class="row" [hidden]="bandera_tipo_monitoreo" style="margin-top: 10px;">
-                <div class="col-lg-12">
-                    Hora fin
-                    <br>
-                    <p-calendar [(ngModel)]="hora_fin" [timeOnly]="true" inputId="timeonly"></p-calendar>
-                </div>
-            </div>
-            <br>
-            <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>
-        </div>
-    </div> -->
     <div class="col-sm-12 col-md-12 col-lg-12" style="padding:0;margin: 0;">
 
 
-        <div class="margen-mapa margen2">
+        <div class="margen-mapa margen2 ">
             <div id="map1"  class='{{style_map}}'></div>
             <p-table [hidden]="bandera_tabla_viaje"  [rowHover]="true" selectionMode="single" [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
                 <ng-template pTemplate="header">
                     <tr>
                         <th hidden>deviceId</th>
+                        <th>Nro</th>
                         <th>Placa</th>
                         <th>Distancia</th>
                         <th>Vel. Promedio</th>
@@ -160,9 +102,10 @@ class="my-float" (click)="visibleSidebar1 = true">
                         <th>Duración</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-viaje>
-                    <tr>
+                <ng-template pTemplate="body" let-viaje let-rowIndex="rowIndex" >
+                    <tr (click)="seleccionar_viaje(viaje)">
                         <td hidden>{{ viaje.deviceId }}</td>
+                        <td scope="persw">{{rowIndex+1}}</td>
                         <td>{{ viaje.deviceName }}</td>
                         <td>{{ viaje.distance / 1000 | number:'1.2-2' }} Km</td>
                         <td>{{ viaje.averageSpeed * 1.852 | number:'1.2-2' }} km/h</td>
@@ -175,6 +118,7 @@ class="my-float" (click)="visibleSidebar1 = true">
                 </ng-template>
             </p-table>
         </div>
+
     </div>
 </div>
 <p-toast></p-toast>

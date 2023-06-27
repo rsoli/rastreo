@@ -136,6 +136,138 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
         })
   }
+  GetRutasTraccar(viaje:any){
+
+    let f_ini='';
+    let f_fin='';
+    
+    f_ini=formatDate(viaje.startTime, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+    f_fin=formatDate(viaje.endTime , 'yyyy/MM/dd hh:mm:ss', 'en-US');
+
+    f_ini= new Date(f_ini).toISOString();
+    f_fin= new Date(f_fin).toISOString();
+    console.log(viaje.deviceId,f_ini,f_fin);
+    
+    this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
+          console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
+          this.closeLoading_alert();
+          let lista_rutas_traccar=JSON.parse( JSON.stringify(data));
+          //this.lista_viajes=JSON.parse( JSON.stringify(data));
+          this.DibujarRutaTraccar(lista_rutas_traccar);
+        },
+        error=>{
+          console.log("errores ",error);
+          this.closeLoading_alert();
+
+        })
+  }
+  DibujarRutaTraccar(lista_rutas_traccar:any){
+    this.borrarMarcadores();
+    this.lista_marcadores=[];
+
+    let linea_rutas=[];
+    let lat:any;
+    let lon:any;
+    let contador:any=0;
+    let icon:any;
+
+    for (let indice of lista_rutas_traccar ){
+      
+        contador++;
+        if(contador==1){
+
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+              })
+            };
+          
+
+        }else{
+
+          if(contador==lista_rutas_traccar.length){
+            icon = {
+              icon: L.icon({
+                iconSize: [25, 31],
+                iconAnchor: [12, 31],
+                iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
+              })
+            };
+
+          }else{
+
+              icon = {
+                icon: L.icon({
+                  // iconSize: [20, 8],
+                  // iconAnchor: [7, 3],
+                  iconSize: [8, 10],
+                  iconAnchor: [4, 3],
+                  iconUrl: './assets/icono/marcadores/flecha/flecha-azul2.svg',
+                }),
+                rotationAngle:indice.course
+              };
+            
+
+          }
+        }
+
+        console.log("ver atributes ",indice.attributes.motion);
+        
+        this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
+        this.marker.bindPopup("<div font-size: 8px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
+        // "<b>Placa :</b>  "+indice.placa+
+        " <br> <b>Fecha :</b>  "+indice.deviceTime+
+        " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
+        " <br> <b>Bateria vehículo :</b>  "+parseFloat(indice.attributes.power).toFixed(2)+" Volt."+
+        " <br> <b>Bateria Gps:</b>  "+parseFloat(indice.attributes.battery).toFixed(2)+" Volt."+
+        " <br> <b>Motor:</b>  "+((indice.attributes.ignition==true)?' Encendido':' Apagado')+
+        " <br> <b>Movimiento:</b>  "+((indice.attributes.motion==true)?' Si':' No')+
+        // " <br> <b>Grados de giro:</b>  "+indice.course+
+        " <br> <b>Latitud:</b>  "+indice.latitude+
+        " <br> <b>Latitud:</b>  "+indice.longitude+
+        // " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
+        " <br> <b>Ubicación :</b> </br>"+indice.address+ 
+        "<div> ");
+        
+        
+        this.lista_marcadores.push(this.marker);
+
+        linea_rutas.push(this.marker.getLatLng());
+        lat=indice.latitude;
+        lon=indice.longitude;
+
+
+    }
+
+    if(this.polylines){
+      this.polylines.removeFrom(this.map);
+    }
+
+    if(linea_rutas.length>0){
+
+      
+
+      this.polylines = L.polyline(linea_rutas, {
+        color: '#58ACFA', // color de linea
+        // weight: 7, // grosor de línea
+        weight: 6, // grosor de línea
+      }).addTo(this.map);
+      
+      this.map.fitBounds(this.polylines.getBounds());
+      
+      this.map.setView([lat, lon]), 16,{ animation: true };  
+      
+      this.contador_zoom_mapa++;
+      
+    }
+
+    //solucion a problema de boton close de popop
+    document.querySelector('.leaflet-pane.leaflet-popup-pane')!.addEventListener('click', event => {
+      event.preventDefault();
+    });
+  }
   IniciarFiltros(){
     
     this.vehiculo=JSON.parse(localStorage.getItem('accesos')|| '{}').Vehiculo;
@@ -244,6 +376,11 @@ export class MonitoreoVehiculoComponent implements OnInit {
       }
     }
   }
+  seleccionar_viaje(viaje:any){
+    console.log("ver seleccionar ",viaje,viaje.deviceId);
+    this.loading_alert();
+    this.GetRutasTraccar(viaje);
+  }
   monitoreo_seleccionado(event: any){
     try {
       this.BorrarTimer();
@@ -276,6 +413,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_hora_fin=false;
         this.style_map = 'map_tiempo_real';
         this.bandera_tabla_viaje=true;
+
       }
       if(event.value.code=="viajes"){
         this.limite_seleccion_vehiculos=1;
@@ -288,6 +426,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_hora_fin=true;
         this.style_map = 'map_viaje';
         this.bandera_tabla_viaje=false;
+
       }
       if(event.value.code=="paradas"){
         this.limite_seleccion_vehiculos=1;
@@ -300,8 +439,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_hora_fin=true;
         this.style_map = 'map_viaje';
         this.bandera_tabla_viaje=false;
+
       }
 
+      this.borrarMarcadores();
+      this.lista_marcadores=[];
+      this.polylines.removeFrom(this.map);
 
     } catch (error) {
 

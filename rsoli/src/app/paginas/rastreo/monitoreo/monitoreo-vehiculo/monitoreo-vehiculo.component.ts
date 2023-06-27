@@ -154,7 +154,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
       { nombre: 'Tiempo real', code: 'tiempo_real' },
       { nombre: 'Rutas', code: 'rutas' },
       { nombre: 'Viajes', code: 'viajes' },
-      { nombre: 'Paradas', code: 'paradas' },
+      //{ nombre: 'Paradas', code: 'paradas' },
     ];
   }
   initMap() {

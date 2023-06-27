@@ -37,6 +37,13 @@ export class TraccarService {
     return this.http.get('https://www.kolosu.com/traccar/api/devices', { 'headers':headers,withCredentials: true })
 
   }
+  get_viajes(v_deviceId:Number,v_fecha_inicio:String,v_fecha_fin:String){
+    let headers = new HttpHeaders()
+        .set('content-type','application/json');
+
+    let parametros='?deviceId='+v_deviceId+'&from='+v_fecha_inicio+'&to='+v_fecha_fin;
+    return this.http.get('https://www.kolosu.com/traccar/api/reports/trips'+parametros, { 'headers':headers,withCredentials: true })
+  }
   conection(token:String){
    
     let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+token);

@@ -94,6 +94,40 @@ export class MonitoreoVehiculoComponent implements OnInit {
         
     })
   }
+  GetViajes(){
+    let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
+    let id_vehiculos_seleccionados=0;
+    let contador:any=0;
+
+    let f_ini='';
+    let f_fin='';
+
+    if(this.tipo_monitoreo_seleccionado.code=='viajes'){
+      f_ini=formatDate(this.fecha_inicio, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+      f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+    }
+
+    for (let clave of lista_vehiculos){
+      contador++;
+      if(contador==lista_vehiculos.length){
+        id_vehiculos_seleccionados=clave.id_vehiculo;
+      }
+    }
+
+    f_ini= new Date(f_ini).toISOString();
+    f_fin= new Date(f_fin).toISOString();
+    this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
+          console.log("datos viajes " ,JSON.parse( JSON.stringify(data))  );
+          this.closeLoading_alert();
+          // let token =JSON.parse( JSON.stringify(data)).body.token;
+          //this.GetMotorizado(token);
+        },
+        error=>{
+          console.log("errores ",error);
+          this.closeLoading_alert();
+
+        })
+  }
   IniciarFiltros(){
     
     this.vehiculo=JSON.parse(localStorage.getItem('accesos')|| '{}').Vehiculo;
@@ -293,21 +327,20 @@ export class MonitoreoVehiculoComponent implements OnInit {
       })
       this.bandera_timer=true;
 
-    }else{
+    }
+    if(this.tipo_monitoreo_seleccionado.code=='viajes'){
+      this.GetViajes();
+    }
+    if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       this.loading_alert();
 
 
       let f_ini='';
       let f_fin='';
 
-      if(this.tipo_monitoreo_seleccionado.code=='rutas'){
-        f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
-        f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
-      }
-      if(this.tipo_monitoreo_seleccionado.code=='viajes'){
-        f_ini=formatDate(this.fecha_inicio, 'yyyy/MM/dd hh:mm:ss', 'en-US');
-        f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd hh:mm:ss', 'en-US');
-      }
+      f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
+      f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
+
       console.log("nueva fecha inicio ",f_ini);
       console.log("nueva fecha final ",f_fin);
 

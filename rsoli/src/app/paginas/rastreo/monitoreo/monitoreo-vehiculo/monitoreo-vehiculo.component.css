@@ -1,12 +1,12 @@
 .margen1{
   background-color: rgb(255, 255, 255);
   margin: 10px;
-  height: 700px;
+  height: 600px;
 }
 .margen2{
   background-color: rgb(255, 255, 255);
   margin: 10px;
-  height: 700px;
+  height: 600px;
 }
 .margen-mapa{
   padding:10px !important;
@@ -15,11 +15,24 @@
   padding:30px !important;
   border-left: 4px solid #007bff !important;
 }
+
 #map1 {
-  height: 50%;
+  height: 90%; 
   padding: 0%;
   width: 100%;
   z-index: 0;
+} 
+.map_tiempo_real {
+  height: 90% !important; 
+  padding: 0% !important; ;
+  width: 100% !important; ;
+  z-index: 0 !important; ;
+}
+.map_viaje {
+  height: 50% !important;
+  padding: 0% !important; ;
+  width: 100% !important; ;
+  z-index: 0 !important; ;
 }
 @media only screen and (max-width: 738px) {
   .margen1{

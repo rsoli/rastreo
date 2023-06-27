@@ -146,8 +146,8 @@ class="my-float" (click)="visibleSidebar1 = true">
 
 
         <div class="margen-mapa margen2">
-            <div id="map1"></div>
-            <p-table [rowHover]="true" selectionMode="single" [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
+            <div id="map1"  class='{{style_map}}'></div>
+            <p-table [hidden]="bandera_tabla_viaje"  [rowHover]="true" selectionMode="single" [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
                 <ng-template pTemplate="header">
                     <tr>
                         <th hidden>deviceId</th>

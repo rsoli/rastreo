@@ -42,6 +42,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   bandera_hora_inicio:boolean=false;
   bandera_hora_fin:boolean=false;
 
+  bandera_tabla_viaje:boolean=true;
+
   bandera_timer:boolean=false;
   id_interval:any;
   limite_seleccion_vehiculos:number=1;
@@ -54,6 +56,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   en: any;
 
   lista_viajes :Array<String>=[];
+
+  style_map :String = 'map_tiempo_real';
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -78,8 +82,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
       weekHeader: 'Wk'
   };
 
-    this.InicarSesion();
+   
     this.initMap();
+    this.InicarSesion();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.IniciarFiltros();
@@ -256,6 +261,9 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=true;
         this.bandera_hora_inicio=true;
         this.bandera_hora_fin=true;
+
+        this.style_map = 'map_tiempo_real';
+        this.bandera_tabla_viaje=true;
       }
       if(event.value.code=="rutas"){
         this.limite_seleccion_vehiculos=1;
@@ -266,6 +274,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=true;
         this.bandera_hora_inicio=false;
         this.bandera_hora_fin=false;
+        this.style_map = 'map_tiempo_real';
+        this.bandera_tabla_viaje=true;
       }
       if(event.value.code=="viajes"){
         this.limite_seleccion_vehiculos=1;
@@ -276,6 +286,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=false;
         this.bandera_hora_inicio=true;
         this.bandera_hora_fin=true;
+        this.style_map = 'map_viaje';
+        this.bandera_tabla_viaje=false;
       }
       if(event.value.code=="paradas"){
         this.limite_seleccion_vehiculos=1;
@@ -286,6 +298,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=false;
         this.bandera_hora_inicio=true;
         this.bandera_hora_fin=true;
+        this.style_map = 'map_viaje';
+        this.bandera_tabla_viaje=false;
       }
 
 

@@ -53,6 +53,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
   en: any;
 
+  lista_viajes :Array<String>=[];
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
@@ -119,6 +121,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
           console.log("datos viajes " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
+          this.lista_viajes=JSON.parse( JSON.stringify(data));
           // let token =JSON.parse( JSON.stringify(data)).body.token;
           //this.GetMotorizado(token);
         },

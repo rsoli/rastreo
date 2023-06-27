@@ -146,8 +146,34 @@ class="my-float" (click)="visibleSidebar1 = true">
 
 
         <div class="margen-mapa margen2">
-           
             <div id="map1"></div>
+            <p-table [value]="lista_viajes" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>deviceId</th>
+                        <th>Placa</th>
+                        <th>Distancia</th>
+                        <th>Velocidad Promedio</th>
+                        <th>Máxima velocidad</th>
+                        <th>Hora Inicio</th>
+                        <th>Hora Fin</th>
+                        <th>Duración</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-viaje>
+                    <tr>
+                        <td>{{ viaje.deviceId }}</td>
+                        <td>{{ viaje.deviceName }}</td>
+                        <td>{{ viaje.distance }}</td>
+                        <td>{{ viaje.averageSpeed }}</td>
+                        <td>{{ viaje.maxSpeed }}</td>
+                        <td>{{ viaje.startTime }}</td>
+                        <td>{{ viaje.endTime }}</td>
+                        <td>{{ viaje.duration }}</td>
+                        
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </div>
 </div>

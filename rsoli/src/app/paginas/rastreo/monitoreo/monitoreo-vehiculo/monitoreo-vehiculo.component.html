@@ -22,7 +22,7 @@
     <div  style="margin-top: 9px;">
             Vehiculo
             <br>
-            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos"  [filter]="false" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
+            <p-multiSelect [selectionLimit]="limite_seleccion_vehiculos"  [filter]="true" [options]="vehiculo" [(ngModel)]="vehiculo_seleccionado" defaultLabel="Seleccionar"
             optionLabel="placa">
             </p-multiSelect>
 
@@ -88,7 +88,12 @@ class="my-float" (click)="visibleSidebar1 = true">
 
         <div class="margen-mapa margen2 ">
             <div id="map1"  class='{{style_map}}'></div>
-            <p-table [hidden]="bandera_tabla_viaje"  [rowHover]="true" selectionMode="single" [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
+            
+            <p-table #dt1 [hidden]="bandera_tabla_viaje"  [value]="lista_viajes" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"
+            stateStorage="session" stateKey="statedemo-session">
+
+            <!-- <p-table [hidden]="bandera_tabla_viaje"  [rowHover]="true" selectionMode="single" [(selection)]="selected_item"  dataKey="deviceId"  [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
+                 -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th hidden>deviceId</th>
@@ -103,7 +108,8 @@ class="my-float" (click)="visibleSidebar1 = true">
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-viaje let-rowIndex="rowIndex" >
-                    <tr (click)="seleccionar_viaje(viaje)">
+                    <!-- <tr (click)="seleccionar_viaje(viaje)" [pSelectableRow]="viaje"> -->
+                        <tr [pSelectableRow]="viaje" (click)="seleccionar_viaje(viaje)" >
                         <td hidden>{{ viaje.deviceId }}</td>
                         <td scope="persw">{{rowIndex+1}}</td>
                         <td>{{ viaje.deviceName }}</td>
@@ -112,7 +118,7 @@ class="my-float" (click)="visibleSidebar1 = true">
                         <td>{{ viaje.maxSpeed * 1.852 | number:'1.2-2' }} km/h</td>
                         <td>{{ viaje.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
                         <td>{{ viaje.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ viaje.duration | date:'HH' }} h {{ viaje.duration | date:'mm' }} m </td>
+                        <td>{{ viaje.duration  }} </td>
                         
                     </tr>
                 </ng-template>

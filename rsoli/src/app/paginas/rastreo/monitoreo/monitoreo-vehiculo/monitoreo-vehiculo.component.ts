@@ -7,7 +7,7 @@ import Swal from'sweetalert2';
 import { formatDate } from '@angular/common';
 import{TraccarService} from '../traccar.service';
 import { CookieService } from 'ngx-cookie-service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-monitoreo-vehiculo',
@@ -58,6 +58,8 @@ export class MonitoreoVehiculoComponent implements OnInit {
   lista_viajes :Array<String>=[];
 
   style_map :String = 'map_tiempo_real';
+
+  selected_item:Array<String>=[]
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -121,14 +123,37 @@ export class MonitoreoVehiculoComponent implements OnInit {
       }
     }
 
-    f_ini= new Date(f_ini).toISOString();
-    f_fin= new Date(f_fin).toISOString();
+    f_ini= moment(this.fecha_inicio).toISOString();
+    f_fin= moment(this.fecha_final).toISOString(); 
+    console.log("parametros fechas "),f_ini,f_fin;
+    
     this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
+          
           console.log("datos viajes " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
           this.lista_viajes=JSON.parse( JSON.stringify(data));
-          // let token =JSON.parse( JSON.stringify(data)).body.token;
-          //this.GetMotorizado(token);
+          let lista_temporal=Array();
+          for (let index = 0; index < this.lista_viajes.length; index++) {
+            
+            
+            lista_temporal.push(JSON.parse(JSON.stringify(this.lista_viajes[index])));
+            let duration =JSON.parse(JSON.stringify(this.lista_viajes[index]));
+
+            //let aux=JSON.parse(JSON.stringify(this.lista_viajes[index])).duration;
+            let ini = moment(duration.startTime);
+            let fin =moment( duration.endTime);
+
+            console.log('DURATION:', ini,fin);
+            console.log('horas:', fin.diff(ini, 'hours'));
+            console.log('minutos:', fin.diff(ini, 'minutes'));
+            console.log('Segundos:', fin.diff(ini, 'seconds'));
+            lista_temporal[index].duration=fin.diff(ini, 'hours')+' h '+fin.diff(ini, 'minutes')+' m ';
+
+            // console.log("lista  duration ", durationA);
+            
+          }
+          this.lista_viajes=lista_temporal;
+
         },
         error=>{
           console.log("errores ",error);
@@ -141,12 +166,17 @@ export class MonitoreoVehiculoComponent implements OnInit {
     let f_ini='';
     let f_fin='';
     
-    f_ini=formatDate(viaje.startTime, 'yyyy/MM/dd hh:mm:ss', 'en-US');
-    f_fin=formatDate(viaje.endTime , 'yyyy/MM/dd hh:mm:ss', 'en-US');
+    // f_ini=formatDate(viaje.startTime, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+    // f_fin=formatDate(viaje.endTime , 'yyyy/MM/dd hh:mm:ss', 'en-US');
 
-    f_ini= new Date(f_ini).toISOString();
-    f_fin= new Date(f_fin).toISOString();
-    console.log(viaje.deviceId,f_ini,f_fin);
+    // f_ini= new Date(f_ini).toISOString();
+    // f_fin= new Date(f_fin).toISOString();
+
+    f_ini= moment(viaje.startTime).toISOString();
+    f_fin= moment(viaje.endTime).toISOString(); 
+    
+   
+    //console.log("fechas moment ",viaje.deviceId,f_ini,f_fin);
     
     this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
           console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
@@ -213,12 +243,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
           }
         }
 
-        console.log("ver atributes ",indice.attributes.motion);
+        //console.log("ver atributes ",indice.attributes.motion);
         
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
-        this.marker.bindPopup("<div font-size: 8px; z-index:1000' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
+        this.marker.bindPopup("<div style='font-size: 8px' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
         // "<b>Placa :</b>  "+indice.placa+
-        " <br> <b>Fecha :</b>  "+indice.deviceTime+
+        " <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
         " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
         " <br> <b>Bateria vehículo :</b>  "+parseFloat(indice.attributes.power).toFixed(2)+" Volt."+
         " <br> <b>Bateria Gps:</b>  "+parseFloat(indice.attributes.battery).toFixed(2)+" Volt."+
@@ -401,6 +431,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
         this.style_map = 'map_tiempo_real';
         this.bandera_tabla_viaje=true;
+        this.lista_viajes=[];
       }
       if(event.value.code=="rutas"){
         this.limite_seleccion_vehiculos=1;
@@ -411,8 +442,10 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=true;
         this.bandera_hora_inicio=false;
         this.bandera_hora_fin=false;
+
         this.style_map = 'map_tiempo_real';
         this.bandera_tabla_viaje=true;
+        this.lista_viajes=[];
 
       }
       if(event.value.code=="viajes"){
@@ -424,8 +457,10 @@ export class MonitoreoVehiculoComponent implements OnInit {
         this.bandera_fecha_final=false;
         this.bandera_hora_inicio=true;
         this.bandera_hora_fin=true;
+
         this.style_map = 'map_viaje';
         this.bandera_tabla_viaje=false;
+        this.lista_viajes=[];
 
       }
       if(event.value.code=="paradas"){

@@ -119,7 +119,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     for (let clave of lista_vehiculos){
       contador++;
       if(contador==lista_vehiculos.length){
-        id_vehiculos_seleccionados=clave.id_vehiculo;
+        id_vehiculos_seleccionados=clave.id_dispositivo; 
       }
     }
 

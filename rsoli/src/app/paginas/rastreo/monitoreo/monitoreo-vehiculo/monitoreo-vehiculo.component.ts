@@ -246,7 +246,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
         //console.log("ver atributes ",indice.attributes.motion);
         
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
-        this.marker.bindPopup("<div style='font-size: 8px' > <div style='text-align: center;' > <b>DATOS DEL MOTORIZADO</b></div><br/>"+
+        this.marker.bindPopup("<div style='font-size: 8px' > "+
         // "<b>Placa :</b>  "+indice.placa+
         " <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
         " <br> <b>Velocidad :</b>  "+parseFloat(indice.speed).toFixed(2)+" Km/h"+
@@ -256,8 +256,10 @@ export class MonitoreoVehiculoComponent implements OnInit {
         " <br> <b>Movimiento:</b>  "+((indice.attributes.motion==true)?' Si':' No')+
         // " <br> <b>Grados de giro:</b>  "+indice.course+
         " <br> <b>Latitud:</b>  "+indice.latitude+
-        " <br> <b>Latitud:</b>  "+indice.longitude+
-        // " <br> <b>Bateria :</b>  "+parseFloat(indice.bateria_vehiculo).toFixed(2)+" Volt."+
+        " <br> <b>Longitud:</b>  "+indice.longitude+
+        " <br> <b>Giro:</b>  "+indice.course+
+        " <br> <b>Altitud:</b>  "+indice.altitude+
+        " <br> <b>Odometro:</b>  "+ (parseFloat(indice.odometer)/1000).toFixed(2)+
         " <br> <b>Ubicación :</b> </br>"+indice.address+ 
         "<div> ");
         

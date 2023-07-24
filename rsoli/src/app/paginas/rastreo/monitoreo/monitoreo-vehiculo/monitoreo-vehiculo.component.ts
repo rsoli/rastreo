@@ -321,7 +321,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.tipo_monitoreo = [
       { nombre: 'Tiempo real', code: 'tiempo_real' },
       { nombre: 'Rutas', code: 'rutas' },
-      { nombre: 'Viajes', code: 'viajes' },
+      //{ nombre: 'Viajes', code: 'viajes' },
       //{ nombre: 'Paradas', code: 'paradas' },
     ];
   }

@@ -23,6 +23,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [],

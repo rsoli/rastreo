@@ -21,7 +21,7 @@ export class TraccarService {
     .set('X-Requested-With','XMLHttpRequest')
     .set('Accept','*/*');
 
-   return this.http.post<any>('https://www.kolosu.com/traccar/api/session', "email=admin&password=jdjPropio10711@", { 'headers':headers, observe: 'response', withCredentials: true })
+   return this.http.post<any>('https://www.kolosu.com/traccar/api/session?token', "test", { 'headers':headers, observe: 'response', withCredentials: true })
 
     //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
     //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 

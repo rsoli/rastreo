@@ -525,7 +525,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
     }
     if(this.tipo_monitoreo_seleccionado.code=='viajes'){
-      this.GetViajes();
+      //this.GetViajes();
     }
     if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       this.loading_alert();

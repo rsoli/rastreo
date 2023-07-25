@@ -454,7 +454,7 @@ class Controller extends BaseController
             CURLOPT_URL => 'https://kolosu.com/traccar/api/session?token='.$this->token,
             CURLOPT_RETURNTRANSFER => true,
 
-            curl_setopt($curl, CURLOPT_HEADER, 1),
+            //curl_setopt($curl, CURLOPT_HEADER, 1),
 
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

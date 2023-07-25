@@ -465,7 +465,7 @@ class Controller extends BaseController
             CURLOPT_POSTFIELDS => '',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
-                "Cookie: Name=Value",
+                //"Cookie: Name=Value",
             ),
         ));
 

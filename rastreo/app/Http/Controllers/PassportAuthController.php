@@ -289,7 +289,7 @@ class PassportAuthController extends Controller
 
                                 left join ras.tcliente c on c.id_persona=p.id_persona
                                 left join ras.tservicio s on s.id_cliente=c.id_cliente
-                                join ras.ttipo_servicio ts on ts.id_tipo_servicio = s.id_tipo_servicio
+                                left join ras.ttipo_servicio ts on ts.id_tipo_servicio = s.id_tipo_servicio
                                 left join ras.tpago_servicio pag on pag.id_servicio=s.id_servicio
                                 where ".$ids." and us.estado=?
                                 group by  us.id,

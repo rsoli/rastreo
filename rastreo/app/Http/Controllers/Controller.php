@@ -14,6 +14,7 @@ use DB;//juan
 class Controller extends BaseController
 {
 	protected $accesos=[];//juan
+    protected $token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 	public function verificarAcceso(Request $request){//juan
@@ -416,9 +417,9 @@ class Controller extends BaseController
     public function get_device_traccar($cookies){
 
         $curl = curl_init();
-
+        
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://kolosu.com/traccar/api/devices',
+            CURLOPT_URL => 'https://kolosu.com/traccar/api/devices?token='.$this->token,
             CURLOPT_RETURNTRANSFER => true,
 
             CURLOPT_ENCODING => '',
@@ -427,7 +428,7 @@ class Controller extends BaseController
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => 'email=admin&password=jdjPropio10711@',
+            CURLOPT_POSTFIELDS => '',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 "Cookie: JSESSIONID=".$cookies["JSESSIONID"]
@@ -450,7 +451,7 @@ class Controller extends BaseController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://kolosu.com/traccar/api/session',
+            CURLOPT_URL => 'https://kolosu.com/traccar/api/session?token='.$this->token,
             CURLOPT_RETURNTRANSFER => true,
 
             curl_setopt($curl, CURLOPT_HEADER, 1),
@@ -460,11 +461,10 @@ class Controller extends BaseController
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'email=admin&password=jdjPropio10711@',
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_POSTFIELDS => '',
             CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/x-www-form-urlencoded',
-                // 'Cookie: JSESSIONID=node0spbxks097p05bxx5mupjqry13638.node0'
+                'Content-Type: application/json',
                 "Cookie: Name=Value",
             ),
         ));

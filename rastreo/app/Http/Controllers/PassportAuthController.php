@@ -282,7 +282,7 @@ class PassportAuthController extends Controller
                                  us.email as correo,
                                  ?||us.foto::varchar as foto,
                                  p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno as persona,
-                                 ,max(pag.fecha_fin)::date as fecha_fin
+                                 max(pag.fecha_fin)::date as fecha_fin
 
                                 from segu.users us
                                 left join ras.tpersona p on p.id_persona=us.id_persona

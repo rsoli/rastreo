@@ -70,7 +70,7 @@ return [
             'port' => env('DB_PORT', '5432'),
             'database' => env('bd_rastreo', 'bd_rastreo'),
             'username' => env('postgres', 'postgres'),
-            'password' => env('post7748', 'post7748'),
+            'password' => env('@PL4t@F0rm4!!secr3t4', '@PL4t@F0rm4!!secr3t4'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

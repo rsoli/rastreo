@@ -23,12 +23,7 @@ export class TraccarService {
 
    return this.http.post<any>('https://www.kolosu.com/traccar/api/session?token', "test", { 'headers':headers, observe: 'response', withCredentials: true })
 
-    //const body=JSON.stringify({email:"admin",password:"jdjPropio10711@"});
-    //let headers ={ 'headers': { 'content-type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest'}}; 
 
-
-    //return this.http.post("https://kolosu.com/traccar/api/session", "email=admin&password=jdjPropio10711@",{headers});
-    
   }
   get_motorizado(token:any){
     let headers = new HttpHeaders()

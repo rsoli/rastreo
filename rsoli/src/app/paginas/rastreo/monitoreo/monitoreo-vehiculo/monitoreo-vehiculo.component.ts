@@ -86,7 +86,6 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
    
     this.initMap();
-    //this.InicarSesion();
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.IniciarFiltros();

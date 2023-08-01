@@ -534,7 +534,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
       let f_fin='';
 
       f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
-      f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
+      f_fin=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
 
       console.log("nueva fecha inicio ",f_ini);
       console.log("nueva fecha final ",f_fin);

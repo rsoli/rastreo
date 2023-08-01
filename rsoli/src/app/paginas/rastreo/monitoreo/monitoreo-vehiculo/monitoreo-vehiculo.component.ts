@@ -542,7 +542,7 @@ export class MonitoreoVehiculoComponent implements OnInit {
 
       this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
         this.closeLoading_alert();
-        
+         
         this.AgregarMarcador( JSON.parse(JSON.stringify(data)));
       },
       error=>{

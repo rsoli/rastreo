@@ -813,7 +813,14 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     // this.contador_zoom_mapa=0;
     this.visibleSidebar1=true;
     
-
+    this.vehiculo_seleccionado ={lat:0,
+      lng:0,
+      id_dispositivo:0,
+      id_vehiculo:0,
+      placa: '',
+      motor: '',
+      bateria: ''
+    };
   }
   error(titulo:string,mensaje:string){
     Swal.fire({

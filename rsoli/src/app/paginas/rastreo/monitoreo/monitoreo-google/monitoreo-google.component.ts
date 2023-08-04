@@ -11,6 +11,8 @@ import { Table } from 'primeng/table';
 import Swal from'sweetalert2';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import * as moment from 'moment';
+import { ErrorHandler } from '@angular/core';
+moment.locale("es");
 
 @Component({
   selector: 'app-monitoreo-google',
@@ -18,7 +20,7 @@ import * as moment from 'moment';
   styleUrls: ['./monitoreo-google.component.css'],
   providers: [MessageService]
 })
-export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
+export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler{
 
   private timeout: any;
 
@@ -28,6 +30,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
   polylines:any;
 
   lista_dispositivos = new Array();
+  lista_dispositivos_aux:Array<String>=[];
   
   aux=new Array();
   markers =new Array();
@@ -39,6 +42,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
   
   icon: any;
   icono_rojo :any;
+  icono_inicio :any;
+  icono_final :any;
   vehiculo_seleccionado ={lat:0,
     lng:0,
     id_dispositivo:0,
@@ -55,10 +60,10 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
 
   visibleSidebar1: any;
   fecha_ratreo: Date=new Date();
-  fecha_inicio: Date=new Date();
-  fecha_final: Date=new Date();
-  hora_inicio=new Date('2023-10-06 00:00:00');
-  hora_fin=new Date('2023-10-06 23:59:59');
+  fecha_inicio=new Date('2023-08-01T00:00:00');
+  fecha_final=new Date('2023-08-30T23:59:00');
+  hora_inicio=new Date('2023-10-06T00:00:00');
+  hora_fin=new Date('2023-10-06T23:59:59');
 
   bandera_fecha_ratreo:boolean=false;
   bandera_fecha_inicio:boolean=false;
@@ -79,9 +84,26 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
     private monitoreo_servicio:MonitoreoService,
     private cookieService: CookieService 
   ) { }
-
-  ngOnInit(): void {
+  handleError(error: any): void {//para errores de bondle
+    const chunkFailedMessage = /Loading chunk [\d]+ failed/;
   
+      if (chunkFailedMessage.test(error.message)) {
+        window.location.reload();
+      }
+  }
+  ngOnInit(): void {
+    
+    // let fecha_inic_aux=moment(this.fecha_inicio.getFullYear().toString()+'/'+this.fecha_inicio.getMonth().toString()+'/'+this.fecha_inicio.getDay().toString()+' 00:00:00').format('YYYY-MM-DD HH:mm:ss');
+    // let fecha_fin_aux=this.fecha_inicio.getFullYear()+'/'+this.fecha_inicio.getMonth()+'/'+this.fecha_inicio.getDay()+' 23:59:00';
+    // console.log("ver fecha ",fecha_inic_aux,fecha_fin_aux);
+    // // this.fecha_inicio= new Date(fecha_inic_aux.toISOString());
+    // this.fecha_inicio=new Date(fecha_inic_aux.toString());
+
+    this.fecha_inicio.setMinutes(this.fecha_inicio.getMinutes() + this.fecha_inicio.getTimezoneOffset());
+    this.fecha_final.setMinutes(this.fecha_final.getMinutes() + this.fecha_final.getTimezoneOffset())
+    console.log("ver fecha 2",this.fecha_inicio,this.fecha_final);
+
+    
     this.cargarIcono();
     this.IniciarMapa();
 /*
@@ -130,9 +152,32 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
         iconSize: [30, 35],
         iconAnchor: [17, 17],
         popupAnchor: [0, -13] //horizontal  vertical
+
+        
       })
     };
-
+    this.icono_inicio ={
+      icon: L.icon({
+        iconUrl: './assets/icono/marcadores/circulo/inicio.png',
+        // iconSize: [30, 35],
+        // iconAnchor: [17, 17],
+        // popupAnchor: [0, -13] //horizontal  vertical
+        iconSize:     [35, 41],
+        iconAnchor:   [1, 39], //vertical  
+        popupAnchor:  [-0, -47] 
+      })
+    };
+    this.icono_final ={
+      icon: L.icon({
+        iconUrl: './assets/icono/marcadores/circulo/final.png',
+        // iconSize: [30, 35],
+        // iconAnchor: [17, 17],
+        // popupAnchor: [0, -13] //horizontal  vertical
+        iconSize:     [35, 41],
+        iconAnchor:   [1, 39], //vertical  
+        popupAnchor:  [-0, -47] 
+      })
+    };
     // this.icono_rojo ={
     //   icon: L.icon({
     //     iconUrl: './assets/iconos/marcadores/circulo/ubi_rojo.png',
@@ -488,6 +533,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
 
 
       }
+      this.lista_dispositivos_aux=this.lista_dispositivos;
       // console.log("ver datos ",this.lista_dispositivos);
       
        if(this.bandera_centrado_mapa==false){
@@ -620,24 +666,26 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
         contador++;
         if(contador==1){
 
-            icon = {
-              icon: L.icon({
-                iconSize: [25, 31],
-                iconAnchor: [12, 31],
-                iconUrl: './assets/icono/marcadores/ubicacion/ubi-rojo.svg',
-              })
-            };
+            // icon = {
+            //   icon: L.icon({
+            //     iconSize: [25, 31],
+            //     iconAnchor: [12, 31],
+            //     iconUrl: './assets/icono/marcadores/ubicacion/ubi-rojo.svg',
+            //   })
+            // };
+            icon=this.icono_inicio;
           
 
         }else{
           if(contador==marcadores.lista_monitoreo_tiempo_real.length){
-            icon = {
-              icon: L.icon({
-                iconSize: [25, 31],
-                iconAnchor: [12, 31],
-                iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
-              })
-            };
+            // icon = {
+            //   icon: L.icon({
+            //     iconSize: [25, 31],
+            //     iconAnchor: [12, 31],
+            //     iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
+            //   })
+            // };
+            icon=this.icono_final;
           }else{
             if(indice.tiempo_parqueo=='00:00:00'){
               icon = {
@@ -808,10 +856,10 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
     f_fin= moment(viaje.endTime).toISOString(); 
     
    
-    //console.log("fechas moment ",viaje.deviceId,f_ini,f_fin);
+    // console.log("juan moment ",viaje.deviceId,f_ini,f_fin);
     
     this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
-          console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
+          // console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
           let lista_rutas_traccar=JSON.parse( JSON.stringify(data));
           //this.lista_viajes=JSON.parse( JSON.stringify(data));
@@ -841,16 +889,25 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
         contador++;
 
         //nueva logiaca
-        icon = {
-          icon: L.icon({
-            // iconSize: [20, 8],
-            // iconAnchor: [7, 3],
-            iconSize: [8, 10],
-            iconAnchor: [4, 3],
-            iconUrl: './assets/icono/marcadores/flecha/flecha-azul2.svg',
-          }),
-          rotationAngle:indice.course
-        };
+        if(contador==1){
+          icon =this.icono_inicio;
+        }else{
+          if(contador==lista_rutas_traccar.length){
+            icon =this.icono_final;
+          }
+          else{
+            icon = {
+              icon: L.icon({
+                // iconSize: [20, 8],
+                // iconAnchor: [7, 3],
+                iconSize: [8, 10],
+                iconAnchor: [4, 3],
+                iconUrl: './assets/icono/marcadores/flecha/flecha-azul2.svg',
+              }),
+              rotationAngle:indice.course
+            };
+          }
+        }
         ////fin nueva logica
 
 
@@ -883,11 +940,11 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
 
         if(contador==1){
           this.marker.bindTooltip("Inicio");
-          this.marker.openTooltip();
+          // this.marker.openTooltip();
         }
         if(contador==lista_rutas_traccar.length){
           this.marker.bindTooltip("Final");
-          this.marker.openTooltip();
+          // this.marker.openTooltip();
         }
         
         this.lista_marcadores.push(this.marker);
@@ -949,7 +1006,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
 
     f_ini= moment(this.fecha_inicio).toISOString();
     f_fin= moment(this.fecha_final).toISOString(); 
-    console.log("parametros fechas "),f_ini,f_fin;
+    console.log("parametros fechas ",f_ini,f_fin);
     
     this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
           
@@ -967,10 +1024,10 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy {
             let ini = moment(duration.startTime);
             let fin =moment( duration.endTime);
 
-            console.log('DURATION:', ini,fin);
-            console.log('horas:', fin.diff(ini, 'hours'));
-            console.log('minutos:', fin.diff(ini, 'minutes'));
-            console.log('Segundos:', fin.diff(ini, 'seconds'));
+            // console.log('DURATION:', ini,fin);
+            // console.log('horas:', fin.diff(ini, 'hours'));
+            // console.log('minutos:', fin.diff(ini, 'minutes'));
+            // console.log('Segundos:', fin.diff(ini, 'seconds'));
             lista_temporal[index].duration=fin.diff(ini, 'hours')+' h '+fin.diff(ini, 'minutes')+' m ';
 
             // console.log("lista  duration ", durationA);

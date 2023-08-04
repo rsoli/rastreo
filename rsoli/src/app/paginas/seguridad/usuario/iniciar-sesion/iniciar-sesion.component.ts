@@ -5,13 +5,14 @@ import { UsuarioModelo } from '../usuario-modelo';
 import{UsuarioService} from '../usuario.service';
 import { Router} from '@angular/router';
 import Swal from'sweetalert2';
+import { ErrorHandler } from '@angular/core';
 
 @Component({
   selector: 'app-iniciar-sesion',
   templateUrl: './iniciar-sesion.component.html',
   styleUrls: ['./iniciar-sesion.component.css']
 })
-export class IniciarSesionComponent implements OnInit {
+export class IniciarSesionComponent implements OnInit ,ErrorHandler{
 
   visible_cerrar_sesion: boolean=false;
   visible_iniciar_sesion: boolean=false;
@@ -37,6 +38,13 @@ export class IniciarSesionComponent implements OnInit {
 
     ) { }
 
+  handleError(error: any): void {
+    const chunkFailedMessage = /Loading chunk [\d]+ failed/;//para errores de bondle
+  
+      if (chunkFailedMessage.test(error.message)) {
+        window.location.reload();
+      }
+  }
   ngOnInit(): void {
     this.IniciarFormulario();
     this.CargarDatosUsuario();

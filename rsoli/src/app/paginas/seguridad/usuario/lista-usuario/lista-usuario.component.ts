@@ -6,6 +6,7 @@ import {MessageService} from 'primeng/api';
 import Swal from'sweetalert2';
 import { ModalUsuarioComponent} from '../modal-usuario/modal-usuario.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ErrorHandler } from '@angular/core';
 
 @Component({
   selector: 'app-lista-usuario',
@@ -13,7 +14,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./lista-usuario.component.css'],
   providers: [MessageService]
 })
-export class ListaUsuarioComponent implements OnInit {
+export class ListaUsuarioComponent implements OnInit ,ErrorHandler{
 
   lista_usuarios :Array<UsuarioModelo>=[];
   usuario_seleccionado=new UsuarioModelo();
@@ -29,6 +30,13 @@ export class ListaUsuarioComponent implements OnInit {
     private modalService: BsModalService
   ) { }
 
+  handleError(error: any): void {//para errores de bondle
+    const chunkFailedMessage = /Loading chunk [\d]+ failed/;
+  
+      if (chunkFailedMessage.test(error.message)) {
+        window.location.reload();
+      }
+  }
   ngOnInit(): void {
     this.sesion=JSON.parse(localStorage.getItem('accesos')|| '{}').sesion;
     this.GetUsuarios();

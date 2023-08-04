@@ -80,6 +80,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
   //viajes
   selected_item:Array<String>=[]
+
+  seguimiento_marcador=false;
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
@@ -496,7 +498,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
             this.markers[position.deviceId].slideTo([position.latitude, position.longitude], {
               duration: 5000,
-              keepAtCenter: (this.vehiculo_seleccionado.id_dispositivo==position.deviceId)?true:false,
+              keepAtCenter: (this.seguimiento_marcador)?true:false,
             });
 
             //editar marker para lista de dispositivos
@@ -543,6 +545,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     table.clear();
   }
   SeleccionarVehiculo(item:any){
+    this.seguimiento_marcador=true;
 
     this.hide_botones=false;
     this.borrarMarcadores();
@@ -775,8 +778,36 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   }
   abrir_filtros(datos:string,item:any){
 
-    this.SeleccionarVehiculo(item);//evento para copiar al seleccionado de vehiculo
-    
+//inicio selecion//////////
+this.hide_botones=false;
+this.borrarMarcadores();
+this.lista_viajes=[];
+this.style_map= 'map_tiempo_real';
+this.bandera_tabla_viaje=true;
+if(this.polylines){
+  this.polylines.removeFrom(this.map);
+}
+// this.nombre_placa=item.placa;
+//similar a la funcion centar mapa
+this.map.closePopup();
+
+let id=item.id_dispositivo;
+this.vehiculo_seleccionado=item;
+
+//nos dirigimos hacia el marker
+let p=this.markers[id];
+if(this.id_vehiculo_aux==item.id_dispositivo){
+  this.map.setView([p._latlng.lat, p._latlng.lng])
+}
+else{
+  this.map.setView([p._latlng.lat, p._latlng.lng], 16);
+  this.id_vehiculo_aux=item.id_dispositivo;
+}
+
+//abrimos el popop
+this.markers[id].openPopup();
+this.seguimiento_marcador=false;
+/////////////////////////
     
     this.tipo_monitoreo_seleccionado.code=datos;
     if(this.tipo_monitoreo_seleccionado.code=="rutas"){
@@ -813,14 +844,6 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     // this.contador_zoom_mapa=0;
     this.visibleSidebar1=true;
     
-    this.vehiculo_seleccionado ={lat:0,
-      lng:0,
-      id_dispositivo:0,
-      id_vehiculo:0,
-      placa: '',
-      motor: '',
-      bateria: ''
-    };
   }
   error(titulo:string,mensaje:string){
     Swal.fire({

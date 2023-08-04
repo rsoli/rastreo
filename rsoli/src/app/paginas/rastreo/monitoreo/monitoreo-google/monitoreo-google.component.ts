@@ -346,15 +346,15 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       //   attribution: '',
       // });
 
-      var Stadia_AlidadeSmoothDark =
-      L.tileLayer(
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-        //attribution: 'Tiles &copy; Esri'
-        //attribution: 'CartoDB.Voyager',
-        attribution: '',
-        maxZoom: 20,
-        //updateWhenIdle: true,
-      });
+      // var Stadia_AlidadeSmoothDark =
+      // L.tileLayer(
+      //   'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+      //   //attribution: 'Tiles &copy; Esri'
+      //   //attribution: 'CartoDB.Voyager',
+      //   attribution: '',
+      //   maxZoom: 20,
+      //   //updateWhenIdle: true,
+      // });
 
       var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
         maxZoom: 20,
@@ -375,7 +375,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       //'Esri_WorldTopoMap': Esri_WorldTopoMap,
       // 'Stadia_Outdoors':Stadia_Outdoors,
       // 'Stadia_OSMBright':Stadia_OSMBright,
-      'Stadia Oscuro':Stadia_AlidadeSmoothDark,
+      // 'Stadia Oscuro':Stadia_AlidadeSmoothDark,
       'google Calles':googleStreets,
       'google Hibrido':googleHybrid
       // 'Cartografico':positron

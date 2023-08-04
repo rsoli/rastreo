@@ -14,14 +14,19 @@ export class TraccarService {
     private cookieService: CookieService
   ) { }
 
-  post_iniciar_sesion(){
+  post_iniciar_sesion(token:string){
 
-  let headers = new HttpHeaders()
-    .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
-    .set('X-Requested-With','XMLHttpRequest')
-    .set('Accept','*/*');
+    let headers = new HttpHeaders()
+    // .set('Accept','*/*')
+       .set('content-type','application/json;');
+      return this.http.get('https://www.kolosu.com/traccar/api/session?token='+token, { observe: 'response', withCredentials: true })
+      
+  // let headers = new HttpHeaders()
+  //   .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
+  //   .set('X-Requested-With','XMLHttpRequest')
+  //   .set('Accept','*/*');
 
-   return this.http.post<any>('https://www.kolosu.com/traccar/api/session?token', "test", { 'headers':headers, observe: 'response', withCredentials: true })
+  //  return this.http.post<any>('https://www.kolosu.com/traccar/api/session', "test", { 'headers':headers, observe: 'response', withCredentials: true })
 
 
   }

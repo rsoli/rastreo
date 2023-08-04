@@ -5,8 +5,8 @@
 }
 .margen2{
   background-color: rgb(255, 255, 255);
-  margin: 10px;
-  height: 700px;
+  margin: 10px !important;
+  height: 700px !important;
 }
 .margen-mapa{
   padding:10px !important;
@@ -16,10 +16,17 @@
   border-left: 4px solid #007bff !important;
 }
 #map2 {
+  /* height: 100vw; */
   height: 100%;
   padding: 0%;
   width: 100%;
   z-index: 0;
+}
+.map_viaje {
+  height: 70% !important;
+  padding: 0% !important; ;
+  width: 100% !important; ;
+  z-index: 0 !important; ;
 }
 @media only screen and (max-width: 738px) {
   .margen1{

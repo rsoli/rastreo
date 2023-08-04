@@ -89,10 +89,12 @@ export class MonitoreoVehiculoComponent implements OnInit {
     this.cargarTipoMonitoreo();
     this.primengConfig.ripple = true;
     this.IniciarFiltros();
+    this.InicarSesion;
    
   }
   InicarSesion(){
-    this.traccar.post_iniciar_sesion().subscribe( data=>{
+    let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
+    this.traccar.post_iniciar_sesion(token).subscribe( data=>{
       console.log( JSON.parse( JSON.stringify(data))  );
       // let token =JSON.parse( JSON.stringify(data)).body.token;
       //this.GetMotorizado(token);

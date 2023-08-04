@@ -1,8 +1,133 @@
+<p-toast></p-toast>
+<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="true">
+    <h5>FILTROS</h5>
+    
+    <div  [hidden]="bandera_fecha_ratreo" style="margin-top: 10px;">
+            Fecha
+            <br>
+            
+            <p-calendar [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+            <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
+    </div>
+    <div  [hidden]="bandera_hora_inicio" style="margin-top: 10px;">
+            Hora inicio
+            <br>
+            <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" [touchUI]="true"  inputId="timeonly"></p-calendar>
+    </div>
+    <div [hidden]="bandera_hora_fin" style="margin-top: 10px;">
+            Hora fin
+            <br>
+            <p-calendar [(ngModel)]="hora_fin"  [timeOnly]="true"[touchUI]="true"  inputId="timeonly"></p-calendar>
+    </div>
+
+
+    <div  [hidden]="bandera_fecha_inicio" style="margin-top: 10px;">
+        Fecha inicio
+        <br>
+        <p-calendar [(ngModel)]="fecha_inicio" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+        <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
+    </div>
+
+    <div  [hidden]="bandera_fecha_final" style="margin-top: 10px;">
+            Fecha fin
+        <br>
+        <p-calendar [(ngModel)]="fecha_final" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+</div>
+    <br>
+    <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>
+</p-sidebar>
+
 <div class="row" style="padding:0;margin: 0;">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="padding:0;margin: 0;">
+    <div class="col-sm-12 col-md-4 col-lg-4" style="padding:0;margin: 0;">
+        <div class="margen-mapa margen2"> 
+
+           <!-- <button pButton pRipple label="Viajes" class="p-button-primary" (click)="abrir_filtros('viajes')" ></button>&nbsp; 
+            <button pButton pRipple label="Rutas" class="p-button-success" (click)="abrir_filtros('rutas')" ></button>  -->
+
+            <p-table #dt1 [value]="lista_dispositivos" 
+            
+            [paginator]="true"
+            [rows]="7"
+            [globalFilterFields]="['placa']"
+            selectionMode="single"
+            dataKey="id_vehiculo"
+            >
+
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <!-- <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar Placa" />
+                    </span>
+                </div>
+            </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Placa</th>
+                        <!-- <th>Motor</th> -->
+                        <th>Acción</th>
+                        <!-- <th>Category</th>
+                        <th>Quantity</th>  -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-p >
+                    <tr>
+                        <td (click)="SeleccionarVehiculo(p)">{{ p.placa }}</td>
+                        <!-- <td>{{ p.motor }}</td> -->
+                        <td>
+                            <!-- <button pButton pRipple label="Viajes" styleClass="p-button-rounded" class="p-button-primary" (click)="abrir_filtros('viajes')" ></button>
+                            <button pButton pRipple label="Rutas" styleClass="p-button-rounded" class="p-button-success" (click)="abrir_filtros('rutas')" ></button> 
+                             -->
+                            <p-button label="Viajes" styleClass="p-button-rounded p-button-sm" (click)="abrir_filtros('viajes',p)" ></p-button>&nbsp; 
+                            <p-button label="Rutas" styleClass="p-button-rounded p-button-success p-button-sm" (click)="abrir_filtros('rutas',p)"></p-button>
+                        </td>
+                        <!-- <td>{{ p.category }}</td>
+                        <td>{{ p.quantity }}</td>  -->
+                    </tr>
+                </ng-template>
+            </p-table>
+         </div>
+    </div>
+
+    <div class="col-sm-12 col-md-8 col-lg-8" style="padding:0;margin: 0;">
         <div class="margen-mapa margen2">
-           
-            <div id="map2"></div>
+            <div id="map2" class='{{style_map}}'></div>
+            <p-table #dt1 [hidden]="bandera_tabla_viaje"  [value]="lista_viajes" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"
+            stateStorage="session" stateKey="statedemo-session">
+
+            <!-- <p-table [hidden]="bandera_tabla_viaje"  [rowHover]="true" selectionMode="single" [(selection)]="selected_item"  dataKey="deviceId"  [value]="lista_viajes" [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"  >
+                 -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th hidden>deviceId</th>
+                        <th>Nro</th>
+                        <th>Placa</th>
+                        <th>Distancia</th>
+                        <th>Vel. Promedio</th>
+                        <th>Vel. Máxima</th>
+                        <th>Hora Inicio</th>
+                        <th>Hora Fin</th>
+                        <th>Duración</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-viaje let-rowIndex="rowIndex" >
+                    <!-- <tr (click)="seleccionar_viaje(viaje)" [pSelectableRow]="viaje"> -->
+                        <tr [pSelectableRow]="viaje" (click)="seleccionar_viaje(viaje)" >
+                        <td hidden>{{ viaje.deviceId }}</td>
+                        <td scope="persw">{{rowIndex+1}}</td>
+                        <td>{{ viaje.deviceName }}</td>
+                        <td>{{ viaje.distance / 1000 | number:'1.2-2' }} Km</td>
+                        <td>{{ viaje.averageSpeed * 1.852 | number:'1.2-2' }} km/h</td>
+                        <td>{{ viaje.maxSpeed * 1.852 | number:'1.2-2' }} km/h</td>
+                        <td>{{ viaje.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                        <td>{{ viaje.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+                        <td>{{ viaje.duration  }} </td>
+                        
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </div>
 </div>

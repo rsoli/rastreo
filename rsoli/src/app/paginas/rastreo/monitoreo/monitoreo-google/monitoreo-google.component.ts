@@ -81,7 +81,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   //viajes
   selected_item:Array<String>=[]
 
-  seguimiento_marcador=false;
+  seguimiento_marcador=0;
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
@@ -498,7 +498,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
             this.markers[position.deviceId].slideTo([position.latitude, position.longitude], {
               duration: 5000,
-              keepAtCenter: (this.seguimiento_marcador)?true:false,
+              keepAtCenter: (this.vehiculo_seleccionado.id_dispositivo==position.deviceId && this.seguimiento_marcador!=0)?true:false,
             });
 
             //editar marker para lista de dispositivos
@@ -545,7 +545,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     table.clear();
   }
   SeleccionarVehiculo(item:any){
-    this.seguimiento_marcador=true;
+    this.seguimiento_marcador=item.id_dispositivo;
 
     this.hide_botones=false;
     this.borrarMarcadores();
@@ -806,7 +806,7 @@ else{
 
 //abrimos el popop
 this.markers[id].openPopup();
-this.seguimiento_marcador=false;
+this.seguimiento_marcador=0;
 /////////////////////////
     
     this.tipo_monitoreo_seleccionado.code=datos;

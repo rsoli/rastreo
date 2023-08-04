@@ -6,7 +6,7 @@
             Fecha
             <br>
             
-            <p-calendar [(ngModel)]="fecha_ratreo" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+            <p-calendar [(ngModel)]="fecha_ratreo"  dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
             <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
     </div>
     <div  [hidden]="bandera_hora_inicio" style="margin-top: 10px;">
@@ -46,7 +46,7 @@
 
             [value]="lista_dispositivos_aux" 
             [paginator]="true"
-            [rows]="7"
+            [rows]="6"
             [globalFilterFields]="['placa']"
             selectionMode="single"
             dataKey="id_vehiculo"

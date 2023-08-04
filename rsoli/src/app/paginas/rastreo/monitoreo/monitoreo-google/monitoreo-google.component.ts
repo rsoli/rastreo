@@ -11,6 +11,7 @@ import { Table } from 'primeng/table';
 import Swal from'sweetalert2';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import * as moment from 'moment';
+import 'moment-timezone';
 import { ErrorHandler } from '@angular/core';
 moment.locale("es");
 
@@ -60,8 +61,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
   visibleSidebar1: any;
   fecha_ratreo: Date=new Date();
-  fecha_inicio=new Date('2023-08-01T00:00:00');
-  fecha_final=new Date('2023-08-30T23:59:00');
+  fecha_inicio:any=new Date('2023-08-01T00:00:00-04:00');
+  fecha_final:any=new Date('2023-08-31T23:59:00-04:00');
   hora_inicio=new Date('2023-10-06T00:00:00');
   hora_fin=new Date('2023-10-06T23:59:59');
 
@@ -93,14 +94,6 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   }
   ngOnInit(): void {
     
-    // let fecha_inic_aux=moment(this.fecha_inicio.getFullYear().toString()+'/'+this.fecha_inicio.getMonth().toString()+'/'+this.fecha_inicio.getDay().toString()+' 00:00:00').format('YYYY-MM-DD HH:mm:ss');
-    // let fecha_fin_aux=this.fecha_inicio.getFullYear()+'/'+this.fecha_inicio.getMonth()+'/'+this.fecha_inicio.getDay()+' 23:59:00';
-    // console.log("ver fecha ",fecha_inic_aux,fecha_fin_aux);
-    // // this.fecha_inicio= new Date(fecha_inic_aux.toISOString());
-    // this.fecha_inicio=new Date(fecha_inic_aux.toString());
-
-    this.fecha_inicio.setMinutes(this.fecha_inicio.getMinutes() + this.fecha_inicio.getTimezoneOffset());
-    this.fecha_final.setMinutes(this.fecha_final.getMinutes() + this.fecha_final.getTimezoneOffset())
     console.log("ver fecha 2",this.fecha_inicio,this.fecha_final);
 
     
@@ -1004,8 +997,14 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     //   }
     // }
 
-    f_ini= moment(this.fecha_inicio).toISOString();
-    f_fin= moment(this.fecha_final).toISOString(); 
+    let localTimeZone = moment.tz.guess(); 
+    let localTimeZoneCode = moment().tz(localTimeZone).format('z');
+
+    // f_ini= moment((moment(this.fecha_inicio).tz(localTimeZone).utcOffset() / 60).toString()).toISOString(true);
+
+    f_ini= moment(this.fecha_inicio).format();
+    f_fin= moment(this.fecha_final).format();
+    // f_fin= moment((moment(this.fecha_final).tz(localTimeZone).utcOffset() / 60).toString()).toISOString(true); 
     console.log("parametros fechas ",f_ini,f_fin);
     
     this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{

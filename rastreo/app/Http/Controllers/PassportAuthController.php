@@ -96,6 +96,7 @@ class PassportAuthController extends Controller
             $ids=" us.id in (".$request->user()->id.")"; //para vehiculos
         }
 
+        //lista de vehiculos con usuarios compartidos
         $vehiculo = DB::select(" WITH vehiculos AS(
                                                 select
                                                 v.id_vehiculo,

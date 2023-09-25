@@ -352,6 +352,7 @@ class ServicioController extends Controller
         
         $lista_notificacion =DB::select($query_notificacion);
 
+        
         $lista_notificacion_seleccionados =DB::select("select
         n.id as id_notificacion,
         case when n.type = 'geofenceExit' then 'Salio del geocerca'

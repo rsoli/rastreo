@@ -50,6 +50,8 @@ class ChoferController extends Controller
     public function post_chofer(Request $request){
       
         $validacion = $this->validar_chofer($request);
+
+
         if($request->id_chofer==0){
           if((bool)$validacion["validacion"]==true){
 
@@ -64,8 +66,14 @@ class ChoferController extends Controller
         }
         else{
           if((bool)$validacion["validacion"]==true){
+
+            $id_cliente=DB::select('select c.id_cliente from ras.tcliente c
+            join ras.tpersona p on p.id_persona = c.id_persona
+            join segu.users us on us.id_persona = p.id_persona
+            where us.id = ?; ',[$request->user()->id]);
+
             DB::update('update ras.tchofer set nombre=?,apellido_paterno=?,apellido_materno=?,numero_licencia=?,categoria_licencia=?,id_cliente=?
-            where id_chofer = ?;',[$request->nombre,$request->apellido_paterno,$request->apellido_materno,$request->numero_licencia,$request->categoria_licencia,$request->id_cliente,$request->id_chofer]);
+            where id_chofer = ?;',[$request->nombre,$request->apellido_paterno,$request->apellido_materno,$request->numero_licencia,$request->categoria_licencia,$id_cliente[0]->id_cliente,$request->id_chofer]);
           }
         } 
   

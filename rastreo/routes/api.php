@@ -9,6 +9,8 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\ParametrosController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\ChoferController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -160,3 +162,16 @@ Route::group([
 //     Route::resource('posts', PostController::class);
 // });
  
+Route::group([
+    'prefix' => 'chofer'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_chofer', [ChoferController::class, 'lista_chofer']);
+        Route::post('post_chofer', [ChoferController::class, 'post_chofer']);
+        Route::get('eliminar_chofer/{id}', [ChoferController::class, 'eliminar_chofer']);
+    });
+});

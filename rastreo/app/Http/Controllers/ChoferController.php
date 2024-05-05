@@ -30,7 +30,7 @@ class ChoferController extends Controller
         c.numero_licencia,
         c.categoria_licencia,
         c.id_cliente,
-        p.nombre,
+        p.nombre as nombre_persona,
         p.apellido_paterno,
         p.apellido_materno as cliente
       from ras.tchofer c

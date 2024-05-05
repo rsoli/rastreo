@@ -36,7 +36,7 @@ class ChoferController extends Controller
       from ras.tchofer c
       join ras.tcliente cli on cli.id_cliente = c.id_cliente
       join ras.tpersona p on p.id_persona = cli.id_persona
-      segu.users us on us.id_persona = p.id_persona
+      join segu.users us on us.id_persona = p.id_persona
       where ".$ids." 
       order by c.id_chofer desc ");
                         

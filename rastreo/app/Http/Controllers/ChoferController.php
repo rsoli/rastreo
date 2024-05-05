@@ -52,8 +52,14 @@ class ChoferController extends Controller
         $validacion = $this->validar_chofer($request);
         if($request->id_chofer==0){
           if((bool)$validacion["validacion"]==true){
+
+            $id_cliente=DB::select('select c.id_cliente from ras.tcliente c
+            join ras.tpersona p on p.id_persona = c.id_persona
+            join segu.users us on us.id_persona = p.id_persona
+            where us.id = ?; ',[$request->user()->id]);
+
             DB::insert('insert into ras.tchofer (nombre,apellido_paterno,apellido_materno,numero_licencia,categoria_licencia,id_cliente)
-            values (?,?,?,?,?,?);',[$request->nombre,$request->apellido_paterno,$request->apellido_materno,$request->numero_licencia,$request->categoria_licencia,$request->id_cliente ]);
+            values (?,?,?,?,?,?);',[$request->nombre,$request->apellido_paterno,$request->apellido_materno,$request->numero_licencia,$request->categoria_licencia,$id_cliente[0]->id_cliente ]);
           }
         }
         else{

@@ -31,8 +31,8 @@ class ChoferController extends Controller
         c.categoria_licencia,
         c.id_cliente,
         p.nombre as nombre_persona,
-        p.apellido_paterno,
-        p.apellido_materno as cliente
+        p.apellido_paterno as apellido_paterno_persona,
+        p.apellido_materno as apellido_materno_persona
       from ras.tchofer c
       join ras.tcliente cli on cli.id_cliente = c.id_cliente
       join ras.tpersona p on p.id_persona = cli.id_persona

@@ -10,6 +10,7 @@ use App\Http\Controllers\ParametrosController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ChoferController;
+use App\Http\Controllers\EntregaController;
 
 
 /*
@@ -173,5 +174,19 @@ Route::group([
         Route::get('lista_chofer', [ChoferController::class, 'lista_chofer']);
         Route::post('post_chofer', [ChoferController::class, 'post_chofer']);
         Route::get('eliminar_chofer/{id}', [ChoferController::class, 'eliminar_chofer']);
+    });
+});
+
+Route::group([
+    'prefix' => 'entrega'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_entrega', [EntregaController::class, 'lista_entrega']);
+        Route::post('post_entrega', [EntregaController::class, 'post_entrega']);
+        Route::get('eliminar_entrega/{id}', [EntregaController::class, 'eliminar_entrega']);
     });
 });

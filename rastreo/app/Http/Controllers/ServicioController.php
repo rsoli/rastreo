@@ -272,7 +272,7 @@ class ServicioController extends Controller
                 //DB::insert('insert into public.tc_geofences (name,description,area) values(?,?,?);',[$request->nombre_geocerca,$request->descripcion,$request->area]);
                 $id_geocerca=DB::select('select max(g.id)::integer as id_geocerca from public.tc_geofences g');
                 //DB::insert('insert into public.tc_user_geofence (userid,geofenceid) values(1,?);',[(int)$id_geocerca[0]->id_geocerca]);
-                DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca,tipo_geocerca) values(?,?,?);',[($request->user()->id),(int)$id_geocerca[0]->id_geocerca,$request->tipo_geocerca]);
+                DB::insert('insert into ras.tusuario_geocerca (id_usuario,id_geocerca,tipo_geocerca,codigo) values(?,?,?,?);',[($request->user()->id),(int)$id_geocerca[0]->id_geocerca,$request->tipo_geocerca,"geocerca"]);
             
             }
         }
@@ -281,7 +281,7 @@ class ServicioController extends Controller
 
                 $this->put_geocerca_traccar($coockies,$request->id,$request->nombre_geocerca,$request->descripcion,$request->area);
                 //DB::update('update public.tc_geofences set name =?,description=? ,area=? where id=?; ',[$request->nombre_geocerca,$request->descripcion,$request->area,$request->id]);
-                DB::update('update ras.tusuario_geocerca set tipo_geocerca=? where id_geocerca = ?;',[$request->tipo_geocerca,$request->id]);
+                DB::update('update ras.tusuario_geocerca set tipo_geocerca=?,codigo=? where id_geocerca = ?;',[$request->tipo_geocerca,"geocerca",$request->id]);
             }
             
         }

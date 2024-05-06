@@ -72,7 +72,7 @@ class EntregaController extends Controller
             join segu.users us on us.id_persona = p.id_persona
             where us.id = ?; ',[$request->user()->id]);
 
-            DB::update('update ras.tentrega set origen_entrega = ?, id_usuario_geocerca_destino = ?, fecha_ini = ?, fecha_fin = ?, id_vehiculo = ?, detalle_entrega = ?,id_cliente = ?, id_chofer = ? 
+            DB::update('update ras.tentrega set origen_entrega = ?, id_usuario_geocerca_destino = ?, fecha_ini = ?::timestamp, fecha_fin = ?::timestamp, id_vehiculo = ?, detalle_entrega = ?,id_cliente = ?, id_chofer = ? 
             where id_entrega = ?;',
             [$request->origen_entrega,$request->id_usuario_geocerca_destino,$request->fecha_ini,$request->fecha_fin,$request->id_vehiculo,$request->detalle_entrega,$id_cliente[0]->id_cliente,$request->id_chofer,$request->id_entrega]);
           }

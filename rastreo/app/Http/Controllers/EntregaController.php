@@ -28,7 +28,7 @@ class EntregaController extends Controller
 
         $lista_entrega=DB::select("
         select 
-        e.id_entrega,e.origen_entrega,e.id_usuario_geocerca_destino,g.name as nombre_geocerca,g.description as descripcion_geocerca,e.fecha_ini,e.fecha_fin,e.id_vehiculo,e.detalle_entrega,e.estado_entrega,id_chofer,v.placa,ch.nombre as nombre_chofer
+        e.id_entrega,e.origen_entrega,e.id_usuario_geocerca_destino,g.name as nombre_geocerca,g.description as descripcion_geocerca,e.fecha_ini,e.fecha_fin,e.id_vehiculo,e.detalle_entrega,e.estado_entrega,ch.id_chofer,v.placa,ch.nombre as nombre_chofer
 
         from ras.tentrega e
         join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = e.id_usuario_geocerca_destino

@@ -33,7 +33,7 @@ class EntregaController extends Controller
         join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = e.id_usuario_geocerca_destino
         join public.tc_geofences g on g.id = ug.id_geocerca
         where e.id_cliente = ?
-        order by c.id_chofer desc
+        order by e.id_entrega desc
          ",[$id_cliente[0]->id_cliente]);
                         
                             

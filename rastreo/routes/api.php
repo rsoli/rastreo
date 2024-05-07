@@ -11,6 +11,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\EntregaController;
+use App\Http\Controllers\ZonaController;
 
 
 /*
@@ -188,5 +189,21 @@ Route::group([
         Route::get('lista_entrega', [EntregaController::class, 'lista_entrega']);
         Route::post('post_entrega', [EntregaController::class, 'post_entrega']);
         Route::get('eliminar_entrega/{id}', [EntregaController::class, 'eliminar_entrega']);
+    });
+});
+
+
+
+Route::group([
+    'prefix' => 'zona'
+], function () {
+    
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+
+        Route::get('lista_geocercas', [ZonaController::class, 'lista_geocercas']);
+        Route::post('post_geocerca', [ZonaController::class, 'post_geocerca']);
+        Route::get('eliminar_geocerca/{id}', [ZonaController::class, 'eliminar_geocerca']);
     });
 });

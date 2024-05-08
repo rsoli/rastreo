@@ -286,7 +286,7 @@ class ZonaController extends Controller
         $validacion = $this->validar_zona_grupo($request);
 
 
-        if($request->id_chofer==0){
+        if($request->id_zona_grupo==0){
           if((bool)$validacion["validacion"]==true){
 
             DB::insert('insert into logis.tzona_grupo (nombre_grupo,id_usuario) values (?,?);',[$request->nombre_grupo,$request->user()->id ]);

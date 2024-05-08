@@ -205,5 +205,10 @@ Route::group([
         Route::get('lista_geocercas', [ZonaController::class, 'lista_geocercas']);
         Route::post('post_geocerca', [ZonaController::class, 'post_geocerca']);
         Route::get('eliminar_geocerca/{id}', [ZonaController::class, 'eliminar_geocerca']);
+
+        Route::get('lista_zona_grupo', [ZonaController::class, 'lista_zona_grupo']);
+        Route::post('post_zona_grupo', [ZonaController::class, 'post_zona_grupo']);
+        Route::get('eliminar_zona_grupo/{id}', [ZonaController::class, 'eliminar_zona_grupo']);
+
     });
 });

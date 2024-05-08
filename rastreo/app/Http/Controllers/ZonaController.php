@@ -255,4 +255,100 @@ class ZonaController extends Controller
         ];
         return $arrayParametros;
     }
+
+
+    public function lista_zona_grupo(Request $request)
+    {
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" us.id in (".$request->user()->id.")";
+        }
+
+        $lista_zona_grupo=DB::select("
+        select 
+        z.id_zona_grupo,z.nombre_grupo
+        from logis.tzona_grupo z
+        join segu.users us on us.id=z.id_usuario
+      where ".$ids." 
+      order by z.id_zona_grupo desc ");
+                        
+                            
+        $arrayParametros=[
+            'lista_zona_grupo'=>$lista_zona_grupo
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function post_zona_grupo(Request $request){
+      
+        $validacion = $this->validar_zona_grupo($request);
+
+
+        if($request->id_chofer==0){
+          if((bool)$validacion["validacion"]==true){
+
+            DB::insert('insert into logis.tzona_grupo (nombre_grupo,id_usuario) values (?,?);',[$request->nombre_grupo,$request->user()->id ]);
+          }
+        }
+        else{
+          if((bool)$validacion["validacion"]==true){
+
+            DB::update('update logis.tzona_grupo set nombre_grupo = ? where id_zona_grupo = ?;',[$request->nombre_grupo,$request->id_zona_grupo]);
+          }
+        } 
+  
+        $arrayParametros=[
+          'mensaje'=>$validacion["mensaje"],
+          'validacion'=>$validacion["validacion"],
+        ];
+  
+        return response()->json($arrayParametros);
+    }
+    public function validar_zona_grupo($request){
+        $mensaje=[];
+        $validacion=true;
+
+        /*if($request->id_persona!=0){
+            $duplicado_persona=DB::select('select 
+                                      count(*)::integer as cantidad  
+                                      from ras.tpersona p 
+                                      where  trim(upper(p.ci))=trim(upper(?)) and p.id_persona != ? and p.estado=? ',[$request->ci,$request->id_persona,"activo"]);
+            if((int)($duplicado_persona[0]->cantidad)>0){
+                array_push($mensaje,'El campo cedula de identidad ya esta registrado');
+                $validacion=false;
+            }
+           
+        }
+        else{
+            $duplicado_persona=DB::select('select 
+                                      count(*)::integer as cantidad  
+                                      from ras.tpersona p
+                                      where  trim(upper(p.ci))=trim(upper(?)) and p.estado=? ',[$request->ci,"activo"]);
+            if((int)($duplicado_persona[0]->cantidad)>0){
+                array_push($mensaje,'El campo cedula de identidad ya esta registrado');
+                $validacion=false;
+            }
+        }
+
+        */
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+        
+        return $arrayParametros;
+    }
+    public function eliminar_zona_grupo($id){
+
+        db::update('delete from logis.tzona_grupo where id_zona_grupo  = ?; ',[$id]);
+    
+        $arrayParametros=[
+          'mensaje'=>"ok"
+        ];
+        return $arrayParametros;
+    }
+
 }

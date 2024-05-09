@@ -351,4 +351,106 @@ class ZonaController extends Controller
         return $arrayParametros;
     }
 
+    public function lista_zona_grupo_detalle(Request $request)
+    {
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" us.id in (".$request->user()->id.")";
+        }
+
+        $lista_zona_grupo_detalle=DB::select("
+        select 
+        zd.id_zona_grupo_detalle,
+        ug.id_geocerca,
+        g.name as zona,
+        g.description as descripcion,
+        us.name as nombre_usuario
+        from logis.tzona_grupo_detalle zd
+        join logis.tzona_grupo z on z.id_zona_grupo = zd.id_zona_grupo
+        join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = zd.id_usuario_geocerca 
+        join public.tc_geofences g on g.id = ug.id_geocerca
+        join segu.users us on us.id=ug.id_usuario
+    
+      where ".$ids." 
+      order by zd.id_zona_grupo_detalle desc ");
+                        
+                            
+        $arrayParametros=[
+            'lista_zona_grupo_detalle'=>$lista_zona_grupo_detalle
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function post_zona_grupo_detalle(Request $request){
+      
+        $validacion = $this->validar_zona_grupo_detalle($request);
+
+
+        if($request->id_zona_grupo_detalle==0){
+          if((bool)$validacion["validacion"]==true){
+
+            DB::insert('insert into logis.tzona_grupo_detalle (id_usuario_geocerca,id_zona_grupo)values(?,?);',[$request->id_usuario_geocerca,$request->id_zona_grupo ]);
+          }
+        }
+        else{
+          if((bool)$validacion["validacion"]==true){
+
+            DB::update('update logis.tzona_grupo_detalle set id_usuario_geocerca=? where id_zona_grupo_detalle = ?;',[$request->id_usuario_geocerca,$request->id_zona_grupo_detalle]);
+          }
+        } 
+  
+        $arrayParametros=[
+          'mensaje'=>$validacion["mensaje"],
+          'validacion'=>$validacion["validacion"],
+        ];
+  
+        return response()->json($arrayParametros);
+    }
+    public function validar_zona_grupo_detalle($request){
+        $mensaje=[];
+        $validacion=true;
+
+        /*if($request->id_persona!=0){
+            $duplicado_persona=DB::select('select 
+                                      count(*)::integer as cantidad  
+                                      from ras.tpersona p 
+                                      where  trim(upper(p.ci))=trim(upper(?)) and p.id_persona != ? and p.estado=? ',[$request->ci,$request->id_persona,"activo"]);
+            if((int)($duplicado_persona[0]->cantidad)>0){
+                array_push($mensaje,'El campo cedula de identidad ya esta registrado');
+                $validacion=false;
+            }
+           
+        }
+        else{
+            $duplicado_persona=DB::select('select 
+                                      count(*)::integer as cantidad  
+                                      from ras.tpersona p
+                                      where  trim(upper(p.ci))=trim(upper(?)) and p.estado=? ',[$request->ci,"activo"]);
+            if((int)($duplicado_persona[0]->cantidad)>0){
+                array_push($mensaje,'El campo cedula de identidad ya esta registrado');
+                $validacion=false;
+            }
+        }
+
+        */
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+        
+        return $arrayParametros;
+    }
+    public function eliminar_zona_grupo_detalle($id){
+
+        db::update('delete from logis.tzona_grupo_detalle where id_zona_grupo_detalle = ? ',[$id]);
+    
+        $arrayParametros=[
+          'mensaje'=>"ok"
+        ];
+        return $arrayParametros;
+    }
+
 }

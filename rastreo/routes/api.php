@@ -210,7 +210,7 @@ Route::group([
         Route::post('post_zona_grupo', [ZonaController::class, 'post_zona_grupo']);
         Route::get('eliminar_zona_grupo/{id}', [ZonaController::class, 'eliminar_zona_grupo']);
 
-        Route::get('lista_zona_grupo_detalle', [ZonaController::class, 'lista_zona_grupo_detalle']);
+        Route::get('lista_zona_grupo_detalle/{id}', [ZonaController::class, 'lista_zona_grupo_detalle']);
         Route::post('post_zona_grupo_detalle', [ZonaController::class, 'post_zona_grupo_detalle']);
         Route::get('eliminar_zona_grupo_detalle/{id}', [ZonaController::class, 'eliminar_zona_grupo_detalle']);
 

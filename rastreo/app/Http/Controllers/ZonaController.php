@@ -351,14 +351,10 @@ class ZonaController extends Controller
         return $arrayParametros;
     }
 
-    public function lista_zona_grupo_detalle(Request $request)
+    public function lista_zona_grupo_detalle($id)
     {
 
-        if($this->es_admin($request->user()->id)==true){
-            $ids=" 0=0 ";
-        }else{
-            $ids=" us.id in (".$request->user()->id.")";
-        }
+     
 
         $lista_zona_grupo_detalle=DB::select("
         select 
@@ -373,8 +369,8 @@ class ZonaController extends Controller
         join public.tc_geofences g on g.id = ug.id_geocerca
         join segu.users us on us.id=ug.id_usuario
     
-      where ".$ids." 
-      order by zd.id_zona_grupo_detalle desc ");
+      where zd.id_zona_grupo = ?
+      order by zd.id_zona_grupo_detalle desc ",[$id]);
                         
                             
         $arrayParametros=[

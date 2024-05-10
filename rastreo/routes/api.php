@@ -189,6 +189,8 @@ Route::group([
         Route::get('lista_entrega', [EntregaController::class, 'lista_entrega']);
         Route::post('post_entrega', [EntregaController::class, 'post_entrega']);
         Route::get('eliminar_entrega/{id}', [EntregaController::class, 'eliminar_entrega']);
+        oute::get('get_entrega/{id}', [EntregaController::class, 'get_entrega']);
+        
     });
 });
 

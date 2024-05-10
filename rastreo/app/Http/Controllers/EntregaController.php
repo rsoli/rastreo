@@ -196,7 +196,7 @@ class EntregaController extends Controller
 
 
         $arrayParametros=[
-            'lista_vehiculo'=>$lista_vehiculos,
+            'lista_vehiculo'=>$lista_vehiculo,
             'lista_chofer'=>$lista_chofer
         ];
 

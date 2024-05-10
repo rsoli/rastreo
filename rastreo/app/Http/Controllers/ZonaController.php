@@ -354,8 +354,6 @@ class ZonaController extends Controller
     public function lista_zona_grupo_detalle($id)
     {
 
-     
-
         $lista_zona_grupo_detalle=DB::select("
         select 
         zd.id_zona_grupo_detalle,
@@ -372,12 +370,60 @@ class ZonaController extends Controller
     
       where zd.id_zona_grupo = ?
       order by zd.id_zona_grupo_detalle desc ",[$id]);
-                        
-                            
+
+
+
+
         $arrayParametros=[
             'lista_zona_grupo_detalle'=>$lista_zona_grupo_detalle
         ];
 
+        return response()->json($arrayParametros);
+    }
+    public function get_zona(Request $request,$id){
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" ug.id_usuario in (".$request->user()->id.")";
+        }
+
+        $lista_zonas=DB::select("select g.id,
+                            g.name::varchar as nombre_geocerca,
+                            g.description::varchar as descripcion,
+                            g.area,
+                            us.name as usuario,
+                            ug.tipo_geocerca
+                            from public.tc_geofences g
+                            join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                            join segu.users us on us.id=ug.id_usuario
+                            where ".$ids." and codigo = ?   order by g.id desc ",["zonas"]);
+
+
+        $lista_zonas_seleecionado=DB::select("
+                                            select 
+                                            zd.id_zona_grupo_detalle,
+                                            ug.id_geocerca,
+                                            g.name as zona,
+                                            g.description as descripcion,
+                                            us.name as nombre_usuario,
+                                            zd.id_zona_grupo
+                                            from logis.tzona_grupo_detalle zd
+                                            join logis.tzona_grupo z on z.id_zona_grupo = zd.id_zona_grupo
+                                            join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = zd.id_usuario_geocerca 
+                                            join public.tc_geofences g on g.id = ug.id_geocerca
+                                            join segu.users us on us.id=ug.id_usuario
+
+                                        
+                                            where zd.id_zona_grupo_detalle  = ?  
+                                            order by zd.id_zona_grupo_detalle desc ",[$request->id_zona_grupo_detalle]);
+
+            
+        $arrayParametros=[
+            'lista_zonas'=>$lista_zonas,
+            'lista_zonas_seleecionado'=>$lista_zonas_seleecionado 
+        ];
+        
         return response()->json($arrayParametros);
     }
     public function post_zona_grupo_detalle(Request $request){

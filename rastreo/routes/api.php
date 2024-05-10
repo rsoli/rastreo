@@ -213,6 +213,8 @@ Route::group([
         Route::get('lista_zona_grupo_detalle/{id}', [ZonaController::class, 'lista_zona_grupo_detalle']);
         Route::post('post_zona_grupo_detalle', [ZonaController::class, 'post_zona_grupo_detalle']);
         Route::get('eliminar_zona_grupo_detalle/{id}', [ZonaController::class, 'eliminar_zona_grupo_detalle']);
+        Route::get('get_zona/{id}', [ZonaController::class, 'get_zona']);
+        
 
     });
 });

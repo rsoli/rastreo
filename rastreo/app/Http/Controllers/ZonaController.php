@@ -394,7 +394,8 @@ class ZonaController extends Controller
                             g.description::varchar as descripcion,
                             g.area,
                             us.name as usuario,
-                            ug.tipo_geocerca
+                            ug.tipo_geocerca,
+                            ug.id_usuario_geocerca
                             from public.tc_geofences g
                             join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
                             join segu.users us on us.id=ug.id_usuario
@@ -408,7 +409,8 @@ class ZonaController extends Controller
                                             g.name as zona,
                                             g.description as descripcion,
                                             us.name as nombre_usuario,
-                                            zd.id_zona_grupo
+                                            zd.id_zona_grupo,
+                                            ug.id_usuario_geocerca
                                             from logis.tzona_grupo_detalle zd
                                             join logis.tzona_grupo z on z.id_zona_grupo = zd.id_zona_grupo
                                             join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = zd.id_usuario_geocerca 

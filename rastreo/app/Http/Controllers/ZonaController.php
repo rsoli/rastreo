@@ -389,7 +389,8 @@ class ZonaController extends Controller
             $ids=" ug.id_usuario in (".$request->user()->id.")";
         }
 
-        $lista_zonas=DB::select("select g.id,
+        $lista_zonas=DB::select("select 
+                            --g.id,
                             g.name::varchar as nombre_geocerca,
                             g.description::varchar as descripcion,
                             g.area,
@@ -401,7 +402,23 @@ class ZonaController extends Controller
                             join segu.users us on us.id=ug.id_usuario
                             where ".$ids." and codigo = ?   order by g.id desc ",["zonas"]);
 
+        $lista_zonas_seleecionado=DB::select("select 
+                            --g.id,
+                            g.name::varchar as nombre_geocerca,
+                            g.description::varchar as descripcion,
+                            g.area,
+                            us.name as usuario,
+                            ug.tipo_geocerca,
+                            ug.id_usuario_geocerca
+                            from public.tc_geofences g
+                            join ras.tusuario_geocerca ug on ug.id_geocerca=g.id
+                            join segu.users us on us.id=ug.id_usuario
+                            join logis.tzona_grupo_detalle zd on zd.id_usuario_geocerca = ug.id_usuario_geocerca
+                            
+                            where zd.id_zona_grupo_detalle  = ?  
+                            order by zd.id_zona_grupo_detalle desc ",[$id]);
 
+/*
         $lista_zonas_seleecionado=DB::select("
                                             select 
                                             zd.id_zona_grupo_detalle,
@@ -417,10 +434,10 @@ class ZonaController extends Controller
                                             join public.tc_geofences g on g.id = ug.id_geocerca
                                             join segu.users us on us.id=ug.id_usuario
 
-                                        
                                             where zd.id_zona_grupo_detalle  = ?  
                                             order by zd.id_zona_grupo_detalle desc ",[$id]);
 
+                                            */
             
         $arrayParametros=[
             'lista_zonas'=>$lista_zonas,

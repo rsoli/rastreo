@@ -361,7 +361,8 @@ class ZonaController extends Controller
         g.name as zona,
         g.description as descripcion,
         us.name as nombre_usuario,
-        zd.id_zona_grupo
+        zd.id_zona_grupo,
+        ug.id_usuario_geocerca
         from logis.tzona_grupo_detalle zd
         join logis.tzona_grupo z on z.id_zona_grupo = zd.id_zona_grupo
         join ras.tusuario_geocerca ug on ug.id_usuario_geocerca = zd.id_usuario_geocerca 

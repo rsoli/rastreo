@@ -60,13 +60,14 @@ class EntregaController extends Controller
             join segu.users us on us.id_persona = p.id_persona
             where us.id = ?; ',[$request->user()->id]);
 
-            DB::insert('insert into ras.tentrega (origen_entrega,id_usuario_geocerca_destino,fecha_ini,fecha_fin,id_vehiculo,detalle_entrega,id_cliente,estado_entrega,id_chofer)
-            values (?,?,?,?,?,?,?,?,?);',[$request->origen_entrega,$request->id_usuario_geocerca_destino,$request->fecha_ini,$request->fecha_fin,$request->id_vehiculo,$request->detalle_entrega,$id_cliente[0]->id_cliente,"pendiente",$request->id_chofer ]);
-          }
+            DB::insert('insert into ras.tentrega (fecha_ini,id_vehiculo,id_cliente,estado_entrega,id_chofer)
+            values (?::timestamp,?,?,?,?);',[$request->fecha_ini,$request->id_vehiculo,$id_cliente[0]->id_cliente,"pendiente",$request->id_chofer ]);
+          
+            }
         }
         else{
           if((bool)$validacion["validacion"]==true){
-
+/*
             $id_cliente=DB::select('select c.id_cliente from ras.tcliente c
             join ras.tpersona p on p.id_persona = c.id_persona
             join segu.users us on us.id_persona = p.id_persona
@@ -75,6 +76,7 @@ class EntregaController extends Controller
             DB::update('update ras.tentrega set origen_entrega = ?, id_usuario_geocerca_destino = ?, fecha_ini = ?::timestamp, fecha_fin = ?::timestamp, id_vehiculo = ?, detalle_entrega = ?,id_cliente = ?, id_chofer = ? 
             where id_entrega = ?;',
             [$request->origen_entrega,$request->id_usuario_geocerca_destino,$request->fecha_ini,$request->fecha_fin,$request->id_vehiculo,$request->detalle_entrega,$id_cliente[0]->id_cliente,$request->id_chofer,$request->id_entrega]);
+          */
           }
         } 
   

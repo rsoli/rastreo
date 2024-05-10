@@ -419,7 +419,7 @@ class ZonaController extends Controller
 
                                         
                                             where zd.id_zona_grupo_detalle  = ?  
-                                            order by zd.id_zona_grupo_detalle desc ",[$request->id_zona_grupo_detalle]);
+                                            order by zd.id_zona_grupo_detalle desc ",[$id]);
 
             
         $arrayParametros=[

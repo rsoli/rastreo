@@ -510,15 +510,15 @@ class Controller extends BaseController
 
 
         preg_match_all('/^token:\s*([^;]*)/mi', $response, $matches);
-        $cookies = array();
+        $tokens = array();
         foreach($matches[1] as $item) {
             parse_str($item, $token);
-            $token = array_merge($cookies, $token);
+            $tokens = array_merge($tokens, $token);
         }
 
         curl_close($curl);
 
-        return $response;
+        return $tokens;
     }
     public function cerrar_sesion_traccar($cookies){
 

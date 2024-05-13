@@ -169,7 +169,8 @@ class PassportAuthController extends Controller
                                 order by p.nombre,p.apellido_paterno,p.apellido_materno asc 
                                 
                                 ",["activo"]);*/
-
+        $coockies = $this->iniciar_sesion_traccar();
+        $this->cerrar_sesion_traccar($coockies);
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
@@ -179,7 +180,8 @@ class PassportAuthController extends Controller
             'accesos' =>  $this->get_menu($request),
             'usuario'=>$usuario[0],
             'sesion'=>$sesion,
-            'Vehiculo'=> $vehiculo
+            'Vehiculo'=> $vehiculo,
+            'coockies'=>$coockies
         ]);
         
     }

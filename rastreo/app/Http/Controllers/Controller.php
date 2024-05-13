@@ -512,7 +512,7 @@ class Controller extends BaseController
 
         curl_close($curl);
         $token = json_decode($response);
-        $tc_token = $token->token;
+        $tc_token = $token;
         return $tc_token;
     }
     public function cerrar_sesion_traccar($cookies){

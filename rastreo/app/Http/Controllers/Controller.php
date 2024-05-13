@@ -507,15 +507,15 @@ class Controller extends BaseController
         ));
 
         $response = curl_exec($curl);
-/*
 
-        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $response, $matches);
+
+        preg_match_all('/^token:\s*([^;]*)/mi', $response, $matches);
         $cookies = array();
         foreach($matches[1] as $item) {
-            parse_str($item, $cookie);
-            $cookies = array_merge($cookies, $cookie);
+            parse_str($item, $token);
+            $token = array_merge($cookies, $token);
         }
-*/
+
         curl_close($curl);
 
         return $response;

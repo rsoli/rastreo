@@ -509,16 +509,11 @@ class Controller extends BaseController
         $response = curl_exec($curl);
 
 
-        preg_match_all('/^token:\s*([^;]*)/mi', $response, $matches);
-        $tokens = array();
-        foreach($matches[1] as $item) {
-            parse_str($item, $token);
-            $tokens = array_merge($tokens, $token);
-        }
 
         curl_close($curl);
-
-        return $tokens;
+        $token = json_decode($response);
+        $tc_token = $token->token;
+        return $tc_token;
     }
     public function cerrar_sesion_traccar($cookies){
 

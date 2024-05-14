@@ -511,7 +511,12 @@ class Controller extends BaseController
 
 
         curl_close($curl);
-        return $response;
+
+        $porciones = explode('{"id":', $response);
+        $token='{"id":'+$porciones[1];
+        
+
+        return $token;
     }
     public function cerrar_sesion_traccar($cookies){
 

@@ -133,43 +133,7 @@ class PassportAuthController extends Controller
                                                 order by p.nombre,p.apellido_paterno,p.apellido_materno asc 
                                                ",["activo"]);
 
-        /*$vehiculo=DB::select("select
-                                v.id_vehiculo,
-                                v.placa,
-                                v.marca,
-                                v.modelo,
-                                v.color,
-                                v.cilindrada,
-                                v.uniqueid,
-                                v.linea_gps,
-                                v.modelo_gps,
-                                v.fecha_registro,
-                                v.id_cliente,
-                                v.id_departamento,
-                                d.nombre_departamento,
-                                us.name as nombre_usuario,
-                                p.nombre nombre_persona,
-                                p.apellido_paterno,
-                                p.apellido_materno,
-                                ts.id_tipo_servicio,
-                                ts.tipo_servicio,
-                                ts.codigo,
-                                dg.activar_motor,
-                                dg.desactivar_motor,
-                                dev.id as id_dispositivo
-                                from ras.tvehiculo v
-                                join public.tc_devices dev on dev.uniqueid=v.uniqueid
-                                join ras.tdepartamento d on d.id_departamento=v.id_departamento
-                                join ras.tcliente c on c.id_cliente=v.id_cliente
-                                join ras.tpersona p on p.id_persona=c.id_persona
-                                join segu.users us on us.id_persona=p.id_persona
-                                left join ras.ttipo_servicio ts on ts.id_tipo_servicio = v.id_tipo_servicio
-                                left join ras.tdispositivo_gps dg on dg.id_dispositivo_gps = v.id_dispositivo_gps
-                                where ".$ids." and us.estado=?
-                                order by p.nombre,p.apellido_paterno,p.apellido_materno asc 
-                                
-                                ",["activo"]);*/
-        $socket = $this->iniciar_sesion_traccar_socket();
+        $socket ='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
         //$this->cerrar_sesion_traccar($socket);
         return response()->json([
             'access_token' => $tokenResult->accessToken,
@@ -181,7 +145,7 @@ class PassportAuthController extends Controller
             'usuario'=>$usuario[0],
             'sesion'=>$sesion,
             'Vehiculo'=> $vehiculo,
-            'socket'=>$socket
+            'token_socket'=>$socket
         ]);
         
     }

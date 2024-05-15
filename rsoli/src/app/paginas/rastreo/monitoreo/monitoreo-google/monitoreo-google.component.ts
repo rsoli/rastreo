@@ -13,6 +13,7 @@ import { MessageService, PrimeNGConfig } from 'primeng/api';
 import * as moment from 'moment';
 import 'moment-timezone';
 import { ErrorHandler } from '@angular/core';
+import { Router } from '@angular/router';
 moment.locale("es");
 
 @Component({
@@ -37,7 +38,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   markers =new Array();
   lista_dispositivos_usuario:Array<String>=[];
 
-  token ='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
+  token ='';
   contador_error=0;
   public results:any;
   
@@ -85,7 +86,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
-    private cookieService: CookieService 
+    private cookieService: CookieService,
+    private router: Router, 
   ) { }
   handleError(error: any): void {//para errores de bondle
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
@@ -95,40 +97,24 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       }
   }
   ngOnInit(): void {
-    
-    console.log("ver fecha 2",this.fecha_inicio,this.fecha_final);
 
-    
-    this.cargarIcono();
-    this.IniciarMapa();
-/*
-    
-      let icon:any;
-      icon = {
-      icon: L.icon({
-        iconUrl: './assets/icono/marcadores/ubicacion/ubi-azul.svg',
-        iconSize:     [25, 31],
-        iconAnchor:   [12, 28],
-        popupAnchor:  [-0, -27] 
-      })
-    };
+    this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
+    console.log("ggggggggggggg ",this.token);
+    if(this.token!=undefined){
 
-    const marker = new DriftMarker([-16.6574403011881, -64.95190911770706],icon);
-    marker.bindPopup("<div font-size: 8px; z-index:1000' > <div style='text-align: left;' >hola juan"+
+      this.cargarIcono();
+      this.IniciarMapa();
   
-    "<div> ");
-    marker.addTo(this.map);
-    marker.slideTo([-16.6574403011881, -64.95190911770706], {
-      duration: 3000,
-      keepAtCenter: false,
-    });*/
-
-    this.lista_dispositivos_usuario = JSON.parse(localStorage.getItem('accesos') || '{}').Vehiculo;
-    this.InicarSesion();
-    this.loading_alert();
-    this.reconecta();
-    
-
+      this.lista_dispositivos_usuario = JSON.parse(localStorage.getItem('accesos') || '{}').Vehiculo;
+      //this.InicarSesion();
+      this.loading_alert();
+      this.reconecta();
+    }else{
+      this.error("Información","Vuelva a iniciar sesión");
+      localStorage.removeItem("accesos");
+      this.router.navigate(['/shared/slider']);   
+    }
+ 
     
   }
   cargarIcono(){
@@ -182,42 +168,34 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     //   })
     // };
   }
-  InicarSesion(){
-    //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
-    this.traccar.post_iniciar_sesion(this.token).subscribe( data=>{
-      console.log( JSON.parse( JSON.stringify(data))  );
-      let token =JSON.parse( JSON.stringify(data)).body.token;
-      // this.GetMotorizado(token);
+  // InicarSesion(){
+  //   //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
+  //   this.traccar.post_iniciar_sesion(this.token).subscribe( data=>{
+  //     console.log( JSON.parse( JSON.stringify(data))  );
+  //     let token =JSON.parse( JSON.stringify(data)).body.token;
+  //     // this.GetMotorizado(token);
       
 
 
-    },
-    error=>{
-       
-    })
-  }
-  // GetMotorizado(token:String){
-  //   this.traccar.get_motorizado(token).subscribe(data=>{
-      
-  //     //let token =JSON.parse( JSON.stringify(data)).token;
-
-  //     this.lista_dispositivos=JSON.parse( JSON.stringify(data));
-  //     // this.ConectarSocket(token);
-  //     this.lista_dispositivos_usuario = JSON.parse(localStorage.getItem('accesos')|| '{}').Vehiculo;
-  //     console.log( "dispositvos test ",this.lista_dispositivos_usuario );
   //   },
   //   error=>{
        
   //   })
   // }
+
   ConectarSocket(){
     //this.traccar.conection(token);
+
+    
+    console.log("ver token socket ",this.token);
+    
 
     let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+this.token);
 
     socket.onopen = function(e) {
       //alert("[open] Connection established");
       //alert("Sending to server");
+   
       console.log(" Connection established");
       //socket.send("My name is John");
     };
@@ -247,7 +225,10 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
     socket.addEventListener('message', (event) => {
       //this.Mapa(event.data);
-      this.AgregarMarcador(event);
+     
+        this.AgregarMarcador(event);
+      
+      
     });
     socket.addEventListener('open', (event) => {
       this.closeLoading_alert();
@@ -257,7 +238,11 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       this.reconecta();
       this.contador_error++;
       if(this.contador_error==4){
-        window.location.reload();
+
+        this.error("Información","Vuelva a iniciar sesión");
+        localStorage.removeItem("accesos");
+        this.router.navigate(['/shared/slider']);   
+        //window.location.reload();
       }
 
     });

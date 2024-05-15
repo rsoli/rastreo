@@ -27,6 +27,16 @@ import { ModalPagoClienteComponent } from './servicio/pago/modal-pago-cliente/mo
 import { ListaServicioComponent } from './servicio/cliente/lista-servicio/lista-servicio.component';
 import { ModalServicioComponent } from './servicio/cliente/modal-servicio/modal-servicio.component';
 import { MonitoreoGoogleComponent } from './monitoreo/monitoreo-google/monitoreo-google.component';
+import { ListaChoferComponent } from './monitoreo/chofer/lista-chofer/lista-chofer.component';
+import { ModalChoferComponent } from './monitoreo/chofer/modal-chofer/modal-chofer.component';
+import { ListaEntregaComponent } from './monitoreo/entrega/lista-entrega/lista-entrega.component';
+import { ModalEntregaComponent } from './monitoreo/entrega/modal-entrega/modal-entrega.component';
+import { ListaZonaComponent } from './monitoreo/zona/lista-zona/lista-zona.component';
+import { FormularioZonaComponent } from './monitoreo/zona/formulario-zona/formulario-zona.component';
+import { ListaZonaGrupoComponent } from './monitoreo/zona/lista-zona-grupo/lista-zona-grupo.component';
+import { FormularioZonaGrupoComponent } from './monitoreo/zona/formulario-zona-grupo/formulario-zona-grupo.component';
+import { ListaZonaGrupoDetalleComponent } from './monitoreo/zona/lista-zona-grupo-detalle/lista-zona-grupo-detalle.component';
+import { FormularioZonaGrupoDetalleComponent } from './monitoreo/zona/formulario-zona-grupo-detalle/formulario-zona-grupo-detalle.component';
 
 
 @NgModule({
@@ -47,7 +57,17 @@ import { MonitoreoGoogleComponent } from './monitoreo/monitoreo-google/monitoreo
     ModalPagoClienteComponent,
     ListaServicioComponent,
     ModalServicioComponent,
-    MonitoreoGoogleComponent
+    MonitoreoGoogleComponent,
+    ListaChoferComponent,
+    ModalChoferComponent,
+    ListaEntregaComponent,
+    ModalEntregaComponent,
+    ListaZonaComponent,
+    FormularioZonaComponent,
+    ListaZonaGrupoComponent,
+    FormularioZonaGrupoComponent,
+    ListaZonaGrupoDetalleComponent,
+    FormularioZonaGrupoDetalleComponent
   ],
   imports: [
     CommonModule,

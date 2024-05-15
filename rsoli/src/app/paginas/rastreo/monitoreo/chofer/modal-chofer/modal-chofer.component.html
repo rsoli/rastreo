@@ -1,0 +1,77 @@
+<div class="modal-header" style="border-top: 4px solid #007bff !important;">
+    <h4 class="modal-title pull-left">{{titulo}}</h4>
+
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
+</div>
+
+<form [formGroup]="form_chofer" (submit)="GuardarChofer()">
+    <div style="padding:20px 40px 20px 40px;" class="modal-body">
+
+        <div class="row">
+             <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_chofer.controls['nombre'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_chofer.controls['nombre'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Nombre
+            </label>
+            <input type="text" pInputText formControlName="nombre"> 
+            <span class=" form-error text-danger small" *ngIf="form_chofer.controls['nombre'].errors?.maxlength">
+                Máximo caracteres permitidos 20
+            </span>
+        </div>
+
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_chofer.controls['apellido_paterno'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_chofer.controls['apellido_paterno'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Apellido paterno
+            </label>
+            <input type="text" pInputText formControlName="apellido_paterno"> 
+            <span class=" form-error text-danger small" *ngIf="form_chofer.controls['apellido_paterno'].errors?.maxlength">
+                Máximo caracteres permitidos 20
+            </span>
+        </div>
+
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_chofer.controls['apellido_materno'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_chofer.controls['apellido_materno'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Apellido materno
+            </label>
+            <input type="text" pInputText formControlName="apellido_materno"> 
+            <span class=" form-error text-danger small" *ngIf="form_chofer.controls['apellido_materno'].errors?.maxlength">
+                Máximo caracteres permitidos 20
+            </span>
+        </div>
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_chofer.controls['numero_licencia'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_chofer.controls['numero_licencia'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Num licencia
+            </label>
+            <input type="text" pInputText formControlName="numero_licencia"> 
+            <span class=" form-error text-danger small" *ngIf="form_chofer.controls['numero_licencia'].errors?.maxlength">
+                Máximo caracteres permitidos 10
+            </span>
+        </div>
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_chofer.controls['categoria_licencia'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_chofer.controls['categoria_licencia'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Categoria licencia
+            </label>
+            <input type="text" pInputText formControlName="categoria_licencia"> 
+            <span class=" form-error text-danger small" *ngIf="form_chofer.controls['categoria_licencia'].errors?.maxlength">
+                Máximo caracteres permitidos 10
+            </span>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div style="padding-left: 2px;">
+            <button pButton pRipple type="submit" label="Guardar" class="p-button-raised" [disabled]="form_chofer.invalid" ></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger" (click)="bsModalRef.hide()"></button>
+        </div>
+    </div>
+</form>

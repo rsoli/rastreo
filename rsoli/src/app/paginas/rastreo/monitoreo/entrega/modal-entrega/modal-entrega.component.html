@@ -1,0 +1,74 @@
+<div class="modal-header" style="border-top: 4px solid #007bff !important;">
+    <h4 class="modal-title pull-left">{{titulo}}</h4>
+
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="bsModalRef.hide()"></button>
+</div>
+
+<form [formGroup]="form_entrega" (submit)="GuardarEntrega()">
+    <div style="padding:20px 40px 20px 40px;" class="modal-body">
+
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_entrega.controls['lista_vehiculo_seleccionados'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_entrega.controls['lista_vehiculo_seleccionados'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Vehículo
+            </label>
+            <p-dropdown [options]="lista_vehiculo" formControlName="lista_vehiculo_seleccionados" optionLabel="placa" [filter]="true" filterBy="placa"
+                [showClear]="true"  [autoDisplayFirst]="false" >
+                <ng-template let-lista_vehiculo pTemplate="item">
+                    <div class="country-item">
+                        <div style="border-bottom: 1px solid #dee2e6;">
+                            <span style="font-weight: bold;" *ngIf="form_entrega.controls['lista_vehiculo_seleccionados'].errors" >Placa : </span> {{lista_vehiculo.placa}} <br/>
+                            <!-- <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >Ap. paterno : </span> {{lista_vehiculo.apellido_paterno}} <br/>
+                            <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >Ap. materno : </span> {{lista_vehiculo.apellido_materno}} <br/>
+                            <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >CI : </span> {{lista_vehiculo.ci}} <br/> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="row">
+            <label style="margin: 0px;padding: 0px;">
+                <span style="color: red;" *ngIf="form_entrega.controls['lista_chofer_seleccionados'].errors" >*</span>
+                <span style="color: green;" *ngIf="!form_entrega.controls['lista_chofer_seleccionados'].errors" > <i style="width: 10px;" class="fas fa-check"></i></span>
+                Chofer
+            </label>
+            <p-dropdown [options]="lista_chofer" formControlName="lista_chofer_seleccionados" optionLabel="nombre" [filter]="true" filterBy="nombre"
+                [showClear]="true"  [autoDisplayFirst]="false" >
+                <ng-template let-lista_chofer pTemplate="item">
+                    <div class="country-item">
+                        <div style="border-bottom: 1px solid #dee2e6;">
+                            <span style="font-weight: bold;" *ngIf="form_entrega.controls['lista_chofer_seleccionados'].errors" >Nombre : </span> {{lista_chofer.nombre}} <br/>
+                            <!-- <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >Ap. paterno : </span> {{lista_vehiculo.apellido_paterno}} <br/>
+                            <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >Ap. materno : </span> {{lista_vehiculo.apellido_materno}} <br/>
+                            <span style="font-weight: bold;" *ngIf="form_usuario.controls['contrasena'].errors" >CI : </span> {{lista_vehiculo.ci}} <br/> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="row">
+            <div  style="margin-top: 10px;">
+                Fecha de entrega
+                <br>
+                <p-calendar  formControlName="fecha_inicio" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div  style="margin-top: 10px;">
+                Fecha fin
+                <br>
+                <p-calendar  formControlName="fecha_fin" dateFormat="dd/mm/yy" inputId="spanish"></p-calendar>
+            </div>
+        </div> -->
+
+    </div>
+    <div class="modal-footer">
+        <div style="padding-left: 2px;">
+            <button pButton pRipple type="submit" label="Guardar" class="p-button-raised" [disabled]="form_entrega.invalid" ></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-danger" (click)="bsModalRef.hide()"></button>
+        </div>
+    </div>
+</form>

@@ -10,11 +10,15 @@ import { CookieService } from 'ngx-cookie-service';
 import { Table } from 'primeng/table';
 import Swal from'sweetalert2';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
-import * as moment from 'moment';
+//import * as moment from 'moment';
 import 'moment-timezone';
 import { ErrorHandler } from '@angular/core';
 import { Router } from '@angular/router';
-moment.locale("es");
+//moment.locale("es");
+//import { LuxonModule } from 'luxon-angular';
+import { DateTime, IANAZone } from 'luxon';
+// instalar luxon npm i --save-dev @types/luxon
+
 
 @Component({
   selector: 'app-monitoreo-google',
@@ -38,7 +42,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   markers =new Array();
   lista_dispositivos_usuario:Array<String>=[];
 
-  token ='';
+  token ='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
   contador_error=0;
   public results:any;
   
@@ -62,8 +66,15 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
   visibleSidebar1: any;
   fecha_ratreo: Date=new Date();
-  fecha_inicio:any=new Date('2023-08-01T00:00:00-04:00');
-  fecha_final:any=new Date('2023-08-31T23:59:00-04:00');
+
+  //fecha_inicio:any=new Date('2023-08-01T00:00:00-04:00');
+  //fecha_final:any=new Date('2023-08-31T23:59:00-04:00');
+  fiaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-01';
+  ffaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-'+(new Date().getDate());
+  fecha_inicio:any=new Date(this.fiaux);
+  fecha_final:any=new Date(this.ffaux);
+
+
   hora_inicio=new Date('2023-10-06T00:00:00');
   hora_fin=new Date('2023-10-06T23:59:59');
 
@@ -83,12 +94,16 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   selected_item:Array<String>=[]
 
   seguimiento_marcador=0;
+
+  calendar_fr:any;
+
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
     private cookieService: CookieService,
     private router: Router, 
-  ) { }
+  ) {
+   }
   handleError(error: any): void {//para errores de bondle
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
   
@@ -98,15 +113,31 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   }
   ngOnInit(): void {
 
+    this.calendar_fr = {
+      firstDayOfWeek: 1,
+      dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+          'Noviembre', 'Diciembre'],
+      monthNamesShort: ['Ene', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+      today: 'Today',
+      clear: 'Clear',
+  };
+
+    this.fecha_inicio.setHours(0,0,0);
+    this.fecha_final.setHours(23,59,59);
+
+
     this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
-    console.log("ggggggggggggg ",this.token);
+    //console.log("ggggggggggggg ",this.token);
     if(this.token!=undefined){
 
       this.cargarIcono();
       this.IniciarMapa();
   
       this.lista_dispositivos_usuario = JSON.parse(localStorage.getItem('accesos') || '{}').Vehiculo;
-      //this.InicarSesion();
+      this.InicarSesion();
       this.loading_alert();
       this.reconecta();
     }else{
@@ -168,20 +199,20 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     //   })
     // };
   }
-  // InicarSesion(){
-  //   //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
-  //   this.traccar.post_iniciar_sesion(this.token).subscribe( data=>{
-  //     console.log( JSON.parse( JSON.stringify(data))  );
-  //     let token =JSON.parse( JSON.stringify(data)).body.token;
-  //     // this.GetMotorizado(token);
+   InicarSesion(){
+     //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
+     this.traccar.post_iniciar_sesion(this.token).subscribe( data=>{
+       console.log( JSON.parse( JSON.stringify(data))  );
+      //  let token =JSON.parse( JSON.stringify(data)).body.token;
+        //this.GetMotorizado(token);
       
 
 
-  //   },
-  //   error=>{
+     },
+     error=>{
        
-  //   })
-  // }
+     })
+   }
 
   ConectarSocket(){
     //this.traccar.conection(token);
@@ -241,8 +272,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
         this.error("Información","Vuelva a iniciar sesión");
         localStorage.removeItem("accesos");
-        this.router.navigate(['/shared/slider']);   
-        //window.location.reload();
+        //this.router.navigate(['/shared/slider']);   
+        window.location.reload();
       }
 
     });
@@ -851,22 +882,20 @@ this.seguimiento_marcador=0;
   }
   GetRutasTraccar(viaje:any){
 
-    let f_ini='';
-    let f_fin='';
+    // let f_ini='';
+    // let f_fin='';
     
-    // f_ini=formatDate(viaje.startTime, 'yyyy/MM/dd hh:mm:ss', 'en-US');
-    // f_fin=formatDate(viaje.endTime , 'yyyy/MM/dd hh:mm:ss', 'en-US');
-
-    // f_ini= new Date(f_ini).toISOString();
-    // f_fin= new Date(f_fin).toISOString();
-
-    f_ini= moment(viaje.startTime).toISOString();
-    f_fin= moment(viaje.endTime).toISOString(); 
+  
     
+    //f_ini= moment(viaje.startTime).toISOString();
+    //f_fin= moment(viaje.endTime).toISOString(); 
+    
+     let f_ini = DateTime.fromJSDate(viaje.startTime).toISO();
+     let f_fin = DateTime.fromJSDate(viaje.endTime).toISO();
    
     // console.log("juan moment ",viaje.deviceId,f_ini,f_fin);
     
-    this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
+    this.traccar.get_rutas(viaje.deviceId,String(f_ini),String(f_fin)).subscribe( data=>{
           // console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
           let lista_rutas_traccar=JSON.parse( JSON.stringify(data));
@@ -930,8 +959,8 @@ this.seguimiento_marcador=0;
         //console.log("ver atributes ",indice.attributes.motion);
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
         this.marker.bindPopup("<div style='font-size: 8px' > "+
-        // "<b>Placa :</b>  "+indice.placa+
-        " <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
+        //" <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
+        " <b>Fecha :</b>  "+DateTime.fromJSDate(indice.deviceTime).toFormat('dd-MM-yyyy HH:mm:ss')+
         " <br> <b>Velocidad :</b>  "+parseFloat((Number(indice.speed)*1.852).toFixed(2)+'')+" Km/h"+
         " <br> <b>Bateria vehículo :</b>  "+parseFloat(indice.attributes.power).toFixed(2)+" Volt."+
         " <br> <b>Bateria Gps:</b>  "+parseFloat(indice.attributes.battery).toFixed(2)+" Volt."+
@@ -997,32 +1026,31 @@ this.seguimiento_marcador=0;
     let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
     // let contador:any=0;
 
-    let f_ini='';
-    let f_fin='';
+    let f_ini;
+    let f_fin;
 
     if(this.tipo_monitoreo_seleccionado.code=='viajes'){
       f_ini=formatDate(this.fecha_inicio, 'yyyy/MM/dd hh:mm:ss', 'en-US');
       f_fin=formatDate(this.fecha_final, 'yyyy/MM/dd hh:mm:ss', 'en-US');
     }
 
-    // for (let clave of lista_vehiculos){
-    //   contador++;
-    //   if(contador==lista_vehiculos.length){
-    //     id_vehiculos_seleccionados=clave.id_dispositivo; 
-    //   }
-    // }
 
-    let localTimeZone = moment.tz.guess(); 
-    let localTimeZoneCode = moment().tz(localTimeZone).format('z');
+    //let localTimeZone = moment.tz.guess(); 
+    //let localTimeZoneCode = moment().tz(localTimeZone).format('z');
+    let localTimeZone = DateTime.local().zoneName;
+    // Obtener el código de la zona horaria local
+    let localTimeZoneCode = DateTime.local().toFormat('ZZ');
 
-    // f_ini= moment((moment(this.fecha_inicio).tz(localTimeZone).utcOffset() / 60).toString()).toISOString(true);
 
-    f_ini= moment(this.fecha_inicio).format();
-    f_fin= moment(this.fecha_final).format();
-    // f_fin= moment((moment(this.fecha_final).tz(localTimeZone).utcOffset() / 60).toString()).toISOString(true); 
+
+    // f_ini= moment(this.fecha_inicio).format();
+    // f_fin= moment(this.fecha_final).format();
+     f_ini = DateTime.fromJSDate(this.fecha_inicio).toISO();
+     f_fin = DateTime.fromJSDate(this.fecha_final).toISO();
+
     console.log("parametros fechas ",f_ini,f_fin);
     
-    this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
+    this.traccar.get_viajes(id_vehiculos_seleccionados,String(f_ini),String(f_fin)).subscribe( data=>{
           
           console.log("datos viajes " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
@@ -1034,9 +1062,10 @@ this.seguimiento_marcador=0;
             lista_temporal.push(JSON.parse(JSON.stringify(this.lista_viajes[index])));
             let duration =JSON.parse(JSON.stringify(this.lista_viajes[index]));
 
-            //let aux=JSON.parse(JSON.stringify(this.lista_viajes[index])).duration;
-            let ini = moment(duration.startTime);
-            let fin =moment( duration.endTime);
+            // let ini = moment(duration.startTime);
+            // let fin =moment( duration.endTime);
+            let ini = DateTime.fromISO(duration.startTime);
+            let fin = DateTime.fromISO(duration.endTime);
 
             // console.log('DURATION:', ini,fin);
             // console.log('horas:', fin.diff(ini, 'hours'));

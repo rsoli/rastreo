@@ -24,6 +24,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputMaskModule } from 'primeng/inputmask';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -52,7 +53,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     CalendarModule,
     AutoCompleteModule,
     InputTextareaModule,
-    ToolbarModule
+    ToolbarModule,
+    FormsModule
   ]
 })
 export class PrimengModule { }

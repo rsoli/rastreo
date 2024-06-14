@@ -24,7 +24,7 @@
     <div  [hidden]="bandera_fecha_inicio" style="margin-top: 10px;">
         Fecha inicio
         <br>
-        <p-calendar [(ngModel)]="fecha_inicio" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+        <p-calendar [(ngModel)]="fecha_inicio"  [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
         <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
     </div>
 
@@ -38,7 +38,7 @@
 </p-sidebar>
 
 <div class="row" style="padding:0;margin: 0;">
-    <div class="col-sm-12 col-md-4 col-lg-4" style="padding:0;margin: 0;">
+    <div class="col-sm-12 col-md-3 col-lg-3" style="padding:0;margin: 0;">
         <div class="margen-mapa margen2"> 
 
 
@@ -71,7 +71,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-p >
                     <tr>
-                        <td (click)="SeleccionarVehiculo(p)">{{ p.placa }}</td>
+                        <td (click)="SeleccionarVehiculo(p)" style="font-size: 0.7rem;">{{ p.placa }}</td>
                         <td>
                             <p-button label="Viajes" styleClass="p-button-rounded p-button-sm" (click)="abrir_filtros('viajes',p)" ></p-button>&nbsp; 
                             <p-button label="Rutas" styleClass="p-button-rounded p-button-success p-button-sm" (click)="abrir_filtros('rutas',p)"></p-button>
@@ -82,7 +82,7 @@
          </div>
     </div>
 
-    <div class="col-sm-12 col-md-8 col-lg-8" style="padding:0;margin: 0;">
+    <div class="col-sm-12 col-md-9 col-lg-9" style="padding:0;margin: 0;">
         <div class="margen-mapa margen2">
             <div id="map2" class='{{style_map}}'></div>
             <p-table #dt1 [hidden]="bandera_tabla_viaje"  [value]="lista_viajes" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"

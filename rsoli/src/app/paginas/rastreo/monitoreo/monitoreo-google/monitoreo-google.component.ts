@@ -67,16 +67,15 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   visibleSidebar1: any;
   fecha_ratreo: Date=new Date();
 
-  //fecha_inicio:any=new Date('2023-08-01T00:00:00-04:00');
-  //fecha_final:any=new Date('2023-08-31T23:59:00-04:00');
-  fiaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-01';
-  ffaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-'+(new Date().getDate());
-  fecha_inicio:any=new Date(this.fiaux);
-  fecha_final:any=new Date(this.ffaux);
+
+  //fiaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-01';
+  //ffaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-'+(new Date().getDate());
+  fecha_inicio:any=this.getStartOfMonth().toJSDate(); // new Date(this.fiaux);
+  fecha_final:any=this.getCurrentTime().toJSDate(); //new Date(this.ffaux);
 
 
-  hora_inicio=new Date('2023-10-06T00:00:00');
-  hora_fin=new Date('2023-10-06T23:59:59');
+  hora_inicio=this.fecha_inicio;
+  hora_fin=this.fecha_final;
 
   bandera_fecha_ratreo:boolean=false;
   bandera_fecha_inicio:boolean=false;
@@ -95,7 +94,6 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
   seguimiento_marcador=0;
 
-  calendar_fr:any;
 
   constructor(
     private traccar:TraccarService,
@@ -104,6 +102,12 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     private router: Router, 
   ) {
    }
+  getStartOfMonth(): DateTime {
+    return DateTime.now().startOf('month').startOf('day');
+  }
+  getCurrentTime(): DateTime {
+    return DateTime.now().endOf('day');
+  }
   handleError(error: any): void {//para errores de bondle
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
   
@@ -113,20 +117,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   }
   ngOnInit(): void {
 
-    this.calendar_fr = {
-      firstDayOfWeek: 1,
-      dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
-          'Noviembre', 'Diciembre'],
-      monthNamesShort: ['Ene', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-      today: 'Today',
-      clear: 'Clear',
-  };
-
-    this.fecha_inicio.setHours(0,0,0);
-    this.fecha_final.setHours(23,59,59);
+    //this.fecha_inicio.setHours(0,0,0);
+    //this.fecha_final.setHours(23,59,59);
 
 
     this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
@@ -890,12 +882,12 @@ this.seguimiento_marcador=0;
     //f_ini= moment(viaje.startTime).toISOString();
     //f_fin= moment(viaje.endTime).toISOString(); 
     
-     let f_ini = DateTime.fromJSDate(viaje.startTime).toISO();
-     let f_fin = DateTime.fromJSDate(viaje.endTime).toISO();
+     let f_ini = DateTime.fromISO(viaje.startTime).toISO();
+     let f_fin = DateTime.fromISO(viaje.endTime).toISO();
    
-    // console.log("juan moment ",viaje.deviceId,f_ini,f_fin);
+     //console.log("juan fecha ",viaje.deviceId,f_ini,f_fin,viaje);
     
-    this.traccar.get_rutas(viaje.deviceId,String(f_ini),String(f_fin)).subscribe( data=>{
+    this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
           // console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
           let lista_rutas_traccar=JSON.parse( JSON.stringify(data));
@@ -960,7 +952,7 @@ this.seguimiento_marcador=0;
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
         this.marker.bindPopup("<div style='font-size: 8px' > "+
         //" <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
-        " <b>Fecha :</b>  "+DateTime.fromJSDate(indice.deviceTime).toFormat('dd-MM-yyyy HH:mm:ss')+
+        " <b>Fecha :</b>  "+DateTime.fromISO(indice.deviceTime).toFormat('dd-MM-yyyy HH:mm:ss')+
         " <br> <b>Velocidad :</b>  "+parseFloat((Number(indice.speed)*1.852).toFixed(2)+'')+" Km/h"+
         " <br> <b>Bateria vehículo :</b>  "+parseFloat(indice.attributes.power).toFixed(2)+" Volt."+
         " <br> <b>Bateria Gps:</b>  "+parseFloat(indice.attributes.battery).toFixed(2)+" Volt."+
@@ -1050,7 +1042,7 @@ this.seguimiento_marcador=0;
 
     console.log("parametros fechas ",f_ini,f_fin);
     
-    this.traccar.get_viajes(id_vehiculos_seleccionados,String(f_ini),String(f_fin)).subscribe( data=>{
+    this.traccar.get_viajes(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
           
           console.log("datos viajes " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
@@ -1071,9 +1063,18 @@ this.seguimiento_marcador=0;
             // console.log('horas:', fin.diff(ini, 'hours'));
             // console.log('minutos:', fin.diff(ini, 'minutes'));
             // console.log('Segundos:', fin.diff(ini, 'seconds'));
-            lista_temporal[index].duration=fin.diff(ini, 'hours')+' h '+fin.diff(ini, 'minutes')+' m ';
 
-            // console.log("lista  duration ", durationA);
+            let diff = fin.diff(ini, ['hours', 'minutes']);
+
+            // Obtener las horas y minutos de la diferencia
+            let hours = Math.floor(diff.as('hours'));
+            let minutes = diff.as('minutes') % 60;
+            
+            
+            lista_temporal[index].duration=`${hours} h ${Math.floor(minutes)} m`;
+
+            //lista_temporal[index].duration=fin.diff(ini, 'hours')+' h '+fin.diff(ini, 'minutes')+' m ';
+
             
           }
           this.lista_viajes=lista_temporal;

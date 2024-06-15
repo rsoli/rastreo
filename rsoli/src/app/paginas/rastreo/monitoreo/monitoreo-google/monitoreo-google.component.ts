@@ -42,7 +42,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   markers =new Array();
   lista_dispositivos_usuario:Array<String>=[];
 
-  token ='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
+  token:string ='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
   contador_error=0;
   public results:any;
   
@@ -115,13 +115,17 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
         window.location.reload();
       }
   }
-  ngOnInit(): void {
+  async getToken(){
+
+    return JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
+  }
+  async ngOnInit(): Promise<void> {
 
     //this.fecha_inicio.setHours(0,0,0);
     //this.fecha_final.setHours(23,59,59);
 
 
-    //this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
+    this.token = await this.getToken();
     
     if(this.token!=undefined){
 

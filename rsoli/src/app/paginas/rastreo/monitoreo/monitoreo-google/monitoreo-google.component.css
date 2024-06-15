@@ -9,7 +9,10 @@
   height: 700px !important;
 }
 .margen-mapa{
-  padding:10px !important;
+  padding:20px !important;
+}
+.margen-mapa_placa{
+  padding:15px !important;
 }
 .margen-filtros{
   padding:30px !important;

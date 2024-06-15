@@ -121,8 +121,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     //this.fecha_final.setHours(23,59,59);
 
 
-    this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
-    //console.log("ggggggggggggg ",this.token);
+    //this.token = JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
+    
     if(this.token!=undefined){
 
       this.cargarIcono();

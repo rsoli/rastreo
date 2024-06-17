@@ -166,14 +166,6 @@ h1, h2, h3, h4, h5, h6{
 
 
 
-
-/*.p-calendar * {
-    width: 100% !important; 
-    top: 0px !important;
-    text-align: center !important;
-
-}*/
-
 @media screen and (max-width: 769px){
     .p-datepicker table th, .p-datepicker table td {
         width: 0px !important; 
@@ -188,3 +180,17 @@ h1, h2, h3, h4, h5, h6{
 .p-datepicker-mask{
     z-index: 1 !important;
 }
+
+
+@font-face {
+    font-family: 'PrimeIcons';
+    src: url('./assets/fonts/primeicons.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+/* 
+.p-datatable-resizable .p-datatable-tbody>tr>td, .p-datatable-resizable .p-datatable-tfoot>tr>td, .p-datatable-resizable .p-datatable-thead>tr>th {
+    overflow: inherit !important;
+    white-space: nowrap !important;
+} */

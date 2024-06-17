@@ -1,4 +1,4 @@
-.margen1{
+ .margen1{
   background-color: rgb(255, 255, 255);
   margin: 10px;
   height: 700px;
@@ -19,7 +19,6 @@
   border-left: 4px solid #007bff !important;
 }
 #map2 {
-  /* height: 100vw; */
   height: 100%;
   padding: 0%;
   width: 100%;
@@ -50,4 +49,45 @@
     height: 700px;
   }
 }
+ 
 
+
+
+
+
+.custom-button {
+  width: 36px !important; /* Ajustar el ancho del botón */
+  height: 36px !important; /* Ajustar la altura del botón */
+  padding: 0 !important; /* Eliminar el relleno interno del botón */
+  line-height: 1 !important; /* Alinear el contenido verticalmente */
+  margin-right: 10px !important; /* Espacio entre los botones */
+  text-align: center !important; /* Centrar el contenido horizontalmente */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: transparent !important; /* Color de fondo transparente */
+  border: none !important; /* Sin borde */
+  border-radius: 50% !important; /* Bordes redondeados para forma de círculo */
+}
+
+.custom-button .button-icon {
+  width: 18px !important; /* Ajustar el tamaño del icono */
+  height: 18px !important;
+  display: block !important;
+  margin: 0 auto !important; /* Centrar el icono dentro del botón */
+}
+
+/* Estilos para el botón de Viajes */
+.viajes {
+  background-color: #007bff !important; /* Color de fondo azul */
+}
+
+/* Estilos para el botón de Rutas */
+.rutas {
+  background-color: #28a745 !important; /* Color de fondo verde */
+}
+
+/* Estilos para el botón de Parqueos */
+.parqueos {
+  background-color: #dc3545 !important; /* Color de fondo rojo */
+}

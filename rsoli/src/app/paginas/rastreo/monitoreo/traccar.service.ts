@@ -53,6 +53,15 @@ export class TraccarService {
     let parametros='?deviceId='+v_deviceId+'&from='+v_fecha_inicio+'&to='+v_fecha_fin;
     return this.http.get('https://www.kolosu.com/traccar/api/reports/route'+parametros, { 'headers':headers,withCredentials: true })
   }
+  get_parqueo(v_deviceId:Number,v_fecha_inicio:any,v_fecha_fin:any){
+    let headers = new HttpHeaders()
+        .set('content-type','application/json');
+
+        // console.log("ver hora ",v_fecha_inicio);
+        
+    let parametros='?deviceId='+v_deviceId+'&from='+v_fecha_inicio+'&to='+v_fecha_fin;
+    return this.http.get('https://www.kolosu.com/traccar/api/reports/stops'+parametros, { 'headers':headers,withCredentials: true })
+  }
   conection(token:String){
    
     let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+token);

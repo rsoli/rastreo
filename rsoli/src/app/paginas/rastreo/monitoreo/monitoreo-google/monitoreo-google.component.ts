@@ -1,4 +1,4 @@
-import { Component,OnInit,NgZone, OnDestroy } from '@angular/core';
+import { Component,AfterViewInit ,NgZone, OnDestroy } from '@angular/core';
 import{TraccarService} from '../traccar.service';
 import { MonitoreoService } from '../monitoreo.service';
 
@@ -26,7 +26,7 @@ import { DateTime, IANAZone } from 'luxon';
   styleUrls: ['./monitoreo-google.component.css'],
   providers: [MessageService]
 })
-export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler{
+export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,ErrorHandler{
 
   private timeout: any;
 
@@ -50,6 +50,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   icono_rojo :any;
   icono_inicio :any;
   icono_final :any;
+  icono_parqueo:any;
   vehiculo_seleccionado ={lat:0,
     lng:0,
     id_dispositivo:0,
@@ -65,7 +66,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
 
   visibleSidebar1: any;
-  fecha_ratreo: Date=new Date();
+  fecha_ratreo: any=this.getCurrentTime().toJSDate() //new Date();
 
 
   //fiaux =(new Date().getFullYear())+'-'+(new Date().getMonth()+1)+'-01';
@@ -85,14 +86,19 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   tipo_monitoreo_seleccionado ={code:''};
 
   lista_viajes :Array<String>=[];
+  lista_parqueos :Array<String>=[];
   style_map :String = 'map_tiempo_real';
   bandera_tabla_viaje:boolean=true;
-
+  lista_centrado_parqueo=new Array();
+  bandera_tabla_parqueo:boolean=true;
+  bandera_tabla_rutas:boolean=true;
 
   //viajes
   selected_item:Array<String>=[]
 
   seguimiento_marcador=0;
+
+  lista_rutas_traccar:Array<String>=[];
 
 
   constructor(
@@ -102,24 +108,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     private router: Router, 
   ) {
    }
-  getStartOfMonth(): DateTime {
-    return DateTime.now().startOf('month').startOf('day');
-  }
-  getCurrentTime(): DateTime {
-    return DateTime.now().endOf('day');
-  }
-  handleError(error: any): void {//para errores de bondle
-    const chunkFailedMessage = /Loading chunk [\d]+ failed/;
-  
-      if (chunkFailedMessage.test(error.message)) {
-        window.location.reload();
-      }
-  }
-  async getToken(){
-
-    return JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
-  }
-  async ngOnInit(): Promise<void> {
+  async ngAfterViewInit(): Promise<void> {
 
     //this.fecha_inicio.setHours(0,0,0);
     //this.fecha_final.setHours(23,59,59);
@@ -141,9 +130,29 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       localStorage.removeItem("accesos");
       this.router.navigate(['/shared/slider']);   
     }
+  }
+  getStartOfMonth(): DateTime {
+    return DateTime.now().startOf('month').startOf('day');
+  }
+  getCurrentTime(): DateTime {
+    return DateTime.now().endOf('day');
+  }
+  handleError(error: any): void {//para errores de bondle
+    const chunkFailedMessage = /Loading chunk [\d]+ failed/;
+  
+      if (chunkFailedMessage.test(error.message)) {
+        window.location.reload();
+      }
+  }
+  async getToken(){
+
+    return JSON.parse(localStorage.getItem('accesos') || '{}').token_socket;
+  }
+  // async ngOnInitInit (): Promise<void> {
+
  
     
-  }
+  // }
   cargarIcono(){
     this.icon = {
       icon: L.icon({
@@ -178,22 +187,27 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     this.icono_final ={
       icon: L.icon({
         iconUrl: './assets/icono/marcadores/circulo/final.png',
-        // iconSize: [30, 35],
-        // iconAnchor: [17, 17],
-        // popupAnchor: [0, -13] //horizontal  vertical
+
         iconSize:     [35, 41],
         iconAnchor:   [1, 39], //vertical  
         popupAnchor:  [-0, -47] 
+
+        // iconSize: [30, 35],
+        // iconAnchor: [17, 17],
+        // popupAnchor: [0, -13] //horizontal  vertical
       })
     };
-    // this.icono_rojo ={
-    //   icon: L.icon({
-    //     iconUrl: './assets/iconos/marcadores/circulo/ubi_rojo.png',
-    //     iconSize: [25, 31],
-    //     iconAnchor: [12, 28],
-    //     popupAnchor: [-0, -27] //horizontal  vertical
-    //   })
-    // };
+    this.icono_parqueo ={
+      icon: L.icon({
+        iconUrl: './assets/icono/marcadores/circulo/parqueo.png',
+        // iconSize: [30, 35],
+        // iconAnchor: [17, 17],
+        // popupAnchor: [0, -13] //horizontal  vertical
+        iconSize:     [20, 41],
+        iconAnchor:   [1, 39], //vertical  
+        popupAnchor:  [10, -37] //   ,abajo menor numero
+      })
+    };
   }
    InicarSesion(){
      //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
@@ -267,7 +281,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       if(this.contador_error==4){
 
         this.error("Información","Vuelva a iniciar sesión");
-        localStorage.removeItem("accesos");
+        //localStorage.removeItem("accesos");
         //this.router.navigate(['/shared/slider']);   
         window.location.reload();
       }
@@ -314,15 +328,15 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       fadeAnimation: false,
       zoomAnimation: false,
       markerZoomAnimation: false,
+      
+      attributionControl: false,
 
       // zoomDelta: 0.25,
       // zoomSnap: 0.50,
 
-      renderer: L.canvas(),
-
+      renderer: L.canvas()
 
     })
-
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       // attribution: '© OpenStreetMap',
@@ -339,34 +353,9 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       minZoom: 1,
-      //attribution: '&copy; <a href="http://www.openstreetmap.org/copyright"/>OpenStreetMap</a>'
       attribution: '',
-      //updateWhenIdle: true,
     }).addTo(this.map);
 
-
-      // var Stadia_Outdoors =
-      // L.tileLayer(
-      //   'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
-      //   maxZoom: 20,
-      //   attribution: '',
-      // });
-      // var Stadia_OSMBright =
-      // L.tileLayer(
-      //   'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-      //   maxZoom: 20,
-      //   attribution: '',
-      // });
-
-      // var Stadia_AlidadeSmoothDark =
-      // L.tileLayer(
-      //   'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-      //   //attribution: 'Tiles &copy; Esri'
-      //   //attribution: 'CartoDB.Voyager',
-      //   attribution: '',
-      //   maxZoom: 20,
-      //   //updateWhenIdle: true,
-      // });
 
       var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
         maxZoom: 20,
@@ -382,15 +371,8 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 
     var mapaBase = {
       'Osm': osm,
-      //'Stamen_Toner': Stamen_Toner,
-      //'Esri_WorldStreetMap': Esri_WorldStreetMap,
-      //'Esri_WorldTopoMap': Esri_WorldTopoMap,
-      // 'Stadia_Outdoors':Stadia_Outdoors,
-      // 'Stadia_OSMBright':Stadia_OSMBright,
-      // 'Stadia Oscuro':Stadia_AlidadeSmoothDark,
       'google Calles':googleStreets,
       'google Hibrido':googleHybrid
-      // 'Cartografico':positron
     };
 
     var controlEscala;
@@ -427,6 +409,20 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
       }
     }
   }
+  borraarMarcadorSegunLista(){
+    for (let index = 0; index < this.lista_parqueos.length; index++) {
+
+      let lista_temporal=(JSON.parse(JSON.stringify(this.lista_parqueos[index])));
+      console.log("parqueos ",lista_temporal);
+      
+      const marker = this.markers[lista_temporal.positionId];
+      
+      if (marker) {
+        this.map.removeLayer(marker);
+      }
+      
+    }
+  }
   //AgregarMarcador(marcadores:any) {
   AgregarMarcador(event: any) {
 
@@ -435,13 +431,11 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     if (data.positions) {
       for (let i = 0; i < data.positions.length; i++) {
 
-
         let position = data.positions[i];
 
         //nuevo codigo
         let indice_device = this.lista_dispositivos_usuario.findIndex(device => JSON.parse(JSON.stringify(device)).id_dispositivo === position.deviceId);
         
-
         if (indice_device != -1) {
           //let marker = this.markers[position.deviceId];
           //this.marker = [position.latitude, position.longitude];
@@ -556,14 +550,19 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
   clear(table: Table) {
     table.clear();
   }
+  
   SeleccionarVehiculo(item:any){
     this.seguimiento_marcador=item.id_dispositivo;
 
     this.hide_botones=false;
     this.borrarMarcadores();
+    this.borraarMarcadorSegunLista();
     this.lista_viajes=[];
+    this.lista_parqueos=[];
     this.style_map= 'map_tiempo_real';
     this.bandera_tabla_viaje=true;
+    this.bandera_tabla_parqueo=true;
+    this.bandera_tabla_rutas=true;
     if(this.polylines){
       this.polylines.removeFrom(this.map);
     }
@@ -588,10 +587,21 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     this.markers[id].openPopup();
     
   }
+  SeleccionarParqueo(item:any){
+
+    this.map.closePopup();  
+    //nos dirigimos hacia el marker
+    let p=this.markers[item.positionId];
+    // this.map.setView([p._latlng.lat, p._latlng.lng], 16);
+    //abrimos el popop
+    this.markers[item.positionId].openPopup();
+    
+  }
   aplicar_filtros(){
     //this.contador_zoom_mapa=0;
 
     this.lista_viajes=[];
+    this.lista_parqueos=[];
     this.visibleSidebar1=false;
     if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       // this.bandera_timer=false;
@@ -611,7 +621,7 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
         }
       }
     }
-    if(this.tipo_monitoreo_seleccionado.code=='viajes'){
+    if(this.tipo_monitoreo_seleccionado.code=='viajes' || this.tipo_monitoreo_seleccionado.code=='parqueos'){
       this.ejecutar_filtros();
     }
 
@@ -625,35 +635,38 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
     let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
     let id_vehiculos_seleccionados= this.vehiculo_seleccionado.id_vehiculo+"";
     let contador:any=0;
+    this.map.closePopup();
    
     console.log("ver tipo monitoreo ",this.tipo_monitoreo_seleccionado.code);
 
      if(this.tipo_monitoreo_seleccionado.code=='viajes'){
        this.GetViajes();
      }
+     if(this.tipo_monitoreo_seleccionado.code=='parqueos'){
+      this.GetParqueos();
+    }
     if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       this.loading_alert();
 
 
-      let f_ini='';
-      let f_fin='';
-
-      f_ini=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_inicio.toLocaleTimeString();
-      f_fin=formatDate(this.fecha_ratreo, 'yyyy/MM/dd', 'en-US')+' '+this.hora_fin.toLocaleTimeString();
-
-      console.log("nueva fecha inicio ",f_ini);
-      console.log("nueva fecha final ",f_fin);
+      let f_ini;
+      let f_fin;
 
 
-      this.monitoreo_servicio.post_monitoreo_rutas({id_vehiculos:id_vehiculos_seleccionados,fecha_inicio:f_ini,fecha_fin:f_fin}).subscribe(data=>{
-        this.closeLoading_alert();
-         
-        this.AgregarMarcadorRutas( JSON.parse(JSON.stringify(data)));
-      },
-      error=>{
-        this.closeLoading_alert();
-        console.log("ver errores ",error);
-      })
+      this.fecha_ratreo.setHours(0,0,0);
+      f_ini =DateTime.fromJSDate(this.fecha_ratreo).toISO();
+      this.fecha_ratreo.setHours(23,59,59);
+      f_fin = DateTime.fromJSDate(this.fecha_ratreo).toISO();
+      let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
+
+     // f_ini = f_finISO ;
+
+      // console.log("nueva fecha inicio juan ",f_ini);
+      // console.log("nueva fecha final ",f_fin);
+      // console.log("id dispositi ",id_vehiculos_seleccionados);
+
+      this.GetRutasTraccar({deviceId:id_vehiculos_seleccionados,startTime:f_ini,endTime:f_fin});
+
     }
   }
   AgregarMarcadorRutas(marcadores:any){
@@ -793,9 +806,14 @@ export class MonitoreoGoogleComponent implements OnInit ,OnDestroy ,ErrorHandler
 //inicio selecion//////////
 this.hide_botones=false;
 this.borrarMarcadores();
+this.borraarMarcadorSegunLista();
 this.lista_viajes=[];
+this.lista_parqueos=[];
+this.lista_rutas_traccar=[];
 this.style_map= 'map_tiempo_real';
 this.bandera_tabla_viaje=true;
+this.bandera_tabla_parqueo=true;
+this.bandera_tabla_rutas=true;
 if(this.polylines){
   this.polylines.removeFrom(this.map);
 }
@@ -822,6 +840,7 @@ this.seguimiento_marcador=0;
 /////////////////////////
     
     this.tipo_monitoreo_seleccionado.code=datos;
+    this.style_map = 'map_tiempo_real';
     if(this.tipo_monitoreo_seleccionado.code=="rutas"){
       // this.limite_seleccion_vehiculos=1;
       // this.bandera_tipo_monitoreo=false;
@@ -832,15 +851,18 @@ this.seguimiento_marcador=0;
       this.bandera_hora_inicio=false;
       this.bandera_hora_fin=false;
 
-      this.style_map = 'map_tiempo_real';
+      this.style_map = 'map_viaje';
       this.bandera_tabla_viaje=true;
-      this.lista_viajes=[];
+      this.bandera_tabla_parqueo=true;
+      this.bandera_tabla_rutas=false;
+      // this.lista_viajes=[];
+      // this.lista_parqueos=[];
+      // this.lista_rutas_traccar=[];
 
     }
-    if(this.tipo_monitoreo_seleccionado.code=="viajes"){
-      // this.limite_seleccion_vehiculos=1;
-      // this.bandera_tipo_monitoreo=false;
-      console.log("llego  ",this.tipo_monitoreo_seleccionado.code);
+    if(this.tipo_monitoreo_seleccionado.code=="viajes" || this.tipo_monitoreo_seleccionado.code=="parqueos" ){
+
+      // console.log("llego  ",this.tipo_monitoreo_seleccionado.code);
       this.bandera_fecha_ratreo=true;
       this.bandera_fecha_inicio=false;
       this.bandera_fecha_final=false;
@@ -848,8 +870,10 @@ this.seguimiento_marcador=0;
       this.bandera_hora_fin=true;
 
       this.style_map = 'map_viaje';
-      this.bandera_tabla_viaje=false;
-      this.lista_viajes=[];
+      this.bandera_tabla_viaje=(this.tipo_monitoreo_seleccionado.code=="viajes" )?false:true;
+      this.bandera_tabla_parqueo=(this.tipo_monitoreo_seleccionado.code=="parqueos" )?false:true;
+      // this.lista_viajes=[];
+      // this.lista_parqueos=[];
 
     }
 
@@ -876,6 +900,18 @@ this.seguimiento_marcador=0;
     this.loading_alert();
     this.GetRutasTraccar(viaje);
   }
+  seleccionar_ruta(ruta:any){
+    console.log("vert rr ",ruta);
+    this.map.closePopup();  
+    //nos dirigimos hacia el marker
+    let p=this.markers[ruta.id];
+    //this.map.setView([p._latlng.lat, p._latlng.lng], 16);
+    //abrimos el popop
+    this.markers[ruta.id].openPopup();
+  }
+  convertSpeedToKmh(speed: number): number {
+    return speed * 1.852;
+  }
   GetRutasTraccar(viaje:any){
 
     // let f_ini='';
@@ -889,14 +925,14 @@ this.seguimiento_marcador=0;
      let f_ini = DateTime.fromISO(viaje.startTime).toISO();
      let f_fin = DateTime.fromISO(viaje.endTime).toISO();
    
-     //console.log("juan fecha ",viaje.deviceId,f_ini,f_fin,viaje);
+     
+    //  console.log("juan fecha ",viaje);
     
     this.traccar.get_rutas(viaje.deviceId,f_ini,f_fin).subscribe( data=>{
           // console.log("datos rutas traccar " ,JSON.parse( JSON.stringify(data))  );
           this.closeLoading_alert();
-          let lista_rutas_traccar=JSON.parse( JSON.stringify(data));
-          //this.lista_viajes=JSON.parse( JSON.stringify(data));
-          this.DibujarRutaTraccar(lista_rutas_traccar);
+          this.lista_rutas_traccar=JSON.parse( JSON.stringify(data));
+          this.DibujarRutaTraccar(this.lista_rutas_traccar);
         },
         error=>{
           console.log("errores ",error);
@@ -951,24 +987,20 @@ this.seguimiento_marcador=0;
              lng:indice.longitude,
           });
           
+        // console.log("veeeeerrrr ",indice);
         
-        //console.log("ver atributes ",indice.attributes.motion);
         this.marker = L.marker([indice.latitude, indice.longitude], icon).addTo(this.map);
         this.marker.bindPopup("<div style='font-size: 8px' > "+
-        //" <b>Fecha :</b>  "+moment(indice.deviceTime).format("DD-MM-YYYY HH:mm:ss")+
         " <b>Fecha :</b>  "+DateTime.fromISO(indice.deviceTime).toFormat('dd-MM-yyyy HH:mm:ss')+
         " <br> <b>Velocidad :</b>  "+parseFloat((Number(indice.speed)*1.852).toFixed(2)+'')+" Km/h"+
         " <br> <b>Bateria vehículo :</b>  "+parseFloat(indice.attributes.power).toFixed(2)+" Volt."+
         " <br> <b>Bateria Gps:</b>  "+parseFloat(indice.attributes.battery).toFixed(2)+" Volt."+
         " <br> <b>Motor:</b>  "+((indice.attributes.ignition==true)?' Encendido':' Apagado')+
         " <br> <b>Movimiento:</b>  "+((indice.attributes.motion==true)?' Si':' No')+
-        // " <br> <b>Grados de giro:</b>  "+indice.course+
         " <br> <b>Latitud:</b>  "+indice.latitude+
         " <br> <b>Longitud:</b>  "+indice.longitude+
-        // " <br> <b>Giro:</b>  "+indice.course+
         " <br> <b>Altitud:</b>  "+indice.altitude+
         " <br> <b>Odometro:</b>  "+ parseFloat((Number(indice.attributes.odometer)/1000)+'').toFixed(2)+" Km"+
-        // " <br> <b>Ubicación :</b> </br>"+indice.address+ 
         "<div> "); 
 
         if(contador==1){
@@ -981,6 +1013,8 @@ this.seguimiento_marcador=0;
         }
         
         this.lista_marcadores.push(this.marker);
+
+        this.markers[indice.id]=this.marker; //ultima modificacion para rutas
 
         linea_rutas.push(this.marker.getLatLng());
         // lat=indice.latitude;
@@ -1089,6 +1123,102 @@ this.seguimiento_marcador=0;
           this.closeLoading_alert();
 
         })
+  }
+  GetParqueos(){
+    this.loading_alert();
+   
+    // let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
+    let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
+    // let contador:any=0;
+
+    let f_ini;
+    let f_fin;
+
+    let localTimeZone = DateTime.local().zoneName;
+    // Obtener el código de la zona horaria local
+    let localTimeZoneCode = DateTime.local().toFormat('ZZ');
+
+    f_ini = DateTime.fromJSDate(this.fecha_inicio).toISO();
+    f_fin = DateTime.fromJSDate(this.fecha_final).toISO();
+
+    
+    this.traccar.get_parqueo(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
+          
+          this.closeLoading_alert();
+          this.lista_parqueos=JSON.parse( JSON.stringify(data));
+          let lista_temporal=Array();
+          for (let index = 0; index < this.lista_parqueos.length; index++) {
+            
+            
+            lista_temporal.push(JSON.parse(JSON.stringify(this.lista_parqueos[index])));
+            let duration =JSON.parse(JSON.stringify(this.lista_parqueos[index]));
+
+            let ini = DateTime.fromISO(duration.startTime);
+            let fin = DateTime.fromISO(duration.endTime);
+
+            let diff = fin.diff(ini, ['hours', 'minutes']);
+
+            // Obtener las horas y minutos de la diferencia
+            let hours = Math.floor(diff.as('hours'));
+            let minutes = diff.as('minutes') % 60;
+            
+            
+            lista_temporal[index].duration=`${hours} h ${Math.floor(minutes)} m`;
+            this.AgregarMarcadorParqueo(lista_temporal[index]);
+
+          }
+          this.lista_parqueos=lista_temporal;
+          this.map.fitBounds(this.lista_centrado_parqueo, {
+            padding: [10, 10] // Margen de 50 píxeles en todos los lados
+          });
+
+        },
+        error=>{
+          console.log("errores ",error);
+          this.closeLoading_alert();
+
+        })
+  }
+  AgregarMarcadorParqueo(data: any) {
+
+
+    this.markers[data.positionId] = new DriftMarker([data.latitude, data.longitude], this.icono_parqueo);
+
+    let ini = DateTime.fromISO(data.startTime);
+    let fin = DateTime.fromISO(data.endTime);
+
+    let diff = fin.diff(ini, ['hours', 'minutes']);
+
+    // Obtener las horas y minutos de la diferencia
+    let hours = Math.floor(diff.as('hours'));
+    let minutes = diff.as('minutes') % 60;
+    // let seconds = Math.floor(this.newDuration.as('seconds')) % 60;
+    
+    
+   let duration=`${hours} h ${Math.floor(minutes)} m`;
+    
+     this.markers[data.positionId].bindPopup("<div style='font-size: 8px' > " +
+       "<b>Placa :</b>  " + data.deviceName + '<br/>' +
+       "<b>Tiempo parqueo :</b>  "+duration+ '<br/>' +
+       "<b>Fecha inicio :</b>  "+DateTime.fromISO(data.startTime).toFormat('dd-MM-yyyy HH:mm:ss')+ '<br/>' +
+       "<b>Fecha fin :</b>  "+DateTime.fromISO(data.endTime).toFormat('dd-MM-yyyy HH:mm:ss')+ '<br/>' +
+       "<b>Dirección :</b>  "+data.address+ '<br/>' +
+       "<div> ");
+
+
+      this.markers[data.positionId].addTo(this.map);
+
+      this.lista_centrado_parqueo.push(
+        {
+           lat:data.latitude,
+           lng:data.longitude,
+        });
+      //  if(this.bandera_centrado_mapa==false){
+      //    this.bandera_centrado_mapa=true;
+      //    this.map.fitBounds(this.lista_dispositivos);
+      //  }
+        
+
   }
   loading_alert(){
     Swal.fire({

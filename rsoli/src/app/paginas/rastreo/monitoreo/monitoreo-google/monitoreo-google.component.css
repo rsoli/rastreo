@@ -1,4 +1,4 @@
- .margen1{
+ /* .margen1{
   background-color: rgb(255, 255, 255);
   margin: 10px;
   height: 700px;
@@ -48,8 +48,17 @@
     margin: 10px;
     height: 700px;
   }
+} */
+
+.map_viaje {
+  height: 70% !important;
+  padding: 0% !important; 
+  width: 100% !important; 
+  z-index: 0 !important; 
 }
- 
+
+
+
 
 
 
@@ -71,10 +80,11 @@
 }
 
 .custom-button .button-icon {
-  width: 18px !important; /* Ajustar el tamaño del icono */
-  height: 18px !important;
+  width: 28px !important; 
+  height: 28px !important;
   display: block !important;
   margin: 0 auto !important; /* Centrar el icono dentro del botón */
+  padding: 3px !important;
 }
 
 /* Estilos para el botón de Viajes */
@@ -91,3 +101,183 @@
 .parqueos {
   background-color: #dc3545 !important; /* Color de fondo rojo */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.map-container {
+  position: relative !important;
+  height: calc(100vh - 64px); /* Ajusta esto según el tamaño del encabezado u otros elementos fijos */
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Evita la barra de desplazamiento horizontal */
+  display: flex;
+  flex-direction: column;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#map2 {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.vehicle-list {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 300px !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important; /* Asegura que la lista esté sobre el mapa */
+}
+
+.close-button {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+   /* background-color: #ff5c5c !important;  */
+    background-color: #9a969600 !important; 
+  color: rgb(104, 101, 101) !important;
+  border: none !important;
+  /* border-radius: 50% !important; */
+  width: 25px !important;
+  height: 25px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.3rem !important;
+  cursor: pointer !important;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important; */
+  transition: background-color 0.3s ease !important;
+  z-index: 1001 !important; /* Asegura que el botón esté sobre la lista */
+}
+
+.close-button:hover {
+   background-color: #9a96961d !important; 
+}
+
+
+/* INICIO SIDEBAR FRILTROS */
+.titulo_filtro {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.p-button-raised {
+  background-color: #007bff !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.p-button-raised:hover {
+  background-color: #0056b3 !important;
+}
+
+/* calendarios */
+.custom-calendar {
+  width: 100% !important;
+  font-size: 14px !important;
+  padding: 8px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+}
+
+.custom-calendar .ui-calendar {
+  width: 100% !important;
+}
+
+.custom-calendar .ui-inputtext {
+  font-size: 14px !important;
+  padding: 8px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+.custom-calendar .ui-calendar-button {
+  font-size: 14px !important;
+  border-radius: 5px !important;
+}
+
+.custom-calendar .ui-timepicker {
+  font-size: 14px !important;
+  border-radius: 5px !important;
+}
+
+.custom-calendar .ui-button {
+  font-size: 14px !important;
+  border-radius: 5px !important;
+}
+
+.custom-calendar .ui-datepicker-footer {
+  text-align: center !important;
+  font-size: 14px !important;
+  border-radius: 5px !important;
+}
+/* input switch */
+.custom-inputswitch {
+  display: flex!important;
+  align-items: center!important;
+  justify-content: space-between!important;
+}
+
+.custom-inputswitch .ui-inputswitch {
+  margin-left: auto!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

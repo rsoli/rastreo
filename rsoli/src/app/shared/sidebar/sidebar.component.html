@@ -1,9 +1,20 @@
 
 
-<!-- <i class="pi pi-align-justify imgzoom" (click)="AbrirSideBar()" style="font-size: 2rem;margin-left: 20px; "></i> -->
 
-<button  style="margin-left: 20px;margin-right: 10px;" pButton pRipple type="button" icon="pi pi-user"
-class="p-button-rounded p-button-info imgzoom"  (click)="AbrirSideBar()" ></button>
+<!-- <button  style="margin-left: 20px;margin-right: 10px;" pButton pRipple type="button" icon="pi pi-user"
+class="p-button-rounded p-button-info imgzoom"  (click)="AbrirSideBar()" ></button> -->
+<button 
+  style="margin-left: 10px; margin-right: 10px; width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center;" 
+  pButton 
+  pRipple 
+  type="button" 
+  class="p-button-rounded p-button-info imgzoom" 
+  (click)="AbrirSideBar()">
+  <img 
+    src="assets/icono/principal/login.png" 
+    alt="Icono Personalizado" 
+    style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;margin-left: 4px;">
+</button>
 
 
 <p-sidebar  [(visible)]="visible_iniciar_sesion" [modal]="false" [showCloseIcon]="false" [fullScreen]="true"  [baseZIndex]="10000">

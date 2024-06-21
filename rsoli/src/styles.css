@@ -10,43 +10,43 @@ h1, h2, h3, h4, h5, h6{
     color: #fff;
     font-weight: 800 !important;
   }
-  
+
   h2 {
     font-size: 20px !important;
     color:#707070 !important;
     font-weight: 800;
     text-transform: uppercase;
-    
+
   }
   .formulario-servicio{
     border: 20px;
 }
   h3 {
-  /*   
+  /*
     color:#fff !important; */
     font-size: 20px !important;
-    font-weight: 545 !important; 
+    font-weight: 545 !important;
     padding-top: 15px !important;
-    
+
   }
-  
+
   h4 {
     font-size: 18px;
     text-transform: uppercase;
-    font-weight: 545 !important; 
+    font-weight: 545 !important;
     color: #000;
   }
-  
+
   h5 {
     font-size: 28px;
     color: #000;
     font-weight: bold;
   }
-  
+
   h6 {
     font-size: 18px;
     color: #000;
-    
+
     font-weight: bold;
     text-transform: uppercase;
     margin-top: 40px;
@@ -81,11 +81,12 @@ h1, h2, h3, h4, h5, h6{
 .titulo-principal{
     margin-top: 25px;
 }
-.p-menubar{
+/* .p-menubar{
+    padding: 0.5rem !important;
     background: #ffffff !important;
     border-top: 4px solid #007bff !important;
     border-bottom: #ffffff !important;
-}
+} */
 .imgzoom{
     transition: transform .2s;
     transition-property: transform;
@@ -113,22 +114,6 @@ h1, h2, h3, h4, h5, h6{
     display: block !important;
 }
 
-/* .btn_inicio_sesion{
-    width: 100px !important;
-} */
- /* @media only screen and (max-width: 738px) {
-    .btn_inicio_sesion {
-        width: 140px !important;
-    }
-    
-} 
-@media only screen and (max-width: 1246px) and (min-width: 739px)  {
-    .btn_inicio_sesion {
-        width: 140px !important;
-    }
-}  */
-
-
 /* side bar derecha */
 .p-sidebar-right{
     width: 290px !important;
@@ -149,7 +134,7 @@ h1, h2, h3, h4, h5, h6{
     color: #495057;
     padding: 0px !important;
     border-radius: 3px;
-    
+
 }
 .p-tree-filter {
     width: 100% !important;
@@ -157,7 +142,7 @@ h1, h2, h3, h4, h5, h6{
     border-radius: 20px !important;
 }
 .p-sidebar .p-sidebar-header {
-     padding: 0px !important; 
+     padding: 0px !important;
 }
 
 .p-tree .p-tree-filter-container {
@@ -166,11 +151,11 @@ h1, h2, h3, h4, h5, h6{
 
 
 
-@media screen and (max-width: 769px){
+/* @media screen and (max-width: 769px){
     .p-datepicker table th, .p-datepicker table td {
-        width: 0px !important; 
+        width: 0px !important;
     }
-}
+} */
 
 
 /* .p-component-overlay {
@@ -189,8 +174,151 @@ h1, h2, h3, h4, h5, h6{
     font-style: normal;
   }
 
-/* 
+/*
 .p-datatable-resizable .p-datatable-tbody>tr>td, .p-datatable-resizable .p-datatable-tfoot>tr>td, .p-datatable-resizable .p-datatable-thead>tr>th {
     overflow: inherit !important;
     white-space: nowrap !important;
 } */
+
+
+
+/* Estilo para el botón personalizado en el mapa */
+.color-icono-tipo-mapa{
+  background-color: #FF8C00 !important;
+}
+.color-icono-vehiculo{
+  background-color: #28a745 !important;
+}
+.custom-leaflet-control {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  /* background-color: #28a745 !important;  */
+  border: none !important; /* Quitar cualquier borde */
+  border-radius: 50% !important; /* Forma circular */
+  width: 40px !important; 
+  height: 40px !important; 
+  cursor: pointer !important;
+  position: absolute !important; /* Posición absoluta para colocar en la esquina */
+  left: 10px; /* Ajuste de posición para colocar a la izquierda */
+  bottom: 50px; /* Ajuste de posición para colocar debajo del botón de zoom */
+  z-index: 1000; /* Z-index alto para estar encima de otros elementos */
+}
+
+/* Estilo para el icono dentro del botón */
+.custom-leaflet-control .custom-icon {
+  width: 100%; /* Ajustar el ancho del icono al contenedor */
+  height: auto; /* Ajustar la altura automáticamente */
+  margin: auto; /* Centrar el icono dentro del contenedor */
+  padding: 5px !important; /* para margen del icono */
+}
+
+/* Asegurar que no se apliquen estilos no deseados */
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: none !important;
+  background-clip: padding-box !important;
+}
+
+
+
+
+
+
+
+
+/* Estilos para los botones de zoom personalizados */
+.custom-zoom-in-icon,
+.custom-zoom-out-icon {
+  display: none !important; /* Ocultar los iconos predeterminados */
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in,
+.leaflet-control-zoom .leaflet-control-zoom-out {
+  display: block !important;
+  width: 40px !important;
+  height: 40px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-size: 20px !important;
+  line-height: 40px !important;
+  color: #fff !important;
+  background-color: #007BFF !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in {
+  margin-bottom: 5px !important; /* Agregar margen inferior para separación */
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in:hover,
+.leaflet-control-zoom .leaflet-control-zoom-out:hover {
+  background-color: #0056b3 !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.leaflet-control-zoom .leaflet-bar-part {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+
+
+/* boton del tipo de mapa  */
+/* Estilo para el contenedor del botón personalizado */
+/* .leaflet-control-custom {
+  position: absolute !important;
+  bottom: 50px !important;
+  left: 10px !important;
+  z-index: 1000 !important;
+} */
+
+
+/* Estilo para el botón dentro del contenedor */
+.leaflet-control-custom button {
+  background-color: #FFC107 !important; /* Color de fondo amarillo */
+  color: white !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  position: relative; /* Asegura que el botón esté posicionado correctamente */
+  z-index: 1001;
+}
+
+/* Estilo opcional para el botón de control al hacer hover */
+.leaflet-control-custom button:hover {
+  background-color: #FFB300 !important; /* Un tono más oscuro de amarillo para el hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

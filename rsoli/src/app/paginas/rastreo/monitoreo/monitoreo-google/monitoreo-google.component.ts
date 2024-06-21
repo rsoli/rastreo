@@ -100,13 +100,42 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
 
   lista_rutas_traccar:Array<String>=[];
 
+  isVehicleListVisible = false;
 
+  // map: L.Map | undefined;
+  osm: L.TileLayer;
+  googleStreets: L.TileLayer;
+  googleHybrid: L.TileLayer;
+  customControl: L.Control | undefined;
+  customMapControl: L.Control | undefined;
+
+  baseLayers!: L.TileLayer[];
+  currentLayerIndex: number = 0;
+  
+  titulo_filtro:String='';
+
+  checked_parqueo: boolean = false;
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
     private cookieService: CookieService,
     private router: Router, 
   ) {
+
+    this.osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '',
+    });
+
+    this.googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+      maxZoom: 20,
+      subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+    this.googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+      maxZoom: 20,
+      subdomains:['mt0','mt1','mt2','mt3']
+    });
+    this.baseLayers = [this.osm, this.googleStreets, this.googleHybrid];
    }
   async ngAfterViewInit(): Promise<void> {
 
@@ -129,6 +158,15 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
       this.error("Información","Vuelva a iniciar sesión");
       localStorage.removeItem("accesos");
       this.router.navigate(['/shared/slider']);   
+    }
+  }
+  toggleVehicleList() {
+    this.isVehicleListVisible = !this.isVehicleListVisible;
+    // Actualizar el texto del botón según el estado
+    const button = document.querySelector('.toggle-button');
+    if (button) {
+      // button.innerHTML = this.isVehicleListVisible ? '<i class="pi pi-times"></i> Hide Table' : '<img src="assets/icono/botones/icon-ruta.png" class="custom-icon"> Show Table';
+      button.innerHTML = this.isVehicleListVisible ? '<i class="pi pi-times"></i>' : '<img src="assets/icono/botones/icon-ruta.png" class="custom-icon">';
     }
   }
   getStartOfMonth(): DateTime {
@@ -316,92 +354,207 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
     }
   }
   IniciarMapa() {
-
-    var osm, controlCapas;
-
     this.map = L.map('map2', {
       center: [-16.6574403011881, -64.95190911770706],
       zoom: 5,
-      
-     
-
       fadeAnimation: false,
       zoomAnimation: false,
       markerZoomAnimation: false,
-      
       attributionControl: false,
-
-      // zoomDelta: 0.25,
-      // zoomSnap: 0.50,
-
       renderer: L.canvas()
+    });
 
-    })
+    this.osm.addTo(this.map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      // attribution: '© OpenStreetMap',
-      attribution: '',
-      //updateWhenIdle: true,
-      //reuseTiles: true
-    }).addTo(this.map)
+   
 
+    // Ajustar el tamaño del mapa cuando la ventana cambie de tamaño
+    this.map.on('resize', () => {
+      this.map?.invalidateSize();
+    });
+
+    // Agregar botón extra y botón de tipo de mapa
     setTimeout(() => {
-      this.map.invalidateSize();
+      this.map?.invalidateSize();
+
+      this.agregarBotonVehiculo();
+      this.agregarBotonTipoMapa();
+      this.removeDefaultLayersControl();
+      //this.agregaBotonTipoMapa2();
+
     }, 1000);
-    
-
-    osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      minZoom: 1,
-      attribution: '',
-    }).addTo(this.map);
-
-
-      var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-      });
-
-      var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-      });
-
-
 
     var mapaBase = {
-      'Osm': osm,
-      'google Calles':googleStreets,
-      'google Hibrido':googleHybrid
+      'Osm': this.osm,
+      'Google Calles': this.googleStreets,
+      'Google Hibrido': this.googleHybrid
     };
 
-    var controlEscala;
-
-    controlCapas = L.control.layers(mapaBase);
+    var controlCapas = L.control.layers(mapaBase);
     controlCapas.addTo(this.map);
 
-
-    controlEscala = L.control.scale();
+    var controlEscala = L.control.scale();
     controlEscala.addTo(this.map);
 
-    //solucion a problema de boton close de popop
+    // Solucionar problema del botón close de popup
     try {
       document.querySelector('.leaflet-pane.leaflet-popup-pane')!.addEventListener('click', event => {
         event.preventDefault();
       });
     } catch (error) {
-      //borrar listener del clik close de marker
-      document.removeEventListener(
-        ".leaflet-pane.leaflet-popup-pane",
-        function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        },
-        false
-      );
+      console.error('Error al intentar solucionar el problema del botón close de popup:', error);
     }
-
   }
+agregarBotonTipoMapa(){
+  const customButton = L.DomUtil.create('div', 'custom-leaflet-control color-icono-tipo-mapa');
+  customButton.style.backgroundColor = '#28a745'; // Color de fondo del botón
+  customButton.style.border = 'none'; // Quitar cualquier borde
+  customButton.style.borderRadius = '50%'; // Forma circular
+  customButton.style.width = '40px'; // Ancho del botón
+  customButton.style.height = '40px'; // Alto del botón
+  customButton.style.cursor = 'pointer';
+  customButton.style.position = 'absolute'; // Posición absoluta para colocar en la esquina
+  customButton.style.left = '10px'; // Ajuste de posición para colocar a la izquierda
+  customButton.style.top = '145px'; // Ajuste de posición para colocar debajo del botón de zoom
+  customButton.title = 'Tipo de mapa';
+
+  const icon = L.DomUtil.create('img', 'custom-icon', customButton);
+  icon.src = 'assets/icono/botones/tipo-mapa.png'; // Ruta de tu icono personalizado
+  // icon.style.width = '20px'; // Ancho del icono
+  // icon.style.height = '20px'; // Alto del icono
+  icon.style.margin = 'auto'; // Centrar el icono dentro del contenedor
+
+  L.DomEvent.on(customButton, 'click', (e) => {
+        // Cambiar entre las capas base
+        // if (this.map.hasLayer(this.osm)) {
+        //   this.map.removeLayer(this.osm);
+        //   this.map.addLayer(this.googleStreets); 
+        // } else {
+        //   this.map.removeLayer(this.googleStreets);
+        //   this.map.addLayer(this.osm);
+        // }
+        this.changeBaseLayer();
+  });
+
+  this.map.getContainer().appendChild(customButton); 
+
+  
+}
+changeBaseLayer(): void {
+  this.map.removeLayer(this.baseLayers[this.currentLayerIndex]);
+  this.currentLayerIndex = (this.currentLayerIndex + 1) % this.baseLayers.length;
+  this.map.addLayer(this.baseLayers[this.currentLayerIndex]);
+}
+agregarBotonVehiculo(){
+
+  const customButton = L.DomUtil.create('div', 'custom-leaflet-control color-icono-vehiculo');
+  customButton.style.backgroundColor = '#28a745'; // Color de fondo del botón
+  customButton.style.border = 'none'; // Quitar cualquier borde
+  customButton.style.borderRadius = '50%'; // Forma circular
+  customButton.style.width = '40px'; // Ancho del botón
+  customButton.style.height = '40px'; // Alto del botón
+  customButton.style.cursor = 'pointer';
+  customButton.style.position = 'absolute'; // Posición absoluta para colocar en la esquina
+  customButton.style.left = '10px'; // Ajuste de posición para colocar a la izquierda
+  customButton.style.top = '100px'; // Ajuste de posición para colocar debajo del botón de zoom
+  customButton.title = 'Lista de vehículos';
+
+  const icon = L.DomUtil.create('img', 'custom-icon', customButton);
+  icon.src = 'assets/icono/botones/vehiculo.png'; // Ruta de tu icono personalizado
+  // icon.style.width = '20px'; // Ancho del icono
+  // icon.style.height = '20px'; // Alto del icono
+  icon.style.margin = 'auto'; // Centrar el icono dentro del contenedor
+
+  L.DomEvent.on(customButton, 'click', (e) => {
+    this.toggleVehicleList();
+    L.DomEvent.stopPropagation(e);
+  });
+
+  this.map.getContainer().appendChild(customButton); 
+
+}
+removeDefaultLayersControl() {
+  // Buscar y eliminar el control de capas por defecto
+  const layersControl = document.getElementsByClassName('leaflet-control-layers')[0];
+  if (layersControl) {
+    layersControl.remove();
+  }
+}
+
+//este metodo esta siendo invocado por leaflet para en este caso borrar icono de tipo de mapa (en este componenete no se esta invocando)
+toggleMapLayer() {
+  if (!this.map) {
+    return;
+  }
+
+  // Cambiar entre las capas base
+  if (this.map.hasLayer(this.osm)) {
+    this.map.removeLayer(this.osm);
+    this.googleStreets.addTo(this.map);
+  } else {
+    this.map.removeLayer(this.googleStreets);
+    this.osm.addTo(this.map);
+  }
+}
+agregaBotonTipoMapa2() {
+  // Crear un control personalizado extendiendo de L.Control
+  const CustomControl = L.Control.extend({
+    onAdd: (map: L.Map) => {
+      // Crear el contenedor del botón
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      
+      // Crear el botón dentro del contenedor
+      const button = document.createElement('button');
+      button.innerHTML = ''; // Puedes cambiar esto por un icono si lo deseas
+      button.title = 'Cambiar tipo de mapa';
+      button.style.backgroundColor = '#007BFF';
+      button.style.color = 'white';
+      button.style.border = 'none';
+      button.style.borderRadius = '50%';
+      button.style.width = '40px';
+      button.style.height = '40px';
+      button.style.cursor = 'pointer';
+      button.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+      button.style.display = 'flex';
+      button.style.justifyContent = 'center';
+      button.style.alignItems = 'center';
+
+
+      // Crear el icono dentro del botón
+      const icon = L.DomUtil.create('img', 'custom-icon', button);
+      icon.src = 'assets/icono/botones/icon-viaje.png'; // Ruta de tu icono personalizado
+      icon.style.width = '40px'; // Ancho del icono
+      icon.style.height = '40px'; // Alto del icono
+      icon.style.margin = 'auto'; // Centrar el icono dentro del contenedor
+      icon.style.padding='7px';
+      // Evento click del botón
+      button.addEventListener('click', () => {
+        // Cambiar entre las capas base
+        if (map.hasLayer(this.osm)) {
+          map.removeLayer(this.osm);
+          map.addLayer(this.googleStreets);
+        } else {
+          map.removeLayer(this.googleStreets);
+          map.addLayer(this.osm);
+        }
+      });
+
+      // Agregar el botón al contenedor
+      container.appendChild(button);
+
+      return container;
+    },
+
+    // Posicionar el control en la esquina inferior izquierda
+    position: 'bottomleft'
+  });
+
+  // Instanciar y agregar el control personalizado al mapa
+  this.customMapControl = new CustomControl();
+  this.customMapControl.addTo(this.map);
+}
+
+
   borrarMarcadores() {
     if(this.lista_marcadores){
       for (let indice of this.lista_marcadores){
@@ -637,13 +790,13 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
     let contador:any=0;
     this.map.closePopup();
    
-    console.log("ver tipo monitoreo ",this.tipo_monitoreo_seleccionado.code);
+    this.isVehicleListVisible=false;
 
      if(this.tipo_monitoreo_seleccionado.code=='viajes'){
        this.GetViajes();
      }
      if(this.tipo_monitoreo_seleccionado.code=='parqueos'){
-      this.GetParqueos();
+      this.GetParqueos(this.fecha_inicio,this.fecha_final,this.vehiculo_seleccionado.id_dispositivo);
     }
     if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       this.loading_alert();
@@ -659,14 +812,18 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
       f_fin = DateTime.fromJSDate(this.fecha_ratreo).toISO();
       let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
 
-     // f_ini = f_finISO ;
-
-      // console.log("nueva fecha inicio juan ",f_ini);
-      // console.log("nueva fecha final ",f_fin);
-      // console.log("id dispositi ",id_vehiculos_seleccionados);
 
       this.GetRutasTraccar({deviceId:id_vehiculos_seleccionados,startTime:f_ini,endTime:f_fin});
-
+      // if(this.checked_parqueo==true){
+      //     //fecha formato para enviar a parqueos la varible f_ini y f_fin no funcionan para enviar a la funcion GetParqueos
+          
+      //     this.fecha_ratreo.setHours(0,0,0);
+      //     let aux_f_ini:any=this.fecha_inicio;
+      //     this.fecha_ratreo.setHours(23,59,59);
+      //     let aux_f_fin:any=this.fecha_inicio;
+      //     //fin fecha formato
+      //     this.GetParqueos(aux_f_ini, aux_f_fin, id_vehiculos_seleccionados);
+      // }
     }
   }
   AgregarMarcadorRutas(marcadores:any){
@@ -801,8 +958,13 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
       event.preventDefault();
     });
   }
+  capitalizarTexto(input: string): string {
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  }
   abrir_filtros(datos:string,item:any){
 
+  this.titulo_filtro = this.capitalizarTexto(datos);
+ 
 //inicio selecion//////////
 this.hide_botones=false;
 this.borrarMarcadores();
@@ -1124,11 +1286,12 @@ this.seguimiento_marcador=0;
 
         })
   }
-  GetParqueos(){
+  GetParqueos(fecha_inicio:any,fecha_final:any,id_vehiculos_seleccionados:Number){
     this.loading_alert();
-   
+   console.log("fff ini ",fecha_inicio);
+   console.log("fff fin ",fecha_final);
     // let lista_vehiculos:any= JSON.parse(JSON.stringify(this.vehiculo_seleccionado));
-    let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
+    id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
     // let contador:any=0;
 
     let f_ini;
@@ -1138,8 +1301,8 @@ this.seguimiento_marcador=0;
     // Obtener el código de la zona horaria local
     let localTimeZoneCode = DateTime.local().toFormat('ZZ');
 
-    f_ini = DateTime.fromJSDate(this.fecha_inicio).toISO();
-    f_fin = DateTime.fromJSDate(this.fecha_final).toISO();
+    f_ini = DateTime.fromJSDate(fecha_inicio).toISO();
+    f_fin = DateTime.fromJSDate(fecha_final).toISO();
 
     
     this.traccar.get_parqueo(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{

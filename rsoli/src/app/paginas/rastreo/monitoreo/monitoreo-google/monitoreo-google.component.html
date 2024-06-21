@@ -1,192 +1,218 @@
-<p-toast></p-toast>
-<p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="true">
-    <h5>FILTROS</h5>
-    
-    <div  [hidden]="bandera_fecha_ratreo" style="margin-top: 10px;">
-            Fecha
-            <br>
-            
-            <p-calendar [(ngModel)]="fecha_ratreo"   dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
-    </div>
-    <div  [hidden]="bandera_hora_inicio" style="margin-top: 10px;">
-            Hora inicio
-            <br>
-            <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" [touchUI]="true"  inputId="timeonly"></p-calendar>
 
-    </div>
-    <div [hidden]="bandera_hora_fin" style="margin-top: 10px;">
-            Hora fin
-            <br>
-            <p-calendar [(ngModel)]="hora_fin"  [timeOnly]="true"[touchUI]="true"  inputId="timeonly"></p-calendar>
-    </div>
-
-
-    <div  [hidden]="bandera_fecha_inicio" style="margin-top: 10px;">
-        Fecha inicio
-        <br>
-        <p-calendar [(ngModel)]="fecha_inicio"  [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
-        <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
-    </div>
-
-    <div  [hidden]="bandera_fecha_final" style="margin-top: 10px;">
-            Fecha fin
-        <br>
-        <p-calendar [(ngModel)]="fecha_final" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
-</div>
-    <br>
-    <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aplicar filtros" class="p-button-raised"></button>
-</p-sidebar>
-
-
-<div class="row" style="padding:0;margin: 0;">
-    <div class="col-sm-12 col-md-3 col-lg-3" style="padding:0;margin: 0;">
-        <div class="margen-mapa_placa margen2"> 
-
-
-            <p-table #dt1 
-
-            [value]="lista_dispositivos_aux" 
-            [paginator]="true"
-            [rows]="6"
-            [globalFilterFields]="['placa']"
-            selectionMode="single"
-            dataKey="id_vehiculo"
-            [scrollable]="true"
-            
-            >
-
-            <ng-template pTemplate="caption">
-                <div class="flex">
-                    <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar Placa" />
-                    </span>
-                </div>
-            </ng-template>
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Placa</th>
-                        <th>Acción</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-p >
-                    <tr>
-                        <td (click)="SeleccionarVehiculo(p)" style="font-size: 0.7rem;">{{ p.placa }}</td>
-                        <td>
-                            <!-- <p-button label="Viajes" styleClass="p-button-rounded p-button-sm" (click)="abrir_filtros('viajes',p)" ></p-button>&nbsp;  -->
-                            <!-- <p-button label="Rutas" styleClass="p-button-rounded p-button-success p-button-sm" (click)="abrir_filtros('rutas',p)"></p-button>&nbsp; 
-                            <p-button label="Parqueo" styleClass="p-button-rounded p-button-success p-button-sm" (click)="abrir_filtros('parqueos',p)"></p-button> -->
-                            <!-- Botón para Viajes -->
-                            <button type="button" pTooltip="Viajes"  tooltipPosition="top" class="custom-button viajes" (click)="abrir_filtros('viajes', p)">
-                                <img src="assets/icono/botones/icon-ruta.png" alt="viajes" class="button-icon">
-                            </button>
-                            <!-- Botón para Rutas -->
-                            <button type="button" pTooltip="Rutas"  tooltipPosition="top" class="custom-button rutas" (click)="abrir_filtros('rutas', p)">
-                                <img src="assets/icono/botones/icon-viaje.png" alt="Rutas" class="button-icon">
-                            </button>
-
-                            <!-- Botón para Parqueos -->
-                            <button type="button" pTooltip="Parqueos"  tooltipPosition="top" class="custom-button parqueos" (click)="abrir_filtros('parqueos', p)">
-                                <img src="assets/icono/botones/icon-parqueo.png" alt="Paqueos" class="button-icon">
-                            </button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table> 
-         </div>
-    </div>
-
-    <div class="col-sm-12 col-md-9 col-lg-9" style="padding:0;margin: 0;">
-        <div class="margen-mapa margen2">
-            <div id="map2" class='{{style_map}}'></div>
-            <p-table #dt2 [hidden]="bandera_tabla_viaje"  [value]="lista_viajes" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"
-            stateStorage="session" stateKey="statedemo-session">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th hidden>deviceId</th>
-                        <th>Nro</th>
-                        <th>Placa</th>
-                        <th>Distancia</th>
-                        <th>Vel. Promedio</th>
-                        <th>Vel. Máxima</th>
-                        <th>Fecha Inicio</th>
-                        <th>Fecha Fin</th>
-                        <th>Duración</th>
-                        <th>Ubicación</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-viaje let-rowIndex="rowIndex" >
-                    <tr [pSelectableRow]="viaje" (click)="seleccionar_viaje(viaje)" >
-                        <td hidden>{{ viaje.deviceId }}</td>
-                        <td scope="persw">{{rowIndex+1}}</td>
-                        <td>{{ viaje.deviceName }}</td>
-                        <td>{{ viaje.distance / 1000 | number:'1.2-2' }} Km</td>
-                        <td>{{ viaje.averageSpeed * 1.852 | number:'1.2-2' }} km/h</td>
-                        <td>{{ viaje.maxSpeed * 1.852 | number:'1.2-2' }} km/h</td>
-                        <td>{{ viaje.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ viaje.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ viaje.duration }} </td>
-                        <td>{{ viaje.address }} </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <p-table #dt3 [hidden]="bandera_tabla_parqueo"  [value]="lista_parqueos" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"
-            stateStorage="session" stateKey="statedemo-session">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th hidden>deviceId</th>
-                        <th>Nro</th>
-                        <th>Placa</th>
-                        <th>Dirección</th>
-                        <th>Hora Inicio</th>
-                        <th>Hora Fin</th>
-                        <th>Tiempo parqueo</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-parqueo let-rowIndex="rowIndex" >
-                        <tr [pSelectableRow]="parqueo" (click)="SeleccionarParqueo(parqueo)" >
-                        <td hidden>{{ parqueo.deviceId }}</td>
-                        <td scope="persw">{{rowIndex+1}}</td>
-                        <td>{{ parqueo.deviceName }}</td>
-                        <td>{{ parqueo.address }}</td>
-                        <td>{{ parqueo.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ parqueo.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ parqueo.duration  }} </td>
-                        
-                    </tr>
-                </ng-template>
-            </p-table>
-            <p-table #dt4 [hidden]="bandera_tabla_rutas"  [value]="lista_rutas_traccar" selectionMode="single" [(selection)]="selected_item" styleClass="p-datatable-sm"  [scrollable]="true" scrollHeight="200px"  [resizableColumns]="true"
-            stateStorage="session" stateKey="statedemo-session">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th hidden>deviceId</th>
-                        <th>Nro</th>
-                        <th>Motor</th>
-                        <th>Velocidad</th>
-                        <th>Bat. Vehiculo</th>
-                        <th>Bat. Gps</th>
-                        <th>Fecha</th>
-                        <th>Dirección</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-ruta let-rowIndex="rowIndex" >
-                    <tr [pSelectableRow]="ruta" (click)="seleccionar_ruta(ruta)" >
-                        <td hidden>{{ ruta.positionId }}</td>
-                        <td scope="persw">{{rowIndex+1}}</td>
-                        <td>{{ ruta.attributes.ignition ? 'Encendido' : 'Apagado'  }}</td>
-                        <td>{{ convertSpeedToKmh(ruta.speed) | number:'1.0-0' }} Km/h</td>
-                        <td>{{ ruta.attributes.power| number:'1.1-1' }} Volt.</td>
-                        <td>{{ ruta.attributes.battery| number:'1.1-1' }} Volt.</td>
-                        <td>{{ ruta.deviceTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-                        <td>{{ ruta.address }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+<div class="map-container">
+    <p-toast></p-toast>
+    <p-sidebar [(visible)]="visibleSidebar1" [style]="{width:'340px'}" [modal]="true">
+        <h5 class="titulo_filtro">{{titulo_filtro}}</h5>
+        
+        <div  [hidden]="bandera_fecha_ratreo" style="margin-top: 10px;">
+                Fecha
+                <br>
+                
+                <p-calendar [(ngModel)]="fecha_ratreo"   dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
         </div>
+        <div  [hidden]="bandera_hora_inicio" style="margin-top: 10px;">
+                Hora inicio
+                <br>
+                <p-calendar  [(ngModel)]="hora_inicio" [timeOnly]="true" [touchUI]="true"  inputId="timeonly"></p-calendar>
+
+        </div>
+        <div [hidden]="bandera_hora_fin" style="margin-top: 10px;">
+                Hora fin
+                <br>
+                <p-calendar [(ngModel)]="hora_fin"  [timeOnly]="true"[touchUI]="true"  inputId="timeonly"></p-calendar>
+        </div>
+
+
+        <div  [hidden]="bandera_fecha_inicio" style="margin-top: 10px;">
+            Fecha inicio
+            <br>
+            <p-calendar [(ngModel)]="fecha_inicio"  [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
+            <!-- <p-calendar    [(ngModel)]="fecha_ratreo" [inputStyle]="{'width':'70%'}" class="treetableDate" [locale]="en" ></p-calendar> -->
+        </div>
+
+        <div  [hidden]="bandera_fecha_final" style="margin-top: 10px;">
+                Fecha fin
+            <br>
+            <p-calendar [(ngModel)]="fecha_final" [showTime]="true" [showSeconds]="true" hourFormat="24" dateFormat="dd/mm/yy"  [touchUI]="true" [readonlyInput]="false"></p-calendar>
     </div>
-</div>
+    <!-- <div  style="margin-top: 10px;">
+      {{ checked_parqueo ? 'Mostrar arqueos' : 'Ocultar parqueos' }}
+      <br>
+      <p-inputSwitch [(ngModel)]="checked_parqueo"></p-inputSwitch>
+    </div> -->
+        <br>
+        <button pButton pRipple type="button" (click)="aplicar_filtros()" label="Aceptar" class="p-button-raised"></button>
+    </p-sidebar>
+
+
+    <div id="map2" class='{{style_map}}'></div>
+
+    <p-table #dt2 *ngIf="!bandera_tabla_viaje"
+    [value]="lista_viajes" 
+    selectionMode="single" 
+    [(selection)]="selected_item" 
+    styleClass="p-datatable-sm" 
+    [scrollable]="true" 
+    scrollHeight="200px" 
+    [resizableColumns]="true"
+    stateStorage="session" 
+    stateKey="statedemo-session-viaje">
+
+    <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 50px;">Nro</th>
+      <th style="width: 100px;">Placa</th>
+      <th style="width: 100px;">Distancia</th>
+      <th style="width: 130px;">Vel. Promedio</th>
+      <th style="width: 120px;">Vel. Máxima</th>
+      <th style="width: 160px;">Fecha Inicio</th>
+      <th style="width: 160px;">Fecha Fin</th>
+      <th style="width: 100px;">Duración</th>
+      <th style="width: 200px;">Ubicación</th>
+    </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-viaje let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="viaje" (click)="seleccionar_viaje(viaje)">
+      <td style="width: 50px;">{{ rowIndex + 1 }}</td>
+      <td style="width: 100px;">{{ viaje.deviceName }}</td>
+      <td style="width: 100px;">{{ viaje.distance / 1000 | number:'1.2-2' }} Km</td>
+      <td style="width: 130px;">{{ viaje.averageSpeed * 1.852 | number:'1.2-2' }} km/h</td>
+      <td style="width: 120px;">{{ viaje.maxSpeed * 1.852 | number:'1.2-2' }} km/h</td>
+      <td style="width: 160px;">{{ viaje.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+      <td style="width: 160px;">{{ viaje.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+      <td style="width: 100px;">{{ viaje.duration }}</td>
+      <td style="width: 200px;">{{ viaje.startAddress }}</td>
+    </tr>
+    </ng-template>
+    </p-table>
+
+    <p-table #dt3 *ngIf="!bandera_tabla_parqueo"
+    [value]="lista_parqueos" 
+    selectionMode="single" 
+    [(selection)]="selected_item" 
+    styleClass="p-datatable-sm" 
+    [scrollable]="true" 
+    scrollHeight="200px" 
+    [resizableColumns]="true"
+    stateStorage="session" 
+    stateKey="statedemo-session-parqueo">
+
+    <ng-template pTemplate="header">
+    <tr>
+      <th hidden>deviceId</th>
+      <th style="width: 50px;">Nro</th>
+      <th style="width: 100px;">Placa</th>
+      <th style="width: 200px;">Dirección</th>
+      <th style="width: 160px;">Hora Inicio</th>
+      <th style="width: 160px;">Hora Fin</th>
+      <th style="width: 100px;">Tiempo parqueo</th>
+    </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-parqueo let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="parqueo" (click)="SeleccionarParqueo(parqueo)">
+      <td hidden>{{ parqueo.deviceId }}</td>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>{{ parqueo.deviceName }}</td>
+      <td>{{ parqueo.address }}</td>
+      <td>{{ parqueo.startTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+      <td>{{ parqueo.endTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+      <td>{{ parqueo.duration }}</td>
+    </tr>
+    </ng-template>
+    </p-table>
+
+    <p-table #dt4 *ngIf="!bandera_tabla_rutas"
+    [value]="lista_rutas_traccar" 
+    selectionMode="single" 
+    [(selection)]="selected_item" 
+    styleClass="p-datatable-sm" 
+    [scrollable]="true" 
+    scrollHeight="200px" 
+    [resizableColumns]="true"
+    stateStorage="session" 
+    stateKey="statedemo-session-rutas">
+
+    <ng-template pTemplate="header">
+    <tr>
+      <th hidden>deviceId</th>
+      <th style="width: 50px;">Nro</th>
+      <th style="width: 100px;">Motor</th>
+      <th style="width: 100px;">Velocidad</th>
+      <th style="width: 100px;">Bat. Vehiculo</th>
+      <th style="width: 100px;">Bat. Gps</th>
+      <th style="width: 160px;">Fecha</th>
+      <th style="width: 200px;">Dirección</th>
+    </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-ruta let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="ruta" (click)="seleccionar_ruta(ruta)">
+      <td hidden>{{ ruta.positionId }}</td>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>{{ ruta.attributes.ignition ? 'Encendido' : 'Apagado' }}</td>
+      <td>{{ convertSpeedToKmh(ruta.speed) | number:'1.0-0' }} Km/h</td>
+      <td>{{ ruta.attributes.power | number:'1.1-1' }} Volt.</td>
+      <td>{{ ruta.attributes.battery | number:'1.1-1' }} Volt.</td>
+      <td>{{ ruta.deviceTime | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+      <td>{{ ruta.address }}</td>
+    </tr>
+    </ng-template>
+    </p-table>
+
+
+
+    <div class="vehicle-list" *ngIf="isVehicleListVisible">
+        <button class="close-button" (click)="toggleVehicleList()">x</button>
+      <!-- Aquí va tu tabla PrimeNG -->
+      <p-table #dt1 
+        [value]="lista_dispositivos_aux" 
+        [paginator]="true"
+        [rows]="6"
+        [globalFilterFields]="['placa']"
+        selectionMode="single"
+        dataKey="id_vehiculo"
+        [scrollable]="true">
+        
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Buscar Placa" />
+            </span>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Placa</th>
+            <th>Acción</th>
+          </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-p>
+          <tr>
+            <td (click)="SeleccionarVehiculo(p)" style="font-size: 0.7rem;">{{ p.placa }}</td>
+            <td>
+              <!-- Botón para Rutas -->
+              <button type="button" pTooltip="Rutas"  tooltipPosition="top" class="custom-button rutas" (click)="abrir_filtros('rutas', p)">
+                <img src="assets/icono/botones/icon-ruta.png" alt="Rutas" class="button-icon">
+              </button>
+              <!-- Botón para Viajes -->
+              <button type="button" pTooltip="Viajes"  tooltipPosition="top" class="custom-button viajes" (click)="abrir_filtros('viajes', p)">
+                <img src="assets/icono/botones/icon-viaje.png" alt="viajes" class="button-icon">
+              </button>
+              <!-- Botón para Parqueos -->
+              <button type="button" pTooltip="Parqueos"  tooltipPosition="top" class="custom-button parqueos" (click)="abrir_filtros('parqueos', p)">
+                <img src="assets/icono/botones/icon-parqueo.png" alt="Paqueos" class="button-icon">
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+
+

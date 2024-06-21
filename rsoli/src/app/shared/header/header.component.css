@@ -1,0 +1,27 @@
+.header-menu {
+    padding: 0.5rem 0 !important;
+    background: #ffffff !important;
+    border-top: 4px solid #007bff !important;
+    border-bottom: none !important; /* Eliminamos el borde inferior si no es necesario */
+    margin: 0 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Sombra opcional */
+  }
+  
+  .logo-header {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Estilo opcional para el logo */
+  .logo-header img {
+    vertical-align: middle;
+  }
+  
+  /* Estilo opcional para evitar el desbordamiento de la barra de menú */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important; /* Asegura que no haya desbordamiento horizontal */
+  }
+
+

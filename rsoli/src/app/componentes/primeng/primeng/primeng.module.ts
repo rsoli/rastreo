@@ -26,7 +26,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FormsModule } from '@angular/forms';
 import {TabViewModule} from 'primeng/tabview';
-
+import {InputSwitchModule} from 'primeng/inputswitch';
 @NgModule({
   declarations: [],
   imports: [
@@ -56,7 +56,8 @@ import {TabViewModule} from 'primeng/tabview';
     InputTextareaModule,
     ToolbarModule,
     FormsModule,
-    TabViewModule
+    TabViewModule,
+    InputSwitchModule
   ]
 })
 export class PrimengModule { }

@@ -99,7 +99,7 @@
 
 /* Estilos para el botón de Parqueos */
 .parqueos {
-  background-color: #dc3545 !important; /* Color de fondo rojo */
+  background-color: #FF8C00 !important; /* Color de fondo rojo */
 }
 
 
@@ -162,31 +162,35 @@ html, body {
   z-index: 1000 !important; /* Asegura que la lista esté sobre el mapa */
 }
 
-.close-button {
-  position: absolute !important;
-  top: 10px !important;
-  right: 10px !important;
-   /* background-color: #ff5c5c !important;  */
-    background-color: #9a969600 !important; 
-  color: rgb(104, 101, 101) !important;
-  border: none !important;
-  /* border-radius: 50% !important; */
-  width: 25px !important;
-  height: 25px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 1.3rem !important;
-  cursor: pointer !important;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important; */
-  transition: background-color 0.3s ease !important;
-  z-index: 1001 !important; /* Asegura que el botón esté sobre la lista */
+/* boton de cierre de ventana de vehiculos */
+.custom-close-button {
+  background-color: #ddd; /* Color gris sutil */
+  color: #333; /* Color de texto */
+  border: none;
+  border-radius: 4px; /* Borde redondeado */
+  padding: 6px 12px; /* Espaciado interior */
+  font-size: 12px; /* Tamaño de la fuente */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 
-.close-button:hover {
-   background-color: #9a96961d !important; 
+.custom-close-button:hover {
+  background-color: #ccc; /* Color gris un poco más oscuro al pasar el ratón */
 }
 
+.custom-close-button:focus {
+  box-shadow: 0 0 0 2px rgba(150, 150, 150, 0.5); /* Resaltar al enfocar */
+}
+
+.custom-close-button:active {
+  transform: scale(0.95); /* Efecto de pulsado */
+}
+
+
+/* fin cierre de boton */
 
 /* INICIO SIDEBAR FRILTROS */
 .titulo_filtro {

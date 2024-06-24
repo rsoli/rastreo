@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHandler, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHandler, HttpHeaders, HttpResponse} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +10,29 @@ import { CookieService } from 'ngx-cookie-service';
 export class TraccarService {
 
   headers_token:any; 
-  
+
+  // private sessionUrl = 'https://www.kolosu.com/traccar/api/session';
+  private apiUrl = 'https://www.kolosu.com/traccar/api';
+
   constructor(
     private http:HttpClient,
     private cookieService: CookieService
   ) { }
+// prueba de sesion
 
+// getSession(token: string): Observable<HttpResponse<any>> {
+//   const headers = new HttpHeaders({
+//     'Accept': 'application/json'
+//   });
+
+//   return this.http.get<any>(`${this.sessionUrl}?token=${token}`, {
+//     headers,
+//     observe: 'response',
+//     withCredentials: true
+//   });
+// }
+
+//fin prueba de sesion
   post_iniciar_sesion(token:string){
 
     let headers = new HttpHeaders()
@@ -61,6 +80,28 @@ export class TraccarService {
         
     let parametros='?deviceId='+v_deviceId+'&from='+v_fecha_inicio+'&to='+v_fecha_fin;
     return this.http.get('https://www.kolosu.com/traccar/api/reports/stops'+parametros, { 'headers':headers,withCredentials: true })
+  }
+  enviarComandoPersonalizado(deviceId: number, command: string): Observable<any> {
+
+      // let headers = new HttpHeaders()
+  //   .set('content-type','application/x-www-form-urlencoded; charset=UTF-8')
+  //   .set('X-Requested-With','XMLHttpRequest')
+  //   .set('Accept','*/*');
+
+  //  return this.http.post<any>('https://www.kolosu.com/traccar/api/session', "test", { 'headers':headers, observe: 'response', withCredentials: true })
+
+
+  const url = `${this.apiUrl}/commands`;
+  const body = {
+    deviceId: deviceId,
+    type: 'custom',
+    description: 'Comando personalizado', // Agregar descripción
+    attributes: {
+      data: command
+    }
+  };
+
+  return this.http.post(url, body, { withCredentials: true });
   }
   conection(token:String){
    

@@ -20,6 +20,8 @@ import { DateTime, IANAZone } from 'luxon';
 // instalar luxon npm i --save-dev @types/luxon
 
 
+
+
 @Component({
   selector: 'app-monitoreo-google',
   templateUrl: './monitoreo-google.component.html',
@@ -115,11 +117,16 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
   titulo_filtro:String='';
 
   checked_parqueo: boolean = false;
+
+
+
+  
   constructor(
     private traccar:TraccarService,
     private monitoreo_servicio:MonitoreoService,
     private cookieService: CookieService,
     private router: Router, 
+
   ) {
 
     this.osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -247,12 +254,11 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
       })
     };
   }
+
    InicarSesion(){
      //let token='jlUTEjCCKDUFyTIbT6GLwg0IWwsNArcL';
      this.traccar.post_iniciar_sesion(this.token).subscribe( data=>{
-       console.log( JSON.parse( JSON.stringify(data))  );
-      //  let token =JSON.parse( JSON.stringify(data)).body.token;
-        //this.GetMotorizado(token);
+      //  console.log( JSON.parse( JSON.stringify(data))  );
       
 
 
@@ -261,13 +267,10 @@ export class MonitoreoGoogleComponent implements AfterViewInit  ,OnDestroy ,Erro
        
      })
    }
-
+  
   ConectarSocket(){
     //this.traccar.conection(token);
 
-    
-    console.log("ver token socket ",this.token);
-    
 
     let socket = new WebSocket("wss://www.kolosu.com/traccar/api/socket?token="+this.token);
 
@@ -774,7 +777,7 @@ agregaBotonTipoMapa2() {
         }
       }
     }
-    if(this.tipo_monitoreo_seleccionado.code=='viajes' || this.tipo_monitoreo_seleccionado.code=='parqueos'){
+    else if(this.tipo_monitoreo_seleccionado.code=='viajes' || this.tipo_monitoreo_seleccionado.code=='parqueos'){
       this.ejecutar_filtros();
     }
 
@@ -795,10 +798,10 @@ agregaBotonTipoMapa2() {
      if(this.tipo_monitoreo_seleccionado.code=='viajes'){
        this.GetViajes();
      }
-     if(this.tipo_monitoreo_seleccionado.code=='parqueos'){
+     else if(this.tipo_monitoreo_seleccionado.code=='parqueos'){
       this.GetParqueos(this.fecha_inicio,this.fecha_final,this.vehiculo_seleccionado.id_dispositivo);
     }
-    if(this.tipo_monitoreo_seleccionado.code=='rutas'){
+    else if(this.tipo_monitoreo_seleccionado.code=='rutas'){
       this.loading_alert();
 
 
@@ -806,24 +809,15 @@ agregaBotonTipoMapa2() {
       let f_fin;
 
 
-      this.fecha_ratreo.setHours(0,0,0);
+      this.fecha_ratreo.setHours(DateTime.fromJSDate(this.hora_inicio).hour,DateTime.fromJSDate(this.hora_inicio).minute,0);
       f_ini =DateTime.fromJSDate(this.fecha_ratreo).toISO();
-      this.fecha_ratreo.setHours(23,59,59);
+      this.fecha_ratreo.setHours(DateTime.fromJSDate(this.hora_fin).hour,DateTime.fromJSDate(this.hora_fin).minute,59);
       f_fin = DateTime.fromJSDate(this.fecha_ratreo).toISO();
       let id_vehiculos_seleccionados=this.vehiculo_seleccionado.id_dispositivo;
 
 
       this.GetRutasTraccar({deviceId:id_vehiculos_seleccionados,startTime:f_ini,endTime:f_fin});
-      // if(this.checked_parqueo==true){
-      //     //fecha formato para enviar a parqueos la varible f_ini y f_fin no funcionan para enviar a la funcion GetParqueos
-          
-      //     this.fecha_ratreo.setHours(0,0,0);
-      //     let aux_f_ini:any=this.fecha_inicio;
-      //     this.fecha_ratreo.setHours(23,59,59);
-      //     let aux_f_fin:any=this.fecha_inicio;
-      //     //fin fecha formato
-      //     this.GetParqueos(aux_f_ini, aux_f_fin, id_vehiculos_seleccionados);
-      // }
+
     }
   }
   AgregarMarcadorRutas(marcadores:any){
@@ -1058,12 +1052,12 @@ this.seguimiento_marcador=0;
   }
   //viajes
   seleccionar_viaje(viaje:any){
-    console.log("ver seleccionar ",viaje,viaje.deviceId);
+    // console.log("ver seleccionar ",viaje,viaje.deviceId);
     this.loading_alert();
     this.GetRutasTraccar(viaje);
   }
   seleccionar_ruta(ruta:any){
-    console.log("vert rr ",ruta);
+    
     this.map.closePopup();  
     //nos dirigimos hacia el marker
     let p=this.markers[ruta.id];
@@ -1095,12 +1089,14 @@ this.seguimiento_marcador=0;
           this.closeLoading_alert();
           this.lista_rutas_traccar=JSON.parse( JSON.stringify(data));
           this.DibujarRutaTraccar(this.lista_rutas_traccar);
+
         },
         error=>{
           console.log("errores ",error);
           this.closeLoading_alert();
 
         })
+
   }
   DibujarRutaTraccar(lista_rutas_traccar:any){
     this.borrarMarcadores();
@@ -1301,9 +1297,10 @@ this.seguimiento_marcador=0;
     // Obtener el código de la zona horaria local
     let localTimeZoneCode = DateTime.local().toFormat('ZZ');
 
+
     f_ini = DateTime.fromJSDate(fecha_inicio).toISO();
     f_fin = DateTime.fromJSDate(fecha_final).toISO();
-
+    console.log(f_ini,f_fin);
     
     this.traccar.get_parqueo(id_vehiculos_seleccionados,f_ini,f_fin).subscribe( data=>{
           
@@ -1392,5 +1389,32 @@ this.seguimiento_marcador=0;
           Swal.showLoading()
       },
     }); 
+  }
+  PrepareComando(evento:String,item:any){
+
+  
+    let indice_device = this.lista_dispositivos_usuario.findIndex(device => JSON.parse(JSON.stringify(device)).id_dispositivo === item.id_dispositivo);
+    let data = JSON.parse(JSON.stringify(this.lista_dispositivos_usuario[indice_device]))
+    console.log("ver ",data);
+    if(evento=='desactivar_motor'){
+      this.EviarComando(data.id_dispositivo,data.desactivar_motor.trim());
+    }
+    else if (evento=='activar_motor'){
+      this.EviarComando(data.id_dispositivo,data.activar_motor.trim());
+    }
+    
+
+  }
+  EviarComando(id_dispositivo:number,comando:string){
+    this.traccar.enviarComandoPersonalizado(id_dispositivo,comando).subscribe( data=>{
+          console.log("ver respuesta comando ",data);
+          
+      
+    },
+    error=>{
+      console.log("errores ",error);
+      this.closeLoading_alert();
+
+    })
   }
 }

@@ -466,4 +466,316 @@ class ServicioController extends Controller
         ];
         return $arrayParametros;
     }
+    /////////////////////////////////cambio para nuevo framework////////////////////////////////////
+    public function lista_servicio_cliente($id_cliente){
+
+        $lista_servicios_cliente=db::select("select
+        s.id_servicio,
+        s.id_cliente,
+        s.costo_total,
+        
+    json_build_object(
+            'value', ts.id_tipo_servicio,
+            'label', ts.tipo_servicio
+    ) AS id_tipo_servicio,
+        
+        ts.tipo_servicio,
+        ts.codigo
+        from ras.tservicio s
+        join ras.ttipo_servicio ts on ts.id_tipo_servicio=s.id_tipo_servicio
+        where s.id_cliente = ? ",[$id_cliente]);
+
+
+
+        $arrayParametros=[
+            'lista_servicios_cliente'=>$lista_servicios_cliente
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
+    public function lista_tipo_servicio(){
+
+        $lista_tipo_servicio = db::select('select ts.id_tipo_servicio,ts.tipo_servicio,ts.codigo
+        from ras.ttipo_servicio ts');
+
+
+
+        $arrayParametros=[
+            'lista_tipo_servicio'=>$lista_tipo_servicio,
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
+
+    public function post_servicio(Request $request){
+
+        $validacion = $this->validar_servicio($request);
+        $id_tipo_servicio=$request->id_tipo_servicio['value'];
+        if( (int)($request->id_servicio) == 0 ){
+
+
+            db::insert('insert into ras.tservicio (id_cliente,id_usuario_reg,costo_total,fecha_reg,id_tipo_servicio)
+            values (?::integer,?::integer,?::numeric,now()::timestamp,?::integer)'
+                ,[(int)$request->id_cliente,(int)$request->user()->id,$request->costo_total,$id_tipo_servicio ]);
+        }else{
+            db::insert('update ras.tservicio set
+            id_cliente = ?::integer,
+            id_usuario_mod = ?::integer,
+            costo_total = ?,
+            fecha_mod = now()::timestamp,
+            id_tipo_servicio = ?::integer
+        where id_servicio = ?::integer '
+                ,[(int)$request->id_cliente,(int)$request->user()->id,$request->costo_total,$id_tipo_servicio,$request->id_servicio ]);
+        }
+
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function eliminar_servicio($id_servicio){
+        db::update('delete from ras.tservicio where id_servicio = ? ',[$id_servicio]);
+
+        $arrayParametros=[
+            'mensaje'=>"ok"
+        ];
+        return $arrayParametros;
+    }
+    public function validar_servicio($request){
+        $mensaje=[];
+        $validacion=true;
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+
+        return $arrayParametros;
+    }
+
+
+    public function lista_pagos_cliente($id_cliente){
+
+        $servicio=DB::select("
+                            with meses as (
+                                select 1 as id_periodo, 'Enero' as mes
+                                union all
+                                select 2 as id_periodo, 'Febrero' as mes
+                                union all
+                                select 3 as id_periodo, 'Marzo' as mes
+                                union all
+                                select 4 as id_periodo, 'Abril' as mes
+                                union all
+                                select 5 as id_periodo, 'Mayo' as mes
+                                union all
+                                select 6 as id_periodo, 'Junio' as mes
+                                union all
+                                select 7 as id_periodo, 'Julio' as mes
+                                union all
+                                select 8 as id_periodo, 'Agosto' as mes
+                                union all
+                                select 9 as id_periodo, 'Septiembre' as mes
+                                union all
+                                select 10 as id_periodo, 'Octubre' as mes
+                                union all
+                                select 11 as id_periodo, 'Noviembre' as mes
+                                union all
+                                select 12 as id_periodo, 'Diciembre' as mes )
+                            select
+                                ps.id_pago_servicio,
+                                p.nombre,
+                                p.apellido_paterno,
+                                p.apellido_materno,
+                                p.ci,
+                                p.celular,
+                                ps.fecha_pago::date,
+                                ps.fecha_inicio::Date,
+                                ps.fecha_fin::Date,
+                                ps.cantidad_vehiculos,
+                                ps.cantidad_meses,
+                                ps.precio_mensual,
+                                ps.sub_total,
+                                (case when extract(MONTH from ps.fecha_inicio)::integer = extract(MONTH from ps.fecha_fin)::integer then
+                                          mi.mes::varchar
+                                      else
+                                          mi.mes||' - '||mf.mes
+                                    end)::varchar as mes_pagado,
+                                c.id_cliente,
+                                ts.tipo_servicio::varchar,
+                                json_build_object(
+                                        'value', s.id_servicio,
+                                        'label', ts.tipo_servicio
+                                ) AS id_servicio
+                            from ras.tcliente c
+                            join ras.tservicio s on s.id_cliente=c.id_cliente
+                            join ras.tpersona p on p.id_persona=c.id_persona
+                            join ras.tpago_servicio ps on ps.id_servicio=s.id_servicio
+                            join ras.ttipo_servicio ts on ts.id_tipo_servicio = s.id_tipo_servicio
+                            left join meses mi on (mi.id_periodo)::integer = extract (MONTH from ps.fecha_inicio )::integer
+                            left join meses mf on (mf.id_periodo)::integer = extract (MONTH from ps.fecha_fin )::integer
+
+                            where c.id_cliente = ?::INTEGER 
+                            order by p.nombre,p.apellido_paterno,p.apellido_materno,ps.fecha_inicio,ps.fecha_fin ",[$id_cliente]);
+
+        $arrayParametros=[
+            'lista_pagos_cliente'=>$servicio
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function post_pagos_cliente(Request $request){
+
+        $validacion = $this->validar_pago($request);
+
+        $cantidad_servicio=db::select('select count(*) as cantidad
+        from ras.tcliente c
+        join ras.tservicio s on s.id_cliente = c.id_cliente
+        where c.id_cliente = ?::integer ',[$request->id_cliente]);
+
+        $id_tipo_servicio=$request->id_servicio['value'];
+
+        if( (int)($request->id_pago_servicio) == 0 ){
+
+            db::insert('INSERT INTO ras.tpago_servicio (precio_mensual,fecha_inicio,fecha_fin,cantidad_vehiculos,cantidad_meses,sub_total,fecha_pago,id_usuario_reg,id_servicio) 
+            VALUES (?::NUMERIC,?::TIMESTAMP,?::TIMESTAMP,?::INTEGER,?::INTEGER,?::NUMERIC,?::TIMESTAMP,?,?  ) '
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,(int)$request->user()->id,$id_tipo_servicio ]);
+        }else{
+            db::insert('UPDATE  ras.tpago_servicio 
+            SET precio_mensual = ?,
+            fecha_inicio = ?::TIMESTAMP,
+            fecha_fin = ?::TIMESTAMP,
+            cantidad_vehiculos = ?,
+            cantidad_meses = ?,
+            sub_total = ?,
+            fecha_pago = ?::TIMESTAMP,
+            id_servicio = ? 
+            where id_pago_servicio = ? '
+                ,[$request->precio_mensual,$request->fecha_inicio,$request->fecha_fin,$request->cantidad_vehiculos,$request->cantidad_meses,$request->sub_total,$request->fecha_pago,(int)$request->id_servicio,$id_tipo_servicio ]);
+        }
+
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function validar_pago($request){
+        $mensaje=[];
+        $validacion=true;
+
+        $arrayParametros=[
+            'mensaje'=>$mensaje,
+            'validacion'=>$validacion
+        ];
+
+        return $arrayParametros;
+    }
+    public function eliminar_pagos_cliente($id_pago_servicio){
+        db::update('delete from ras.tpago_servicio where id_pago_servicio = ? ',[$id_pago_servicio]);
+
+        $arrayParametros=[
+            'mensaje'=>"ok"
+        ];
+        return $arrayParametros;
+    }
+
+    public function lista_pago_servicio_cliente($id_cliente){
+
+
+        $lista_pago_seleccionado=db::select('select
+    ts.tipo_servicio,
+    s.id_servicio,
+    ts.id_tipo_servicio
+from ras.ttipo_servicio ts
+         join  ras.tservicio s on s.id_tipo_servicio = ts.id_tipo_servicio
+         join ras.tcliente c on c.id_cliente = s.id_cliente
+where  c.id_cliente  = ? ',[$id_cliente]);
+
+        $arrayParametros=[
+            'lista_pago_seleccionado'=>$lista_pago_seleccionado
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
+
+    public function post_geocercas_dispositivo(Request $request)
+    {
+        // Iniciar sesión en Traccar y obtener cookies
+        $coockies = $this->iniciar_sesion_traccar();
+
+        // Obtener el ID del dispositivo según el vehículo
+        $deviceid = DB::select("
+        select d.id as deviceid
+        from public.tc_devices d
+        join ras.tvehiculo v on v.uniqueid = d.uniqueid
+        where v.id_vehiculo = ?", [(int)$request->id_vehiculo]);
+
+        // Verificar que se haya encontrado el dispositivo
+        if (empty($deviceid)) {
+            return response()->json(['error' => 'Dispositivo no encontrado'], 404);
+        }
+
+        // Eliminar las geocercas anteriores
+        $lista_eliminar_geocerca = DB::select("
+        select deviceid, geofenceid from public.tc_device_geofence where deviceid = ?",
+            [(int)$deviceid[0]->deviceid]);
+
+        foreach ($lista_eliminar_geocerca as $geocerca) {
+            $this->delete_permissions_geocerca_device($coockies, (int)$geocerca->deviceid, (int)$geocerca->geofenceid);
+        }
+
+        // Eliminar las notificaciones anteriores
+        $lista_eliminar_notificacion = DB::select("
+        select deviceid, notificationid from public.tc_device_notification where deviceid = ?",
+            [(int)$deviceid[0]->deviceid]);
+
+        foreach ($lista_eliminar_notificacion as $notificacion) {
+            $this->delete_permissions_notificacion_device($coockies, (int)$notificacion->deviceid, (int)$notificacion->notificationid);
+        }
+
+        // Insertar nuevas geocercas
+        foreach ($request->id_geocercas as $geocerca) {
+            $this->post_permissions_geocerca_device($coockies, (int)$deviceid[0]->deviceid, (int)$geocerca['value']);
+        }
+
+        // Insertar nuevas notificaciones
+        foreach ($request->id_notificaciones as $notificacion) {
+            $this->post_permissions_notificacion_device($coockies, (int)$deviceid[0]->deviceid, (int)$notificacion['value']);
+        }
+
+        // Validar las geocercas del dispositivo
+        $validacion = $this->validar_geocercas_dispositivo_seleccionados($request);
+
+        // Cerrar sesión en Traccar
+        $this->cerrar_sesion_traccar($coockies);
+
+        // Retornar la respuesta JSON
+        $arrayParametros = [
+            'mensaje' => $validacion['mensaje'],
+            'validacion' => $validacion['validacion']
+        ];
+
+        return response()->json($arrayParametros);
+    }
+
+    public function validar_geocercas_dispositivo_seleccionados($request)
+    {
+        $mensaje = [];
+        $validacion = true;
+
+        $arrayParametros = [
+            'mensaje' => $mensaje,
+            'validacion' => $validacion
+        ];
+
+        return $arrayParametros;
+    }
+
+
 }

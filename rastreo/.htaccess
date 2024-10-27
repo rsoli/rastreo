@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # Evitar que las solicitudes a /traccar y subrutas sean redirigidas
+  RewriteCond %{REQUEST_URI} !^/traccar(/.*)?$
+  # Redirigir solo si la solicitud es para la raíz del dominio
   RewriteCond %{HTTP_HOST} ^kolosu.com$ [OR]
   RewriteCond %{HTTP_HOST} ^www.kolosu.com$
-  RewriteRule (.*)$ https://www.kolosu.com/public/kolosu/$1 [R=301,L]
+  RewriteRule ^$ https://www.kolosu.com/public/kolosu/ [R=301,L]
 </IfModule>

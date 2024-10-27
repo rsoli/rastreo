@@ -214,6 +214,158 @@ class RolController extends Controller
         return response()->json($arrayParametros);
     }
 
-    
+    /////////////////////nuevo formato de framework///////////////////////////
+    public function lista_roles(Request $request)
+    {
+        // Consulta para obtener los roles y sus permisos
+        $roles = DB::select("
+SELECT 
+    r.id_rol, 
+    r.nombre_rol, 
+    r.fecha_reg::varchar,
+    r.fecha_mod::varchar,
+    r.estado,
+    jsonb_pretty(
+        json_agg(
+            json_build_object(
+                'key', p.id_permiso, 
+                'label', p.nombre_acceso
+            )
+        )::jsonb
+    ) AS id_permisos
+FROM ras.trol r
+JOIN LATERAL unnest(r.id_permisos) AS permiso_id ON TRUE
+JOIN segu.tpermiso p ON p.id_permiso = CAST(permiso_id AS integer)
+WHERE  p.ruta_menu_sidebar IS NOT NULL and r.estado='activo'
+GROUP BY r.id_rol, r.nombre_rol
+");
+
+
+
+
+        // Retorna la lista de roles con permisos
+        $arrayParametros = [
+            'roles' => $roles
+        ];
+
+        return response()->json($arrayParametros);
+    }
+
+    public function post_roles(Request $request){
+
+        $validacion = $this->validar_rol($request);
+
+        $id_permisos = '{' . implode(',', $request->id_arbol) . '}';
+        if((bool)$validacion["validacion"]==true){
+            if($request->id_rol==0){
+                DB::insert('insert into ras.trol (nombre_rol,estado,id_permisos,fecha_reg) values(?,?,?,now()::TIMESTAMP );',[$request->nombre_rol,"activo",$id_permisos ]);
+            }
+            else{
+                DB::update('update ras.trol set nombre_rol =?,id_permisos=?,fecha_mod=now()::TIMESTAMP where id_rol=?; ',[$request->nombre_rol,$id_permisos,$request->id_rol]);
+            }
+        }
+
+
+        $arrayParametros=[
+            'mensaje'=>$validacion["mensaje"],
+            'validacion'=>$validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+
+    }
+
+    public function lista_permisos(Request $request)
+    {
+        // Consulta para obtener todos los permisos
+        $permisos = DB::select("
+        SELECT 
+            p.id_permiso,
+            p.id_padre,
+            p.nombre_acceso
+        FROM segu.tpermiso p
+    ");
+
+        // Convertimos los permisos a un array asociativo para construir el árbol
+        $permisosArray = [];
+        foreach ($permisos as $permiso) {
+            $permisosArray[] = [
+                'key' => $permiso->id_permiso,  // Cambiado a 'key' para tu formato
+                'parent' => $permiso->id_padre,  // Si es null, es un nodo raíz
+                'label' => $permiso->nombre_acceso,
+                'data' => 'Permiso: ' . $permiso->nombre_acceso, // Agregando 'data' para el contenido adicional
+                'icon' => 'pi pi-fw pi-lock', // Puedes personalizar el icono
+                'children' => [] // Inicializamos como vacío
+            ];
+        }
+
+        // Construir la estructura de árbol
+        $lista_permisos = $this->buildTree($permisosArray);
+
+        // Crear el array en el formato que necesitas
+        $arrayParametros = [
+            'roles' => $lista_permisos // Cambiado a 'roles' para coincidir con tu estructura
+        ];
+
+        return response()->json($arrayParametros);
+    }
+
+    private function buildTree(array &$elements, $parentId = null)
+    {
+        $branch = [];
+        foreach ($elements as &$element) {
+            if ($element['parent'] == $parentId) {
+                $children = $this->buildTree($elements, $element['key']); // Cambiado a 'key'
+                if ($children) {
+                    $element['children'] = $children;
+                }
+                $branch[] = [
+                    'key' => $element['key'], // Cambiado a 'key'
+                    'label' => $element['label'], // No cambia
+                    'data' => $element['data'], // Agregado 'data'
+                    'icon' => $element['icon'], // Agregado 'icon'
+                    'children' => $element['children']
+                ];
+            }
+        }
+        return $branch;
+    }
+
+    public function post_roles_admin(Request $request)
+    {
+        // Validar los datos que llegan en la solicitud
+        $validacion = $this->validar_rol($request);
+
+        // Extraer solo los valores 'key' del array de permisos
+        $id_permisos_array = array_column($request->id_permisos, 'key');
+
+        // Convertir el array en un formato compatible con PostgreSQL (ej. {1,2,3})
+        $id_permisos = '{' . implode(',', $id_permisos_array) . '}';
+
+        if((bool)$validacion["validacion"] == true) {
+            if($request->id_rol == 0) {
+                // Insertar un nuevo rol con los permisos
+                DB::insert(
+                    'insert into ras.trol (nombre_rol, estado, id_permisos, fecha_reg) values (?, ?, ?, now()::TIMESTAMP)',
+                    [$request->nombre_rol, "activo", $id_permisos]
+                );
+            } else {
+                // Actualizar un rol existente con los nuevos permisos
+                DB::update(
+                    'update ras.trol set nombre_rol = ?, id_permisos = ?, fecha_mod = now()::TIMESTAMP where id_rol = ?',
+                    [$request->nombre_rol, $id_permisos, $request->id_rol]
+                );
+            }
+        }
+
+        // Respuesta con el resultado de la validación
+        $arrayParametros = [
+            'mensaje' => $validacion["mensaje"],
+            'validacion' => $validacion["validacion"]
+        ];
+
+        return response()->json($arrayParametros);
+    }
+
 
 }

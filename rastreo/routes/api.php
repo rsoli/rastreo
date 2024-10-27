@@ -48,6 +48,10 @@ Route::group([
         Route::post('post_usuario', [PassportAuthController::class, 'post_usuario']);
         Route::get('eliminar_usuario/{id}', [PassportAuthController::class, 'eliminar_usuario']);
 
+        Route::get('lista_usuarios', [PassportAuthController::class, 'lista_usuarios']);
+        Route::post('post_cambio_contrasena', [PassportAuthController::class, 'post_cambio_contrasena']);
+
+
     });
 });
 
@@ -77,6 +81,13 @@ Route::group([
         Route::get('get_rol/{id}', [rolController::class, 'get_rol']);
         Route::post('post_rol', [rolController::class, 'post_rol']);
         Route::get('eliminar_rol/{id}', [rolController::class, 'eliminar_rol']);
+
+        Route::get('lista_roles', [rolController::class, 'lista_roles']);
+        Route::post('post_roles', [rolController::class, 'post_roles']);
+        Route::get('lista_permisos', [rolController::class, 'lista_permisos']);
+
+        Route::post('post_roles_admin', [rolController::class, 'post_roles_admin']);
+
     });
 });
 
@@ -100,6 +111,20 @@ Route::group([
         Route::get('lista_pago_servicio_usuario', [ServicioController::class, 'lista_pago_servicio_usuario']);
         Route::get('lista_geocercas_seleccionados/{id}', [ServicioController::class, 'lista_geocercas_seleccionados']);
         Route::post('post_geocercas_seleccionados', [ServicioController::class, 'post_geocercas_seleccionados']);
+
+        Route::get('lista_servicio_cliente/{id}', [ServicioController::class, 'lista_servicio_cliente']);
+        Route::get('lista_tipo_servicio', [ServicioController::class, 'lista_tipo_servicio']);
+        Route::post('post_servicio', [ServicioController::class, 'post_servicio']);
+        Route::get('eliminar_servicio/{id}', [ServicioController::class, 'eliminar_servicio']);
+
+        Route::get('lista_pagos_cliente/{id}', [ServicioController::class, 'lista_pagos_cliente']);
+        Route::post('post_pagos_cliente', [ServicioController::class, 'post_pagos_cliente']);
+        Route::get('eliminar_pagos_cliente/{id}', [ServicioController::class, 'eliminar_pagos_cliente']);
+        Route::get('lista_pago_servicio_cliente/{id}', [ServicioController::class, 'lista_pago_servicio_cliente']);
+
+        Route::post('post_geocercas_dispositivo', [ServicioController::class, 'post_geocercas_dispositivo']);
+
+
     });
 });
 
@@ -141,6 +166,8 @@ Route::group([
         Route::get('eliminar_servicio/{id}', [ClienteController::class, 'eliminar_servicio']);
         Route::get('get_pago_cliente/{id}', [ClienteController::class, 'get_pago_cliente']);
 
+        Route::get('lista_clientes', [ClienteController::class, 'lista_clientes']);
+
     });                                                                                                     
 });
 
@@ -158,6 +185,12 @@ Route::group([
         Route::post('post_vehiculo', [VehiculoController::class, 'post_vehiculo']);
         Route::get('eliminar_vehiculo/{id}', [VehiculoController::class, 'eliminar_vehiculo']);
         Route::post('inicio_traccar', [VehiculoController::class, 'inicio_traccar']);
+
+        Route::get('lista_cliente_vehiculos/{id}', [VehiculoController::class, 'lista_cliente_vehiculos']);
+        Route::post('post_cliente_vehiculo', [VehiculoController::class, 'post_cliente_vehiculo']);
+        Route::get('lista_dispositivos', [VehiculoController::class, 'lista_dispositivos']);
+        Route::post('post_enviarComando', [VehiculoController::class, 'post_enviarComando']);
+
     });                                                                                                     
 });
 // Route::middleware('auth:api')->group(function () {

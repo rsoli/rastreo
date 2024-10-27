@@ -90,5 +90,7 @@ class ParametrosController extends Controller{
           'mensaje'=>"ok"
         ];
         return $arrayParametros;
-      }
+    }
+
+
 }

@@ -13,6 +13,12 @@ class ClienteController extends Controller
 {
     public function lista_cliente(Request $request)
     {
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0 = 0 ";//para vehiculos
+        }else{
+            $ids=" c.id_cliente = -1"; //para vehiculos
+        }
+
         $cliente=DB::select("select  
         c.id_cliente,
         c.id_persona,
@@ -31,6 +37,7 @@ class ClienteController extends Controller
         join ras.tpersona p on p.id_persona=c.id_persona
         left join segu.users u on u.id=c.id_usuario_reg
         left join segu.users us on us.id=c.id_usuario_mod
+        where ".$ids."
         order by c.id_cliente desc ");
 
         $arrayParametros=[
@@ -415,5 +422,44 @@ class ClienteController extends Controller
         ];
 
         return $arrayParametros;
+    }
+
+    //////////////nueva modelo de sistema////////////////////////////////////////////////////////////////////////////
+    public function lista_clientes(Request $request)
+    {
+
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0 = 0 ";//para vehiculos
+        }else{
+            $ids=" c.id_cliente = -1"; //para vehiculos
+        }
+
+        $cliente=DB::select("select  
+        c.id_cliente,
+        json_build_object(
+                        'value', p.id_persona,
+                        'label', p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno
+                        ) AS id_persona,
+        p.nombre || ' ' || p.apellido_paterno || ' ' || p.apellido_materno AS persona,
+        c.id_usuario_reg,
+        c.id_usuario_mod,
+        c.fecha_reg::varchar,
+        c.fecha_mod::varchar,
+        c.direccion,
+        u.name as usuario_reg,
+        us.name as usuario_mod
+        from ras.tcliente c
+        join ras.tpersona p on p.id_persona=c.id_persona
+        left join segu.users u on u.id=c.id_usuario_reg
+        left join segu.users us on us.id=c.id_usuario_mod
+        where ".$ids."
+        order by c.id_cliente desc ");
+
+        $arrayParametros=[
+            'lista_clientes'=>$cliente
+        ];
+
+        return response()->json($arrayParametros);
+
     }
 }

@@ -317,6 +317,7 @@ class PassportAuthController extends Controller
 
         return response()->json($arrayParametros);
     }
+
     public function get_usuario($id)
     {
 
@@ -488,5 +489,69 @@ class PassportAuthController extends Controller
         return $arrayParametros;
     }
 
+    //////////////////nuevo crud de usuarios//////////////////////////////////////////////////////////////////////////////////////////////
+    public function lista_usuarios(Request $request)
+    {
 
+        if($this->es_admin($request->user()->id)==true){
+            $ids=" 0=0 ";
+        }else{
+            $ids=" us.id in (".$request->user()->id.")";
+        }
+
+        $ruta_imagen_usuario = "";
+        //$ruta_imagen_usuario = "http://".request()->server('SERVER_ADDR').":90/public/imagenes/usuarios/";
+        $usuarios=DB::select("
+                                SELECT
+                                    us.id AS id_usuario,
+                                    us.name AS usuario,
+                                    us.email AS correo,
+                                    us.created_at as fecha_reg,
+                                    us.updated_at as fecha_mod,
+                                    ?||us.foto::varchar AS foto,
+                                    json_build_object(
+                                            'value', p.id_persona,
+                                            'label', p.nombre||' '||p.apellido_paterno||' '||p.apellido_materno
+                                    ) AS id_persona,
+                                    p.nombre || ' ' || p.apellido_paterno || ' ' || p.apellido_materno AS persona,
+                                    jsonb_pretty(
+                                        jsonb_agg(
+                                            jsonb_build_object(
+                                                'value', r.id_rol,
+                                                'label', r.nombre_rol
+                                            )
+                                        )
+                                    ) AS id_roles,
+                                    string_agg(r.nombre_rol, ', ') AS roles
+                                FROM segu.users us
+                                         LEFT JOIN ras.tpersona p ON p.id_persona = us.id_persona
+                                         LEFT JOIN ras.tcliente c ON c.id_persona = p.id_persona
+                                         LEFT JOIN ras.tusuario_rol ur ON ur.id_usuario = us.id
+                                         LEFT JOIN ras.trol r ON r.id_rol = ur.id_rol
+                                where ".$ids." and us.estado=?
+                                GROUP BY us.id, p.id_persona,p.nombre, p.apellido_paterno, p.apellido_materno
+
+                            ",[$ruta_imagen_usuario,"activo"]);
+
+
+        $arrayParametros=[
+            'lista_usuarios'=>$usuarios
+        ];
+
+        return response()->json($arrayParametros);
+    }
+    public function post_cambio_contrasena(Request $request){
+
+        if($request->contrasena!=""){
+            DB::update('update segu.users set password =? where id=? ',
+                [bcrypt($request->contrasena),(int)$request->id_usuario]);
+        }
+
+        $arrayParametros=[
+            'mensaje'=>[],
+            'validacion'=>[]
+        ];
+
+        return response()->json($arrayParametros);
+    }
 }

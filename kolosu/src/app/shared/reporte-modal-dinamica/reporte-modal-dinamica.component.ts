@@ -267,7 +267,7 @@ export class ReporteModalDinamicaComponent implements OnInit {
       doc.text(fecha_text, marginLeft, pageHeight - 9); // Alineado a la izquierda
 
       doc.setFontSize(6);
-      const usuario = 'juan.jimenez';
+      const usuario = this.getCurrentUser();
       const usuario_text = 'Usuario : '+usuario;
       doc.text(usuario_text, marginLeft, pageHeight - 12); // Alineado a la izquierda
   }

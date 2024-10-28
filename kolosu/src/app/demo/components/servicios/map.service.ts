@@ -139,6 +139,8 @@ export class MapService {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   private tooltips: Map<any, L.Tooltip> = new Map();
 
+  contador_mi_ubicacion_actual=0;
+
   constructor(
     private traccar:TraccarService
   ) {
@@ -700,8 +702,12 @@ export class MapService {
                         .bindPopup(`Mi ubicación<br>Fecha: ${fechaHoraActual}`).openPopup();
                 }
 
-                // Centrar el mapa en la nueva ubicación
-                this.map.setView([lat, lon], 15);
+                // Centrar el mapa la primera vez
+                this.contador_mi_ubicacion_actual++;
+                if(this.contador_mi_ubicacion_actual){
+                  this.map.setView([lat, lon], 15);
+                }
+
                 
                 // Calcular la distancia recorrida
                 if (this.ultimaUbicacion) {
@@ -724,6 +730,9 @@ export class MapService {
                         }
 
                     }*/
+                    if (this.distanciaRecorrida >= 100) { //centramos el mapa cada 100 metros
+                      this.map.setView([lat, lon], 15);
+                    }
 
                 }
 
@@ -823,6 +832,7 @@ export class MapService {
     this.bandera_trazar_como_llegar=false;
     this.DetenerUbicacionActualComoLlegar(); // Detener la obtención de la ubicación actual
     this.borrarRutaComoLlegar();
+    this.contador_mi_ubicacion_actual=0;
 
   }
   borrarRutaComoLlegar(): void {//borra como llegar su ruta

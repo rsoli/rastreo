@@ -190,8 +190,8 @@ class PassportAuthController extends Controller
 
                     from segu.tpermiso c
                     
-                    where c.id_padre is null 
-                    ".$ids."  and c.id_padre !=21
+                    where c.id_padre is null  
+                    ".$ids."
 
                     union all    
                     select  c.id_permiso as data, 

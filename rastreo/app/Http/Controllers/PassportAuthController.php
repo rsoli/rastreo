@@ -174,7 +174,7 @@ class PassportAuthController extends Controller
         if($this->es_admin($id)==true){
           $ids="";
         }else{
-          $ids="and c.id_permiso in (".$id_permisos[0]->id_permisos.")";
+          $ids="and c.id_permiso in (".$id_permisos[0]->id_permisos.") and c.id_padre != 32 and c.id_permiso != 32 ";
         }
         
         $my_array=DB::select("with recursive primer as (select c.id_permiso as data,

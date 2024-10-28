@@ -163,98 +163,92 @@ class PassportAuthController extends Controller
 
         return response()->json($json[0]->json_tree);
     }
-    public function get_menu_json($id){
- 
-        $id_permisos=DB::select("select  array_to_string( ARRAY_AGG ( array_to_string (r.id_permisos, ?, ?) ),? )::varchar  as id_permisos
-        from segu.users u
-        join ras.tusuario_rol ur on ur.id_usuario=u.id
-        join ras.trol r on r.id_rol=ur.id_rol
-        where u.id=? and array_to_string (r.id_permisos, ?, ?) !=? ",[",","0",",",$id,",","0",""]); 
+    public function get_menu_json($id)
+    {
+        // Obtener los permisos asociados al usuario
+        $id_permisos = DB::select("SELECT array_to_string(ARRAY_AGG(array_to_string(r.id_permisos, ?, ?)), ?)::varchar AS id_permisos
+        FROM segu.users u
+        JOIN ras.tusuario_rol ur ON ur.id_usuario = u.id
+        JOIN ras.trol r ON r.id_rol = ur.id_rol
+        WHERE u.id = ? AND array_to_string(r.id_permisos, ?, ?) != ?", [",", "0", ",", $id, ",", "0", ""]);
 
-        if($this->es_admin($id)==true){
-          $ids="";
-        }else{
-          $ids="and c.id_permiso in (".$id_permisos[0]->id_permisos.")";
+        // Verificar si el usuario es administrador
+        if ($this->es_admin($id) == true) {
+            $ids = "";
+        } else {
+            $ids = "AND c.id_permiso IN (" . $id_permisos[0]->id_permisos . ") ";
         }
-        
-        $my_array=DB::select("with recursive primer as (select c.id_permiso as data,
-                            c.id_padre,
-                            c.nombre_acceso as label,
-                            c.icono_sidebar as icon ,
-                            c.ruta_menu_sidebar as ruta_menu_sidebar,
-                            
-                            0 as lvl,
-                            c.id_permiso as key ,
-                            c.expandedicon,
-                            c.collapsedicon
 
-                    from segu.tpermiso c
-                    
-                    where c.id_padre is null  
-                    ".$ids."
+        // Consulta principal para construir el menú excluyendo id_permiso = 32 y sus hijos
+        $my_array = DB::select("
+        WITH RECURSIVE primer AS (
+            SELECT c.id_permiso AS data,
+                   c.id_padre,
+                   c.nombre_acceso AS label,
+                   c.icono_sidebar AS icon,
+                   c.ruta_menu_sidebar AS ruta_menu_sidebar,
+                   0 AS lvl,
+                   c.id_permiso AS key,
+                   c.expandedicon,
+                   c.collapsedicon
+            FROM segu.tpermiso c
+            WHERE c.id_padre IS NULL 
+              AND c.id_permiso != 32
+              $ids
+            UNION ALL
+            SELECT c.id_permiso AS data,
+                   c.id_padre,
+                   c.nombre_acceso AS label,
+                   c.icono_sidebar AS icon,
+                   c.ruta_menu_sidebar AS ruta_menu_sidebar,
+                   pr.lvl + 1 AS lvl,
+                   c.id_permiso AS key,
+                   c.expandedicon,
+                   c.collapsedicon
+            FROM segu.tpermiso c
+            INNER JOIN primer pr ON pr.data = c.id_padre
+            WHERE c.id_permiso != 32
+              $ids
+        ),
+        maxlvl AS (
+            SELECT MAX(lvl) AS maxlvl FROM primer
+        ),
+        segundo AS (
+            SELECT primer.*, jsonb '[]' AS items
+            FROM primer, maxlvl
+            WHERE lvl = maxlvl
+            UNION
+            (
+                SELECT (pri).*, jsonb_agg(seg) AS items
+                FROM (
+                    SELECT pri, seg
+                    FROM primer pri
+                    INNER JOIN segundo seg ON seg.id_padre = pri.data
+                ) branch
+                GROUP BY branch.pri
+            UNION
+                SELECT c.data,
+                       c.id_padre,
+                       c.label,
+                       c.icon,
+                       c.ruta_menu_sidebar,
+                       c.lvl,
+                       c.key,
+                       c.expandedicon,
+                       c.collapsedicon,
+                       jsonb '[]' AS items
+                FROM primer c
+                WHERE NOT EXISTS (SELECT 1 FROM primer pri WHERE pri.id_padre = c.data)
+            )
+        )
+        SELECT jsonb_pretty(row_to_json(segundo)::jsonb) ::text AS json_tree
+        FROM segundo
+        WHERE lvl = 0
+        ORDER BY lvl;");
 
-                    union all    
-                    select  c.id_permiso as data, 
-                            c.id_padre,
-                            c.nombre_acceso as label,
-                            c.icono_sidebar as icon,
-                            c.ruta_menu_sidebar as ruta_menu_sidebar,
-                            pr.lvl + 1 as lvl,
-                            c.id_permiso as key ,
-                            c.expandedicon,
-                            c.collapsedicon
-
-                    from segu.tpermiso c
-                    inner join primer pr ON pr.data = c.id_padre  
-                    ".$ids."
-
-                    ),
-
-
-                    maxlvl as ( select max(lvl) 
-                            maxlvl 
-                    from primer),
-                    segundo as (
-                    select primer.*, 
-                    jsonb '[]' items
-                    from primer, maxlvl
-                    where lvl = maxlvl
-                    union
-                    (
-                    select (pri).*, 
-                    jsonb_agg(seg)
-                    from (
-                    select pri, 
-                        seg
-                    from primer pri
-                    inner join segundo seg on seg.id_padre = pri.data
-                    ) branch
-                    group by branch.pri
-
-                    union
-
-                    select c.data,
-                    c.id_padre,
-                    c.label,
-                    c.icon,
-                    c.ruta_menu_sidebar,
-                    c.lvl,
-                    c.key, 
-                    c.expandedicon,
-                    c.collapsedicon,
-                    jsonb '[]' items
-                    from   primer c
-                    where  not  exists  (select 1 from primer pri where pri.id_padre = c.data)
-                    )         
-                    )
-                    select jsonb_pretty(row_to_json( segundo )::jsonb) ::text json_tree
-                    from segundo
-                    where lvl = 0
-                    order by  lvl;"); 
-
-                    
-        return $my_array; 
+        return $my_array;
     }
+
     public function cerrar_sesion(Request $request)
     {
         $request->user()->token()->revoke();

@@ -13,7 +13,10 @@ const routes: Routes = [];
     { path: 'lista_cliente_servicio/:id_cliente', loadChildren: () => import('./cliente-servicio/cliente-servicio.module').then(m => m.ClienteServicioModule) },
     { path: 'lista_cliente_pago/:id_cliente', loadChildren: () => import('./cliente-pago/cliente-pago.module').then(m => m.ClientePagoModule) },
     { path: 'lista_vehiculo', loadChildren: () => import('./dispositivo/dispositivo.module').then(m => m.DispositivoComponentModule) },
-    { path: '**', redirectTo: '/notfound' }
+    { path: 'monitoreo_google', loadChildren: () => import('./monitoreo/monitoreo.module').then(m => m.MonitoreoModule) },
+    { path: '**', redirectTo: '/auth/login' },
+    // { path: '**', redirectTo: '/notfound' }
+    
 ])], 
 
   exports: [RouterModule]

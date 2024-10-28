@@ -190,7 +190,7 @@ class PassportAuthController extends Controller
 
                     from segu.tpermiso c
                     
-                    where c.id_padre is null  
+                    where c.id_padre is null  and c.id_permiso !=32
                     ".$ids."
 
                     union all    

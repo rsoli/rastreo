@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'lista_persona', loadChildren: () => import('./persona/persona.module').then(m => m.PersonaModule) },
   { path: 'lista_rol', loadChildren: () => import('../seguridad/rol/rol.module').then(m => m.RolComponentModule) },
   { path: 'lista_usuario', loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule) },
-  { path: '**', redirectTo: '/notfound' } // Asegúrate de tener una ruta para '/notfound'
+  { path: '**', redirectTo: '/auth/login' },
+  // { path: '**', redirectTo: '/notfound' } 
 ];
 
 @NgModule({

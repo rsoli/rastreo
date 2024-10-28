@@ -15,6 +15,7 @@ export class AppConfigComponent {
     constructor(public layoutService: LayoutService, public menuService: MenuService) {
 
         //this.changeTheme('lara-dark-indigo','dark'); //por juan
+        this.changeTheme('lara-light-indigo','light');
 
      }
 

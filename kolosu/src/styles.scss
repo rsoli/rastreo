@@ -1,0 +1,198 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+/* Estilos propios kolosu */
+@import "assets/estilos/loading.scss";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilo para el botón personalizado en el mapa */
+.color-icono-tipo-mapa{
+    background-color: #fff !important;
+  }
+  .color-icono-vehiculo{
+    background-color: #fff !important;
+  }
+  .custom-leaflet-control {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    /* background-color: #28a745 !important;  */
+    border: none !important; /* Quitar cualquier borde */
+    border-radius: 50% !important; /* Forma circular */
+    width: 35px !important; 
+    height: 35px !important; 
+    cursor: pointer !important;
+    position: absolute !important; /* Posición absoluta para colocar en la esquina */
+    left: 10px; /* Ajuste de posición para colocar a la izquierda */
+    bottom: 50px; /* Ajuste de posición para colocar debajo del botón de zoom */
+    z-index: 1000; /* Z-index alto para estar encima de otros elementos */
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+    user-select: none !important; /* Evitar selección de texto */
+  }
+  .custom-leaflet-control:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Estilo para el icono dentro del botón */
+  .custom-leaflet-control .custom-icon {
+    width: 100%; /* Ajustar el ancho del icono al contenedor */
+    height: auto; /* Ajustar la altura automáticamente */
+    margin: auto; /* Centrar el icono dentro del contenedor */
+    padding: 5px !important; /* para margen del icono */
+  }
+  
+  /* Asegurar que no se apliquen estilos no deseados */
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    border: none !important;
+    background-clip: padding-box !important;
+  }
+/* Estilos para los botones de zoom personalizados */
+.custom-zoom-in-icon,
+.custom-zoom-out-icon {
+  display: none !important; /* Ocultar los iconos predeterminados */
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in,
+.leaflet-control-zoom .leaflet-control-zoom-out {
+  display: block !important;
+  width: 35px !important;
+  height: 35px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-size: 20px !important;
+  line-height: 35px !important;
+  color: black !important;
+  background-color: white !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+  font-weight: 700 !important ;
+  font-family: Arial, sans-serif !important;
+  user-select: none !important; /* Evitar selección de texto */
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in {
+  margin-bottom: 5px !important; /* Agregar margen inferior para separación */
+}
+
+.leaflet-control-zoom .leaflet-control-zoom-in:hover,
+.leaflet-control-zoom .leaflet-control-zoom-out:hover {
+  // background-color: #0056b3 !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.leaflet-control-zoom .leaflet-bar-part {
+  border: none !important;
+  box-shadow: none !important;
+}
+/* Estilo para el botón dentro del contenedor */
+.leaflet-control-custom button {
+    background-color: #FFC107 !important; /* Color de fondo amarillo */
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 35px !important;
+    height: 35px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    position: relative; /* Asegura que el botón esté posicionado correctamente */
+    z-index: 1001;
+  }
+/* Estilo opcional para el botón de control al hacer hover */
+.leaflet-control-custom button:hover {
+    background-color: #FFB300 !important; /* Un tono más oscuro de amarillo para el hover */
+  }  
+/* tooltip de marker estilo Traccar */
+/* tooltip de marker */
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.9) !important; /* Fondo blanco con ligera opacidad */
+  color: #000 !important; /* Texto negro */
+  font-weight: bold !important; /* Texto en negrita */
+  font-size: 12px !important; /* Tamaño de fuente */
+  padding: 5px 10px !important; /* Espaciado interno */
+  border-radius: 5px !important; /* Bordes redondeados */
+  text-align: center !important; /* Texto centrado */
+  //border: 2px solid #fff !important; /* Borde blanco solo alrededor del texto */
+  box-shadow: none !important; /* Sin sombra para mantener el diseño limpio */
+  box-sizing: border-box !important; /* Asegura que el borde se incluya en el tamaño del tooltip */
+  text-shadow: 
+  -1px -1px 0 #fff,  
+  1px -1px 0 #fff,
+  -1px 1px 0 #fff,
+  1px 1px 0 #fff !important; /* Borde simulado blanco alrededor del texto */
+}
+
+/* Elimina las flechas del tooltip */
+.leaflet-tooltip-left.custom-tooltip::before,
+.leaflet-tooltip-right.custom-tooltip::before {
+  display: none !important;
+}
+
+.custom-tooltip::before,
+.custom-tooltip::after {
+  display: none !important; /* Asegura que no haya flechas */
+}
+
+.leaflet-tooltip {
+  background-color: transparent !important; /* Fondo transparente */
+  border: none !important; /* Sin borde externo */
+}
+
+
+
+
+
+
+
+  // centrar usuario en toolbar
+  .centrar_usuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Ajusta la altura del contenedor solo al tamaño del texto */
+    padding-right: 1rem; /* Agrega un poco de padding si es necesario */
+    margin-bottom: 1rem; /* Separa el texto del botón si es necesario */
+    margin-top: 0.7rem; /* Separa el texto del botón si es necesario */
+  }
+  

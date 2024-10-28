@@ -1,0 +1,39 @@
+<div class="card">
+    <p-toast></p-toast> 
+    <!-- loading inicio -->
+    <app-loading [loading]="loading"></app-loading>
+    <!-- loading fin -->
+
+    <app-tabla-dinamica
+    
+    titleTable="Lista usuario"
+
+    [buttonNew]="es_admin"
+    [buttonEdit]="es_admin"
+    [buttonDelete]="es_admin"
+
+    [buttons]="toolbarButtons" (buttonClick)="ButtonClick($event)"
+    (selected)="seleccionarUsuario($event)"
+    (Unselect)="deshacerSeleccionUsuario($event)"
+
+    [columns]="columnas_usuario"
+    [data]="lista_usuarios"
+    (formSave)="guardarUsuario($event)"
+    (delete)="eliminarUsuario($event)"
+  ></app-tabla-dinamica>
+
+
+  <app-modal-dinamica
+  titleModal="Cambio de contraseña"
+  [columns]="columnas_contrasena"
+  [modalVisible]="modal_contrasena"
+  (formSave)="guardarModal($event)"
+  [formData]="lista_usuarios_seleccionado"
+  (closeModal)="cerrarModal()" 
+  >
+  </app-modal-dinamica>
+
+
+
+    
+</div>

@@ -1,0 +1,23 @@
+
+// diseño para botones encima del overlay
+
+.button-icon {
+    width: 24px;              /* Ajustar el tamaño del icono */
+    height: 24px;
+  }
+  
+  .buttons-container {    
+    display: flex;              /* Alinear los grupos de botones en una fila */
+    justify-content: space-around; /* Espacio uniforme entre botones */
+    align-items: center;        /* Centrar verticalmente */
+    margin-bottom: 10px;
+  }
+  
+  .button-group {
+    display: flex;             /* Usar flex para alineación precisa */
+    flex-direction: column;    /* Colocar el botón y texto verticalmente */
+    align-items: center;       /* Alinear tanto el botón como el texto al centro */
+  }
+  .button-text {
+    user-select: none; /* Evita la selección del texto */
+  }

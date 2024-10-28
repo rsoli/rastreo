@@ -1,0 +1,18 @@
+
+    <div class="card">
+        <p-toast></p-toast>
+        <app-loading [loading]='loading'></app-loading>
+        <app-tabla-dinamica
+          titleTable="Lista de roles"  
+          (selected)="seleccionarRol($event)"  
+          [buttons]='toolbarButtons'
+          (buttonClick)="ButtonClick($event)"
+          (Unselect)="deshacerSeleccionRol($event)"
+          [columns]="columnas_rol"
+          [data]="lista_rol"
+          (formSave)="guardarRol($event)"
+          (delete)="eliminarRol($event)"
+        >
+        </app-tabla-dinamica>
+    </div>
+    

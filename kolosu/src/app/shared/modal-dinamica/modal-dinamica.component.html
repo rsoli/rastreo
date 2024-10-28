@@ -1,0 +1,155 @@
+<p-dialog [(visible)]="modalVisible" [style]="{width: '450px'}"  header="{{titleModal}}" [modal]="true" styleClass="p-fluid" (onHide)="closeModal.emit()">
+    <ng-template pTemplate="content">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div *ngFor="let col of columns" class="field" [hidden]="!col.visibleForm">
+          <span *ngIf="col.required && form.controls[col.field].errors" style="color: red;">*</span>
+          <label *ngIf="col.inputType !== 'checkbox'" [for]="col.field">{{ col.header }}</label>
+          
+          <ng-container [ngSwitch]="col.inputType">
+            <input 
+              *ngSwitchCase="'text'" 
+              type="text" 
+              pInputText 
+              [formControlName]="col.field" 
+              [required]="col.required" 
+            />
+  
+            <input 
+              *ngSwitchCase="'number'" 
+              type="number" 
+              pInputText 
+              [formControlName]="col.field" 
+              [required]="col.required" 
+            />
+  
+            <ng-container *ngSwitchCase="'select'">
+              <p-dropdown 
+                *ngIf="col.inputType === 'select' && !col.multiple"
+                [options]="getDropdownOptions(col.field)" 
+                [formControlName]="col.field" 
+                [placeholder]="col.placeholder ? col.placeholder : 'Seleccionar'"
+                optionLabel="label"
+                [filter]="true" 
+                filterBy="label"
+                appendTo="body"
+                >
+              </p-dropdown>
+            
+              <p-multiSelect 
+              *ngIf="col.inputType === 'select' && col.multiple"
+              [options]="getDropdownOptions(col.field)" 
+              [formControlName]="col.field"
+              [placeholder]="col.placeholder ? col.placeholder : 'Seleccionar'"
+              optionLabel="label"
+              appendTo="body"
+              >
+              </p-multiSelect>
+              
+            </ng-container>
+  
+            <textarea 
+              *ngSwitchCase="'textarea'" 
+              pInputTextarea 
+              [formControlName]="col.field"
+              [required]="col.required" 
+            >
+            </textarea>
+  
+            <p-checkbox 
+            *ngSwitchCase="'checkbox'" 
+            [formControlName]="col.field"
+            [inputId]="col.field"
+            [binary]="true"
+            [label]="col.header" 
+            [required]="col.required" 
+            >
+            </p-checkbox>
+  
+  
+          
+  
+            <p-password  
+            *ngSwitchCase="'password'" 
+            [formControlName]="col.field" 
+            [toggleMask]="true"
+            [feedback]="false"
+            [required]="col.required"
+            >
+            </p-password>
+  
+  
+            <ng-container *ngSwitchCase="'map'">
+              <app-map 
+                [id_map]="'map-'+uniqueId"
+                [geocerca]="form.get(col.field)?.value" 
+                (geocercaChange)="onGeocercaChange($event, col.field)"
+                (geocercaDeleted)="OnDeleteGeocerca(col.field)"
+              ></app-map>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'date'">
+              <p-calendar 
+                [formControlName]="col.field" 
+                [touchUI]="true" 
+                [readonlyInput]="true" 
+                [showOnFocus]="true" 
+                [showButtonBar]="false" 
+                dateFormat="dd/mm/yy"
+                [locale]="es"
+                [placeholder]="col.header"
+                >
+              </p-calendar>
+            </ng-container>
+  
+            <ng-container *ngSwitchCase="'datetime'">
+              <p-calendar 
+                [formControlName]="col.field" 
+                [touchUI]="true" 
+                [readonlyInput]="true" 
+                [showOnFocus]="true" 
+                [showButtonBar]="false" 
+                [placeholder]="col.header"
+                [showTime]="true"
+                dateFormat="dd/mm/yy"
+                hourFormat="24"
+                [required]="col.required"
+              ></p-calendar>
+            </ng-container>
+            
+            
+            <ng-container *ngSwitchCase="'time'">
+              <p-calendar 
+                [formControlName]="col.field"
+                [touchUI]="true" 
+                [showTime]="true"
+                [showButtonBar]="false"
+                [hourFormat]="'24'" 
+                [showOnFocus]="true"
+                [placeholder]="col.header"
+                [readonlyInput]="true"
+                [timeOnly]="true" 
+                [required]="col.required"
+              ></p-calendar>
+            </ng-container>
+  
+  
+            <!-- Agrega más casos si es necesario -->
+          </ng-container>
+          <span *ngIf="form.controls[col.field].errors?.['maxlength']">
+            Máximo caracteres permitidos 20
+          </span>
+          <span *ngIf="form.controls[col.field].errors?.['pattern']">
+            Solo se permite números
+          </span>
+        </div>
+        <div class="flex justify-content-end flex-wrap card-container">
+          <div class="flex align-items-center justify-content-center w-7rem h-4rem m-2">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cancel($event)"></button>
+          </div>
+          <div class="flex align-items-center justify-content-center w-7rem h-4rem m-2">
+            <button pButton pRipple type="submit" label="Guardar" icon="pi pi-check" class="p-button-text" [disabled]="form.invalid"></button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </p-dialog>

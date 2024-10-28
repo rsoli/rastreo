@@ -1,0 +1,320 @@
+
+
+<p-toast></p-toast> 
+
+<p-toolbar styleClass="mb-4 gap-2" *ngIf="toolbar">
+  <ng-template pTemplate="left">
+    <div class="buttons-container">
+      <div class="button-group " *ngIf="buttonNew !== false">
+        <button [pTooltip]="selectedRow ? 'Nuevo' : ''" tooltipPosition="top" pButton pRipple icon="pi pi-file" class="p-button-rounded p-button-success " (click)="onAdd()" ></button>
+        <p class="button-text">Nuevo</p>
+      </div>
+
+      <div class="button-group " *ngIf="buttonEdit !== false">
+        <button [pTooltip]="selectedRow ? 'Editar' : ''" tooltipPosition="top" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info " (click)="onEdit()" [disabled]="!selectedRow"></button>
+        <p class="button-text">Editar</p>
+      </div>
+
+      <div class="button-group " *ngIf="buttonDelete !== false">
+        <button [pTooltip]="selectedRow ? 'Eliminar' : ''" tooltipPosition="top" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger " (click)="onDelete()" [disabled]="!selectedRow"></button>
+        <p class="button-text">Eliminar</p>
+      </div>
+
+      <!-- Botones dinámicos -->
+      <div class="button-group " *ngFor="let btn of buttons">
+        <p-button 
+          [pTooltip]="!btn.disabled ? (btn.tooltip ? btn.tooltip : btn.label) : ''"
+          tooltipPosition="top" 
+          [icon]="btn.icon" 
+          [styleClass]="btn.class" 
+          [disabled]="btn.disabled"
+          (click)="onButtonClick(btn.action)">
+        </p-button>
+        <p class="button-text">{{ btn.label }}</p>
+      </div>
+    </div>
+  </ng-template>
+</p-toolbar>
+
+
+
+<p-table
+  #dt
+  [value]="data"
+  [rows]="10"
+  [paginator]="paginator"
+  [globalFilterFields]="globalFilterFields"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [rowHover]="true"
+  [dataKey]="primaryKey"
+  selectionMode="single"
+  [(selection)]="selectedRow"
+  currentPageReportTemplate="Página {first} de {last} total {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  (onRowSelect)="onRowSelect($event)"
+  (onRowUnselect)="onRowUnselect($event)">
+  
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">{{titleTable}}</h5>
+        <div class="search-container">
+            <span class="p-input-icon-left" *ngIf="filterTable !== false">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" 
+                       (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                       placeholder="Buscar..." 
+                       class="search-input" />
+            </span>
+        </div>
+    </div>
+</ng-template>
+
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th>N°</th>
+      <ng-container *ngFor="let col of columns">
+        
+        <th [pSortableColumn]="col.field" *ngIf="col.visibleTable !== false">
+          {{ col.header }}
+          <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+        </th>
+      </ng-container>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-i="rowIndex">
+    
+    <tr [pSelectableRow]="rowData">
+      <td>{{ i + 1 }}</td>
+      <ng-container *ngFor="let col of columns">
+        <ng-container *ngIf="col.visibleTable !== false">
+          <td>
+            <!-- Renderizar campos según inputType -->
+            <ng-container [ngSwitch]="col.inputType">
+              <!-- Campo de texto -->
+              <ng-container *ngSwitchCase="'text'">
+                {{ rowData[col.field] }}
+              </ng-container>
+
+              <!-- Campo numérico -->
+              <ng-container *ngSwitchCase="'number'">
+                {{ rowData[col.field] }}
+              </ng-container>
+
+              <!-- Área de texto -->
+              <ng-container *ngSwitchCase="'textarea'">
+                {{ rowData[col.field] }}
+              </ng-container>
+
+
+              <!-- Otros tipos de campos -->
+              <ng-container *ngSwitchDefault>
+                {{ rowData[col.field] }}
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+      </ng-container>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary" *ngIf="paginator !==false ">
+    <div class="flex align-items-center justify-content-between">
+      Total registros {{ data ? data.length : 0 }}.
+    </div>
+  </ng-template>
+</p-table>
+
+
+
+
+<p-dialog [(visible)]="modalVisible" header="{{title_form}}" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid">
+
+<!-- <p-dialog [(visible)]="modalVisible" [style]="{width: '450px'}" header="{{title_form}}" [modal]="true" styleClass="p-fluid"> -->
+  <ng-template pTemplate="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div *ngFor="let col of columns" class="field" [hidden]="!col.visibleForm">
+        <span *ngIf="col.required && form.controls[col.field].errors" style="color: red;">*</span>
+        <!-- <span *ngIf="!form.controls[col.field].errors" style="color: green;">
+          <i class="pi pi-check"></i> &nbsp;
+        </span> -->
+        <!-- <label [for]="col.field">{{ col.header }}</label> -->
+        <label *ngIf="col.inputType !== 'checkbox'" [for]="col.field">{{ col.header }}</label>
+        
+        <ng-container [ngSwitch]="col.inputType">
+          <input 
+            *ngSwitchCase="'text'" 
+            type="text" 
+            pInputText 
+            [formControlName]="col.field" 
+            [required]="col.required" 
+          />
+
+          <input 
+            *ngSwitchCase="'number'" 
+            type="number" 
+            pInputText 
+            [formControlName]="col.field" 
+            [required]="col.required" 
+          />
+
+          <ng-container *ngSwitchCase="'select'">
+            <p-dropdown 
+              *ngIf="col.inputType === 'select' && !col.multiple"
+              [options]="getDropdownOptions(col.field)" 
+              [formControlName]="col.field" 
+              [placeholder]="col.placeholder ? col.placeholder : 'Seleccionar'"
+              optionLabel="label"
+              [filter]="true" 
+              filterBy="label"
+              appendTo="body"
+              >
+            </p-dropdown>
+          
+            <p-multiSelect 
+              *ngIf="col.inputType === 'select' && col.multiple"
+              [options]="getDropdownOptions(col.field)" 
+              [formControlName]="col.field"
+              [placeholder]="col.placeholder ? col.placeholder : 'Seleccionar'"
+              optionLabel="label"
+              appendTo="body"
+              >
+            </p-multiSelect>
+          </ng-container>
+
+          <textarea 
+            *ngSwitchCase="'textarea'" 
+            pInputTextarea 
+            [formControlName]="col.field"
+            [required]="col.required" 
+          >
+          </textarea>
+
+          <p-checkbox 
+          *ngSwitchCase="'checkbox'" 
+          [formControlName]="col.field"
+          [inputId]="col.field"
+          [binary]="true"
+          [label]="col.header" 
+          [required]="col.required" 
+          >
+          </p-checkbox>
+
+
+          <p-password  
+          *ngSwitchCase="'password'" 
+          [formControlName]="col.field" 
+          [toggleMask]="true"
+          [feedback]="false"
+          [required]="col.required"
+          >
+          </p-password>
+
+
+          <ng-container *ngSwitchCase="'map'">
+            <app-map 
+              [id_map]="'map-'+uniqueId"
+              [geocerca]="form.get(col.field)?.value" 
+              (geocercaChange)="onGeocercaChange($event, col.field)"
+              (geocercaDeleted)="OnDeleteGeocerca(col.field)"
+            ></app-map>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'date'">
+            <p-calendar 
+              [formControlName]="col.field" 
+              [touchUI]="true" 
+              [readonlyInput]="true" 
+              [showOnFocus]="true" 
+              [showButtonBar]="false" 
+              dateFormat="dd/mm/yy"
+              [locale]="es"
+              [placeholder]="col.header"
+              >
+            </p-calendar>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'datetime'">
+            <p-calendar 
+              [formControlName]="col.field" 
+              [touchUI]="true" 
+              [readonlyInput]="true" 
+              [showOnFocus]="true" 
+              [showButtonBar]="false" 
+              [placeholder]="col.header"
+              [showTime]="true"
+              dateFormat="dd/mm/yy"
+              hourFormat="24"
+              [required]="col.required"
+            ></p-calendar>
+          </ng-container>
+          
+          
+          <ng-container *ngSwitchCase="'time'">
+            <p-calendar 
+              [formControlName]="col.field"
+              [touchUI]="true" 
+              [showTime]="true"
+              [showButtonBar]="false"
+              [hourFormat]="'24'" 
+              [showOnFocus]="true"
+              [placeholder]="col.header"
+              [readonlyInput]="true"
+              [timeOnly]="true" 
+              [required]="col.required"
+            ></p-calendar>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'treeSelect'">
+            <p-treeSelect 
+            [options]="getTreeSelectOptions(col.field)" 
+            formControlName="{{col.field}}"
+            [required]="col.required"
+            display="chip"
+            [selectionMode]="'checkbox'"
+            placeholder="Select Item"
+            [scrollHeight]="'200px'"
+            [filter]="true"
+            [filterInputAutoFocus]="true"
+            appendTo="body">
+        </p-treeSelect>
+        
+          </ng-container>
+
+          <!-- Agrega más casos si es necesario -->
+        </ng-container>
+        <span *ngIf="form.controls[col.field].errors?.['maxlength']">
+          Máximo caracteres permitidos 20
+        </span>
+        <span *ngIf="form.controls[col.field].errors?.['pattern']">
+          Solo se permite números
+        </span>
+      </div>
+      <div class="flex justify-content-end flex-wrap card-container">
+        <div class="flex align-items-center justify-content-center w-7rem h-4rem m-2">
+          <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="modalVisible=false;"></button>
+        </div>
+        <div class="flex align-items-center justify-content-center w-7rem h-4rem m-2">
+          <button pButton pRipple type="submit" label="Guardar" icon="pi pi-check" class="p-button-text" [disabled]="form.invalid"></button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>
+
+
+
+
+
+<!-- Inicio confirmacion eliminar -->
+<p-confirmDialog #cd [style]="{width: '50vw'}">
+  <ng-template pTemplate="header">
+      <h3>Alerta!!</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+      <button type="button" pButton icon="pi pi-check" label="Sí" (click)="cd.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+<!-- Fin confirmacion eliminar -->

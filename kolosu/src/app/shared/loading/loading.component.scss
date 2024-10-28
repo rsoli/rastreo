@@ -1,0 +1,43 @@
+:host ::ng-deep .loading-dialog {
+    max-width: 90vw;  
+    width: 300px; 
+    text-align: center; 
+    border-radius: 10px; /* Bordes redondeados para un look moderno */
+    //animation: fadeIn 0.3s ease-out;
+    display: flex; /* Para centrar el contenido */
+    flex-direction: column; /* Colocar el spinner y texto uno debajo del otro */
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center; /* Centrar horizontalmente */
+    background: white; /* Asegúrate de que el fondo sea blanco o el color que desees */
+}
+
+// Estilo del encabezado
+:host ::ng-deep .loading-dialog .p-dialog-header {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-weight: bold; 
+    font-size: 1.2rem;
+    height: 50px;
+    background: transparent; /* Evita el fondo en el encabezado, si es necesario */
+}
+
+// Responsivo
+@media (max-width: 600px) {
+    :host ::ng-deep .loading-dialog {
+        width: 80%; 
+    }
+}
+
+// Efecto de fade-in para el diálogo
+/*@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+*/

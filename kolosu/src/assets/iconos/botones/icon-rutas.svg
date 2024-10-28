@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #70c2ff;
+        opacity: 0;
+      }
+
+      .cls-2, .cls-4, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2, .cls-4 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 1.7px;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        stroke-width: 1.4px;
+      }
+
+      .cls-5 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Grupo_559" data-name="Grupo 559" transform="translate(-896 -29)">
+    <path id="Trazado_2564" data-name="Trazado 2564" class="cls-1" d="M0,0H23V23H0Z" transform="translate(896 29)"/>
+    <g id="Elipse_435" data-name="Elipse 435" class="cls-2" transform="translate(910 31)">
+      <circle class="cls-5" cx="3" cy="3" r="3"/>
+      <circle class="cls-6" cx="3" cy="3" r="2.15"/>
+    </g>
+    <path id="Trazado_2565" data-name="Trazado 2565" class="cls-3" d="M2,0,4.521,4.462H-.588Z" transform="translate(915 40) rotate(180)"/>
+    <g id="Elipse_436" data-name="Elipse 436" class="cls-2" transform="translate(899 40)">
+      <circle class="cls-5" cx="3" cy="3" r="3"/>
+      <circle class="cls-6" cx="3" cy="3" r="2.15"/>
+    </g>
+    <path id="Trazado_2566" data-name="Trazado 2566" class="cls-3" d="M2,0,4.521,4.508H-.588Z" transform="translate(903.966 49.046) rotate(180)"/>
+    <path id="Trazado_2567" data-name="Trazado 2567" class="cls-4" d="M-.543,9.794H11.726L6,4.451,11.239.369" transform="translate(902.5 38.5)"/>
+  </g>
+</svg>

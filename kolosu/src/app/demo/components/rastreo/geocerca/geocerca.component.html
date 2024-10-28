@@ -1,0 +1,17 @@
+
+    <div class="card">
+        <p-toast></p-toast>
+        <app-loading [loading]='loading'></app-loading>
+        <app-tabla-dinamica
+          titleTable="Lista de Geocerca"  
+          (selected)="seleccionarGeocerca($event)"  
+          [buttons]='toolbarButtons'
+          (Unselect)="deshacerSeleccionGeocerca($event)"
+          [columns]="columnas_geocerca"
+          [data]="lista_geocerca"
+          (formSave)="guardarGeocerca($event)"
+          (delete)="eliminarGeocerca($event)"
+        >
+        </app-tabla-dinamica>
+    </div>
+    

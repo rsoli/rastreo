@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.015" height="22.762" viewBox="0 0 20.015 22.762">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #231f20;
+      }
+
+      .cls-2 {
+        fill: #f97e11;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-size: 3px;
+        font-family: SegoeUI-Bold, Segoe UI;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+    </style>
+  </defs>
+  <g id="Grupo_552" data-name="Grupo 552" transform="translate(-10226.989 -332.113)">
+    <rect id="Rectángulo_1001" data-name="Rectángulo 1001" class="cls-1" width="1.626" height="22.762" rx="0.813" transform="translate(10245.378 332.113)"/>
+    <path id="Trazado_2551" data-name="Trazado 2551" class="cls-2" d="M7.948,18.423,15.864,0,0,.277Z" transform="matrix(-0.017, 1, -1, -0.017, 10245.687, 332.838)"/>
+    <text id="FINAL" class="cls-3" transform="translate(10234.974 341.609)"><tspan x="0" y="0">FINAL</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <filter id="Trazado_2629" x="0" y="0" width="45" height="45" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Trazado_2628" x="7.601" y="5.645" width="29.518" height="32.506" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Componente_42_11" data-name="Componente 42 – 11" transform="translate(9 6)">
+    <g id="Componente_36_2" data-name="Componente 36 – 2">
+      <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Trazado_2629)">
+        <g id="Trazado_2629-2" data-name="Trazado 2629" transform="translate(9 6)" fill="#20b7f6">
+          <path d="M 13.5 25.5 C 10.29469013214111 25.5 7.281219959259033 24.25177955627441 5.01471996307373 21.98527908325195 C 2.748219966888428 19.71878051757812 1.5 16.7053108215332 1.5 13.5 C 1.5 10.29469013214111 2.748219966888428 7.281219959259033 5.01471996307373 5.01471996307373 C 7.281219959259033 2.748219966888428 10.29469013214111 1.5 13.5 1.5 C 16.7053108215332 1.5 19.71878051757812 2.748219966888428 21.98527908325195 5.01471996307373 C 24.25177955627441 7.281219959259033 25.5 10.29469013214111 25.5 13.5 C 25.5 16.7053108215332 24.25177955627441 19.71878051757812 21.98527908325195 21.98527908325195 C 19.71878051757812 24.25177955627441 16.7053108215332 25.5 13.5 25.5 Z" stroke="none"/>
+          <path d="M 13.5 3 C 7.71027946472168 3 3 7.71027946472168 3 13.5 C 3 19.28972053527832 7.71027946472168 24 13.5 24 C 19.28972053527832 24 24 19.28972053527832 24 13.5 C 24 7.71027946472168 19.28972053527832 3 13.5 3 M 13.5 0 C 20.95584106445312 0 27 6.044160842895508 27 13.5 C 27 20.95584106445312 20.95584106445312 27 13.5 27 C 6.044160842895508 27 0 20.95584106445312 0 13.5 C 0 6.044160842895508 6.044160842895508 0 13.5 0 Z" stroke="none" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Trazado_2628)">
+      <path id="Trazado_2628-2" data-name="Trazado 2628" d="M2.874-.395c1.1,0,6.256,13.332,5.7,14.381l-.437.125H7.8l-.266-.125-.469-.409L2.874,9.252C1.667,10.3.394,11.906-1.187,13.3a3.092,3.092,0,0,0-.436.278c.038-.023-.39.224-.584.345l-.2.064-.35-.064C-3.861,13.922,1.769-.395,2.874-.395Z" transform="translate(19.5 12.04)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

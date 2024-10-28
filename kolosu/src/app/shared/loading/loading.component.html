@@ -1,0 +1,25 @@
+<p-dialog 
+    header="Cargando"
+    [(visible)]="loading"
+    [modal]="true"
+    [closeOnEscape]="false"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="false"
+    styleClass="loading-dialog"
+    [blockScroll]="true"
+    showEffect="fade" 
+    hideEffect="fade"
+    [baseZIndex]="10000"
+    role="alertdialog" 
+    aria-live="assertive"
+>
+    <div class="flex flex-column align-items-center">
+        <p-progressSpinner
+            [style]="{ width: '80px', height: '80px' }"
+            strokeWidth="10"
+            animationDuration=".5s"
+            aria-label="Cargando">
+        </p-progressSpinner>
+    </div>
+</p-dialog>

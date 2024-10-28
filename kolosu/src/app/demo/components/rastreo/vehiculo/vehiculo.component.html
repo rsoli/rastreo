@@ -1,0 +1,19 @@
+
+    <div class="card">
+        <p-toast></p-toast>
+        <app-loading [loading]='loading'></app-loading>
+        <app-tabla-dinamica
+          titleTable="Lista de Vehiculo"  
+          (selected)="seleccionarVehiculo($event)"  
+          [buttons]='toolbarButtons'
+          (buttonClick)="ButtonClick($event)"
+          (Unselect)="deshacerSeleccionVehiculo($event)"
+          [columns]="columnas_vehiculo"
+          [data]="lista_vehiculo"
+          (formSave)="guardarVehiculo($event)"
+          (delete)="eliminarVehiculo($event)"
+          [buttons]="toolbarButtons" (buttonClick)="ButtonClick($event)"
+        >
+        </app-tabla-dinamica>
+    </div>
+    

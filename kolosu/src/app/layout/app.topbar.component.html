@@ -1,0 +1,36 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/logos/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
+        <span>Kolosu</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        
+       
+        <button *ngIf="!isLogin" class="p-link layout-topbar-button" [routerLink]="'/auth/login'">
+            <i class="pi pi-user"></i>
+            <span>Iniciar sesión</span>
+        </button>
+        <!-- <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+            <i class="pi pi-cog"></i>
+            <span>Configuración</span>
+        </button>  -->
+        
+         <div class="centrar_usuario" *ngIf="isLogin">
+            <span>Hola, {{usuario}}</span>
+        </div>
+        
+        <p-button *ngIf="isLogin" label="CERRAR SESIÓN" icon="pi pi-power-off" styleClass="p-1rem p-button-sm p-button-danger" iconPos="left" 
+         (click)="serrarSesion()">
+        </p-button>
+        
+    </div>
+</div>

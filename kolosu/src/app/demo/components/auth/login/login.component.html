@@ -1,0 +1,56 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+                     
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="surface-card py-8 px-5 sm:px-8 " style="border-radius:53px">
+                <div class=" mb-5 flex flex-column align-items-center justify-content-center">
+                    <img src="assets/logos/{{layoutService.config.colorScheme === 'light' ? 'logo-dark2' : 'logo-white2'}}.png" alt="kolosu-logo" class="mb-5 w-15rem flex-shrink-0">   
+                    <span class="text-900 text-2xl font-medium">Inicia sesión para continuar</span>
+                    
+                </div>
+                <p-messages [(value)]="msgs1" [enableService]="false"></p-messages>
+                <!-- <p-toast></p-toast> -->
+                <form [formGroup]="form" (submit)="IniciarSesion()">
+                    <!-- Loading inicio -->
+                    <div class="flex flex-column align-items-center loading-indicator " *ngIf="loading">
+                        <div class="flex flex-column card-container green-container">
+                            
+                            <div class="loading-border ">
+                                <div class="flex align-items-center justify-content-center h-4rem ">
+                                    <p-progressSpinner
+                                    [style]="{ width: '50px', height: '50px'}"
+                                    styleClass="custom-spinner"
+                                    strokeWidth="10"
+                                    animationDuration=".5s"
+                                    ></p-progressSpinner>
+                                </div>
+
+                                <div class="loading-text flex align-items-center justify-content-center h-4rem ">Cargando</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- Loading fin -->
+                    <div class="flex flex-column align-items-center">
+                        <input formControlName="usuario" type="text" placeholder="Correo" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                        <span *ngIf="form.controls['usuario'].errors?.['maxlength']">
+                            Máximo caracteres permitidos 40
+                        </span>
+                    
+
+                        <p-password formControlName="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5"  inputStyleClass="p-3 md:w-30rem" [feedback]="false"></p-password>
+                        <span *ngIf="form.controls['password'].errors?.['maxlength']">
+                            Máximo caracteres permitidos 40
+                        </span>
+                        
+                        <button pButton pRipple label="Iniciar sesión" class="max-width: 100%; w-full p-3 text-xl" type="submit" [disabled]="form.invalid" ></button>
+                        <br>
+                        <button pButton pRipple type="button" label="Cancelar" class=" w-full p-3 text-xl p-button-secondary" [routerLink]="'/'"></button>
+                          
+                   
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>

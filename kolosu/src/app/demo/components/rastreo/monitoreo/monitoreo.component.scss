@@ -1,0 +1,222 @@
+
+// #map4 {
+//   width: 100vw;
+//   height: 100vh;
+//   z-index: 1;
+// }
+#map4 {
+  position: relative;  /* Asegura que el mapa se posicione correctamente dentro de la tarjeta */
+  top: 0rem;           /* Mueve el mapa para que comience justo debajo del toolbar (5rem) */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;         /* El mapa ocupará todo el ancho disponible */
+  height: calc(82vh - 5rem);  /* Altura ajustada, restando la altura del toolbar */
+  z-index: 1;          /* Asegura que el mapa esté en el nivel correcto */
+  // z-index: 997;
+  border-radius: inherit;  /*  Mantiene el border-radius de la tarjeta */
+}
+
+
+
+/* overlay */
+// .overlay-content {
+//   max-height: 600px; /* Ajusta la altura máxima según sea necesario */
+//   overflow-y: auto; /* Asegura que se aplique un scroll vertical si el contenido excede la altura máxima */
+// }
+
+
+
+
+/* fin contenedor de mapa */
+
+
+
+
+/* sidebar button */
+/* app.component.css */
+.custom-sidebar {
+overflow: hidden; /* Ocultar el scroll en el sidebar */
+display: flex;
+flex-direction: column;
+}
+
+.custom-table {
+flex-grow: 1; /* Hacer que la tabla ocupe todo el espacio disponible */
+overflow-y: auto; /* Hacer que solo la tabla tenga scroll */
+}
+.p-table-wrapper {
+height: 100%;
+}
+
+/* titulo filtro */
+/* INICIO SIDEBAR FRILTROS */
+.titulo_filtro {
+font-size: 24px;
+font-weight: bold;
+color: #333;
+text-align: center;
+margin-bottom: 20px;
+padding: 10px;
+background-color: #f0f0f0;
+border: 1px solid #ddd;
+border-radius: 5px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.p-button-raised {
+background-color: #007bff !important;
+color: #fff !important;
+font-size: 16px !important;
+font-weight: bold !important;
+padding: 10px 20px !important;
+border: none !important;
+border-radius: 5px !important;
+cursor: pointer !important;
+transition: background-color 0.3s ease !important;
+}
+
+.p-button-raised:hover {
+background-color: #0056b3 !important;
+}
+
+
+
+///////////////////////// boton de reporte ////////////////////////////////////
+.reporte-rutas-container {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-100%) rotate(270deg); /* Girar todo el botón */
+  z-index: 2;
+  // font-size: 1.8rem !important;
+  // box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+  border-radius: 16px;
+}
+
+
+:host ::ng-deep .reporte-rutas-container .p-chip {
+  user-select: none !important; /* Evitar selección de texto */
+  text-decoration: none !important; /* Evitar subrayado */
+  background-color: #fff !important;
+
+
+}
+:host ::ng-deep  .p-chip-remove-icon {
+  transform: rotate(90deg) !important; /* Asegurar que el ícono de cierre también esté orientado correctamente */
+  font-size: 1.8rem !important;
+}
+:host ::ng-deep  .p-chip:hover {
+  // box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4) !important; 
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+}
+:host ::ng-deep .p-chip .pi {
+  font-size: 1.7rem !important;
+  // opacity: 0.8 !important;
+}
+:host ::ng-deep .p-chip .p-chip-text {
+  line-height: 2;
+  font-weight: bold !important; /* Peso de fuente */
+  letter-spacing: 0.05em !important; /* Espaciado entre letras */
+}
+///fin boton de reporte////////////////////////////////////////////
+
+
+
+
+
+// el mapa ocupa todo el margen cuando es tamaño celular
+@media (max-width: 768px) {
+  ::ng-deep .layout-main-container {
+    padding: 5rem 0rem 0rem 0rem !important;
+  }
+  ::ng-deep .layout-wrapper .layout-main-container {
+    padding-left: 0rem !important;
+  }
+  #map4{
+    height: calc(100vh - 5rem) !important;
+  }
+  .card {
+    padding-top: 0rem !important;
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+    padding-bottom: 0rem !important;
+    border-radius: 0px !important;
+    margin-bottom: 0rem !important;
+    // margin-right: -52px !important;
+    border: 0px solid var(--surface-border) !important;
+    margin-bottom: 0rem !important;
+  }
+  .reporte-rutas-container{
+    right: -50px !important;
+  }
+}
+::ng-deep .layout-footer {
+  display: none !important; /* Oculta el footer */
+}
+
+:host ::ng-deep .card{
+  margin-bottom: 0rem !important;
+}
+
+:host ::ng-deep .p-toast {
+  z-index: 11000 !important; /* Asegúrate de que este valor sea mayor al del modal */
+}
+
+// DISEÑO POPOP MARKER
+// .custom-popup {
+//   background-color: #ffffff;
+//   // border-radius: 8px;
+//   // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+//   padding: 0px;
+//   max-width: 70%;
+//   font-family: 'Arial', sans-serif;
+//   color: #333;
+//   line-height: 1.5;
+//   text-align: left;
+
+//   /* Tamaño de fuente adaptable */
+//   font-size: 16px; /* Valor base para pantallas medianas */
+// }
+
+// @media (max-width: 600px) {
+//   .custom-popup {
+//     font-size: 54px; /* Reducir el tamaño en pantallas pequeñas */
+//      max-width: 70%;
+//      padding: 0px;
+//   }
+// }
+
+// @media (min-width: 1200px) {
+//   .custom-popup {
+//     font-size: 58px; /* Aumentar el tamaño en pantallas grandes */
+//   }
+// }
+
+
+
+
+
+
+// ocultar el boton por default detalle de rutas como llegar
+:host ::ng-deep .leaflet-control-container .leaflet-routing-container-hide {
+  display: none;
+}
+//tamaño fuente de X cerrar modal detalle de como llegar  parece que ta no funciona por que el boton de cerrar ya no se ve del modal 
+:host ::ng-deep .leaflet-routing-collapse-btn {
+  position: absolute;
+  top: 0 ;
+  right: 22px !important;
+  font-size: 44px !important;
+  color: #ccc;
+  font-weight: bold;
+  // margin-left: 40px;
+}
+
+//ocultar tooltip
+.tooltip-container.hidden-tooltip {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.1s ease !important;
+}
+

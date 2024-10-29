@@ -61,7 +61,8 @@ export class LoginComponent implements OnInit {
       if (data) {
         localStorage.setItem('accesos', JSON.stringify(data));
         this.form.reset();
-        this.router.navigate(['/rastreo/monitoreo_vehiculo']); 
+        //this.router.navigate(['/rastreo/monitoreo_vehiculo']); 
+        this.router.navigateByUrl('/rastreo/monitoreo_vehiculo');
       }
     });
   }

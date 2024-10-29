@@ -1,0 +1,98 @@
+<div class="card">
+  <div class="map-container">
+    <!-- Contenedor flotante de inputs -->
+    <div class="input-container">
+      <input 
+        placeholder="Desde" 
+        type="text" 
+        pInputText 
+        [(ngModel)]="desde" 
+        (click)="setMarker('desde')" 
+      />
+      <input 
+        placeholder="Hasta" 
+        type="text" 
+        pInputText 
+        [(ngModel)]="hasta" 
+        (click)="setMarker('hasta')" 
+      />
+      <div *ngIf="distancia" class="distancia">{{ distancia }} Km.</div> <!-- Mostrar distancia aquí -->
+      <button 
+        pButton 
+        type="button" 
+        label="Solicitar Taxi" 
+        (click)="requestTaxi()">
+      </button>
+    </div>
+    
+    <!-- Mapa Leaflet -->
+    <div id="map" leaflet></div>
+  </div>
+</div>
+
+
+
+<!-- 
+<div class="card">
+    
+  <p-toast></p-toast>
+
+
+  <p-confirmDialog [style]="{width: '58vw'}"   acceptLabel="Sí" rejectLabel="No"></p-confirmDialog>
+
+
+  <app-loading [loading]='loading'></app-loading>
+
+  <div #mapContainer id="map4"></div>
+
+  <app-overlay-panel-dinamico
+  #vehicleOverlay
+  [data]="lista_dispositivos"
+  [columns]="columnas_vehiculos"
+  [buttons]="buttons_vehiculo"
+  (buttonClick)="onButtonVehiculosClick($event)"
+  (selected)="seleccionarVehiculo($event)"
+  (Unselect)="deshacerSeleccionVehiculo($event)"
+  >
+  </app-overlay-panel-dinamico>
+  
+
+  <app-reporte-modal-dinamica
+  titleModal="Reporte de {{tipo_filtro}}"
+  subtitleModal1="{{subtitleModal2}}"
+  subtitleModal2="DISPOSITIVO: {{ vehiculo_seleccionado?.placa ? vehiculo_seleccionado.placa : 'No disponible' }}"
+  [columns]="columns_report"
+  [modalVisible]="modal_reporte"
+  [data]="lista_reportes"
+  (closeModal)="cerrarModalReporte()"
+  [buttons]="toolbarButtons" (buttonClick)="ButtonClick($event)"
+  (selected)="seleccionarReporte($event)"
+  (Unselect)="deshacerSeleccionReporte($event)"
+  >
+  </app-reporte-modal-dinamica>
+
+</div>
+
+
+<app-modal-dinamica
+  titleModal="{{titulo_filtro}}"
+  [columns]="columns_filtros"
+  [modalVisible]="modal_filtros"
+  [formData]="selectedFiltros"
+  (formSave)="aplicarFiltro($event)"
+  (closeModal)="cerrarModalFiltro()" 
+  >
+</app-modal-dinamica>
+
+
+<div class="reporte-rutas-container" *ngIf="lista_reportes != null">
+  <p-chip label="{{titulo_boton_reporte}}"  styleClass="p-button-success" 
+    [removable]="true" 
+    (onRemove)="cerrarReporte($event)"
+    (click)="abrirReporte($event)">
+  </p-chip>
+</div>
+
+
+
+ -->

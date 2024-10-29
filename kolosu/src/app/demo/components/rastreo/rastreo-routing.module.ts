@@ -14,6 +14,7 @@ const routes: Routes = [];
     { path: 'lista_cliente_pago/:id_cliente', loadChildren: () => import('./cliente-pago/cliente-pago.module').then(m => m.ClientePagoModule) },
     { path: 'lista_vehiculo', loadChildren: () => import('./dispositivo/dispositivo.module').then(m => m.DispositivoComponentModule) },
     { path: 'monitoreo_google', loadChildren: () => import('./monitoreo/monitoreo.module').then(m => m.MonitoreoModule) },
+    { path: 'radio_movil', loadChildren: () => import('./taxi/taxi.module').then(m => m.TaxiComponentModule) },
     { path: '**', redirectTo: '/auth/login' },
     // { path: '**', redirectTo: '/notfound' }
     

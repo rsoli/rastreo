@@ -704,7 +704,7 @@ export class MapService {
 
                 // Centrar el mapa la primera vez
                 this.contador_mi_ubicacion_actual++;
-                if(this.contador_mi_ubicacion_actual){
+                if(this.contador_mi_ubicacion_actual==1){
                   this.map.setView([lat, lon], 15);
                 }
 

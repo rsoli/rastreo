@@ -1,0 +1,56 @@
+.map-container {
+    position: relative;
+    height: 500px; /* Ajusta la altura según sea necesario */
+  }
+  
+  .input-container {
+    position: absolute;
+    top: 10px; /* Ajusta según sea necesario */
+    left: 10px; /* Ajusta según sea necesario */
+    z-index: 1000; /* Asegúrate de que esté sobre el mapa */
+    display: flex;
+    flex-direction: column; /* Asegura que los inputs estén uno debajo del otro */
+    gap: 10px; /* Espacio entre los inputs */
+    background-color: white; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 15px; /* Espacio interno */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
+  }
+  
+  .input-container input {
+    width: 100%; /* Ajusta el ancho al 100% */
+    border: 1px solid #ccc; /* Borde del input */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 8px; /* Espacio interno del input */
+  }
+  
+  .input-container button {
+    width: 100%; /* Botón ocupa todo el ancho */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 10px; /* Espacio interno del botón */
+  }
+  
+  /* Opcional: Estilos para cambiar el borde y el fondo al enfocar el input */
+  .input-container input:focus {
+    border-color: #007adf; /* Color del borde al enfocar */
+    outline: none; /* Eliminar el contorno por defecto */
+  }
+  
+  #map {
+    height: 100%; /* Ocupa el 100% de la altura del contenedor */
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  }
+  
+ @media (max-width: 600px) {
+    .input-container {
+      width: 90%; /* Mantener el ancho del contenedor */
+      left: 5%; /* Centrar el contenedor en la pantalla */
+      right: 5%; /* Asegurarse de que no sobrepase los bordes */
+    }
+  }
+  
+
+  :host ::ng-deep .leaflet-control-container .leaflet-routing-container {
+    display: none !important; /* Oculta el contenedor del botón de detalles */
+  }
+  

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [];
 
-@NgModule({ 
+@NgModule({
   imports: [RouterModule.forChild([
     { path: 'lista_geocerca', loadChildren: () => import('./geocerca/geocerca.module').then(m => m.GeocercaComponentModule) },
     { path: 'monitoreo_vehiculo', loadChildren: () => import('./monitoreo/monitoreo.module').then(m => m.MonitoreoModule) },
@@ -13,13 +13,10 @@ const routes: Routes = [];
     { path: 'lista_cliente_servicio/:id_cliente', loadChildren: () => import('./cliente-servicio/cliente-servicio.module').then(m => m.ClienteServicioModule) },
     { path: 'lista_cliente_pago/:id_cliente', loadChildren: () => import('./cliente-pago/cliente-pago.module').then(m => m.ClientePagoModule) },
     { path: 'lista_vehiculo', loadChildren: () => import('./dispositivo/dispositivo.module').then(m => m.DispositivoComponentModule) },
-    { path: 'monitoreo_google', loadChildren: () => import('./monitoreo/monitoreo.module').then(m => m.MonitoreoModule) },
+    { path: 'monitoreo_google', redirectTo: 'monitoreo_vehiculo', pathMatch: 'full' },
     { path: 'radio_movil', loadChildren: () => import('./taxi/taxi.module').then(m => m.TaxiComponentModule) },
     { path: '**', redirectTo: '/auth/login' },
-    // { path: '**', redirectTo: '/notfound' }
-    
-])], 
-
+  ])],
   exports: [RouterModule]
 })
 export class RastreoRoutingModule { }

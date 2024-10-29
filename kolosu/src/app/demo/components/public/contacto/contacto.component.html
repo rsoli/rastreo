@@ -4,7 +4,7 @@
         <div class="grid grid-nogutter text-800">
             <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
                 <section>
-                    <span class="block text-6xl font-bold mb-1">CONTACTO</span>
+                    <h4 class="block font-bold mb-1">CONTACTO</h4>
                     <p class="mt-0 mb-4 text-700 line-height-3">
                         Av. Blanco Galindo Km 8.5 Una cuadra al norte
                         <br>
@@ -17,25 +17,23 @@
                
                 
                 <div>
-                    <div>Síguenos en nuestras redes sociales</div>
+                    <div>Para conocer las últimas actualizaciones síguenos en nuestras redes sociales</div>
                     <br>
-                    <p-button class="p-1">
+                    <p-button class="p-1" (click)="openWhatsApp()">
                         <img alt="logo" [src]="'assets/varios/whatsapp.svg'"  style="width: 1.5rem"/>
                     </p-button>
 
-                    <p-button class="p-1">
-                        <img alt="logo" [src]="'assets/varios/tiktok.png'"  style="width: 1.5rem"/>
+                    <p-button class="p-1" (click)="openLink('https://www.tiktok.com/@rastreo.satelital.kolosu')">
+                        <img alt="logo" [src]="'assets/varios/tiktok.png'" style="width: 1.5rem" />
                     </p-button>
-
-                    <p-button class="p-1">
-                        <img alt="logo" [src]="'assets/varios/facebook.svg'"  style="width: 1.5rem"/>
-                    </p-button>
-
-                    <p-button class="p-1">
-                        <img alt="logo" [src]="'assets/varios/instagram.svg'"  style="width: 1.5rem"/>
-                    </p-button>
-
                     
+                    <p-button class="p-1" (click)="openLink('https://www.facebook.com/kolosu.bolivia/')">
+                        <img alt="logo" [src]="'assets/varios/facebook.svg'" style="width: 1.5rem" />
+                    </p-button>
+                    
+                    <p-button class="p-1" (click)="openLink('https://www.instagram.com/rastreo.satelital.kolosu?igsh=ejZkMWZsYXJ0eGVk')">
+                        <img alt="logo" [src]="'assets/varios/instagram.svg'" style="width: 1.5rem" />
+                    </p-button>
                     
                 </div>
             </div>

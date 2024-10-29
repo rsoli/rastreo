@@ -1,9 +1,4 @@
-
-// #map4 {
-//   width: 100vw;
-//   height: 100vh;
-//   z-index: 1;
-// }
+/* inicio contenedor de mapa */
 #map4 {
   position: relative;  /* Asegura que el mapa se posicione correctamente dentro de la tarjeta */
   top: 0rem;           /* Mueve el mapa para que comience justo debajo del toolbar (5rem) */
@@ -16,18 +11,6 @@
   // z-index: 997;
   border-radius: inherit;  /*  Mantiene el border-radius de la tarjeta */
 }
-
-
-
-/* overlay */
-// .overlay-content {
-//   max-height: 600px; /* Ajusta la altura máxima según sea necesario */
-//   overflow-y: auto; /* Asegura que se aplique un scroll vertical si el contenido excede la altura máxima */
-// }
-
-
-
-
 /* fin contenedor de mapa */
 
 
@@ -128,13 +111,14 @@ background-color: #0056b3 !important;
 // el mapa ocupa todo el margen cuando es tamaño celular
 @media (max-width: 768px) {
   ::ng-deep .layout-main-container {
-    padding: 5rem 0rem 0rem 0rem !important;
+    padding: 0rem 0rem 0rem 0rem !important;
   }
   ::ng-deep .layout-wrapper .layout-main-container {
     padding-left: 0rem !important;
   }
   #map4{
     height: calc(100vh - 5rem) !important;
+    top: 5rem !important;
   }
   .card {
     padding-top: 0rem !important;
@@ -162,39 +146,6 @@ background-color: #0056b3 !important;
 :host ::ng-deep .p-toast {
   z-index: 11000 !important; /* Asegúrate de que este valor sea mayor al del modal */
 }
-
-// DISEÑO POPOP MARKER
-// .custom-popup {
-//   background-color: #ffffff;
-//   // border-radius: 8px;
-//   // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-//   padding: 0px;
-//   max-width: 70%;
-//   font-family: 'Arial', sans-serif;
-//   color: #333;
-//   line-height: 1.5;
-//   text-align: left;
-
-//   /* Tamaño de fuente adaptable */
-//   font-size: 16px; /* Valor base para pantallas medianas */
-// }
-
-// @media (max-width: 600px) {
-//   .custom-popup {
-//     font-size: 54px; /* Reducir el tamaño en pantallas pequeñas */
-//      max-width: 70%;
-//      padding: 0px;
-//   }
-// }
-
-// @media (min-width: 1200px) {
-//   .custom-popup {
-//     font-size: 58px; /* Aumentar el tamaño en pantallas grandes */
-//   }
-// }
-
-
-
 
 
 

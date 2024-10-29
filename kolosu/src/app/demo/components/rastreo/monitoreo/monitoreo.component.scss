@@ -1,4 +1,4 @@
-/* inicio contenedor de mapa */
+/* fin contenedor de mapa */
 #map4 {
   position: relative;  /* Asegura que el mapa se posicione correctamente dentro de la tarjeta */
   top: 0rem;           /* Mueve el mapa para que comience justo debajo del toolbar (5rem) */
@@ -11,6 +11,8 @@
   // z-index: 997;
   border-radius: inherit;  /*  Mantiene el border-radius de la tarjeta */
 }
+
+
 /* fin contenedor de mapa */
 
 
@@ -111,14 +113,14 @@ background-color: #0056b3 !important;
 // el mapa ocupa todo el margen cuando es tamaño celular
 @media (max-width: 768px) {
   ::ng-deep .layout-main-container {
-    padding: 0rem 0rem 0rem 0rem !important;
+    padding: 5rem 0rem 0rem 0rem !important;
   }
   ::ng-deep .layout-wrapper .layout-main-container {
     padding-left: 0rem !important;
   }
   #map4{
     height: calc(100vh - 5rem) !important;
-    top: 5rem !important;
+    top: 0rem !important;
   }
   .card {
     padding-top: 0rem !important;

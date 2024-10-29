@@ -37,18 +37,26 @@
                             Máximo caracteres permitidos 40
                         </span>
                     
-
-                        <p-password formControlName="password" placeholder="Contraseña" [toggleMask]="true" styleClass="mb-5"  inputStyleClass="p-3 md:w-30rem" [feedback]="false"></p-password>
+                        <p-password 
+                            formControlName="password" 
+                            placeholder="Contraseña" 
+                            [toggleMask]="true" 
+                            styleClass="w-full md:w-30rem mb-5" 
+                            inputStyleClass="p-3" 
+                            [feedback]="false">
+                        </p-password>
                         <span *ngIf="form.controls['password'].errors?.['maxlength']">
                             Máximo caracteres permitidos 40
                         </span>
                         
-                        <button pButton pRipple label="Iniciar sesión" class="max-width: 100%; w-full p-3 text-xl" type="submit" [disabled]="form.invalid" ></button>
+                        <button pButton pRipple label="Iniciar sesión" class="w-full p-3 text-xl" type="submit" [disabled]="form.invalid"></button>
                         <br>
-                        <button pButton pRipple type="button" label="Cancelar" class=" w-full p-3 text-xl p-button-secondary" [routerLink]="'/'"></button>
-                          
-                   
+                        <button pButton pRipple type="button" label="Cancelar" class="w-full p-3 text-xl p-button-secondary" [routerLink]="'/'"></button>
                     </div>
+                    
+                    
+                    
+                    
                 </form> 
             </div>
         </div>

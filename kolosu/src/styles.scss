@@ -196,3 +196,8 @@ $gutter: 1rem; //for primeflex grid system
     margin-top: 0.7rem; /* Separa el texto del botón si es necesario */
   }
   
+
+// evita el zoom en dispositivos moviles
+input, textarea, select {
+  font-size: 16px !important; /* O un tamaño mayor si es necesario */
+}

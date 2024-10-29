@@ -1,0 +1,41 @@
+/* En tu archivo CSS del componente (por ejemplo, login.component.css) */
+
+:host {
+    display: block; 
+}
+
+:host ::ng-deep input, 
+:host ::ng-deep p-password input {
+    font-size: 16px; /* Tamaño de fuente consistente */
+    padding: 1rem; /* Padding para ambos inputs */
+    width: 100%; /* Asegúrate de que ambos inputs ocupen todo el ancho */
+    box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+    border: 1px solid #ccc; /* Agrega un borde para la coherencia visual */
+    border-radius: 4px; /* Opcional: Añade esquinas redondeadas */
+}
+
+/* Asegúrate de que p-password ocupe el mismo ancho que el input */
+:host ::ng-deep p-password {
+    width: 100%; /* Asegura que el componente p-password también ocupe todo el ancho */
+    max-width: 30rem; /* O ajusta según sea necesario */
+}
+
+/* Alinea el icono dentro del input */
+:host ::ng-deep .p-password {
+    display: flex;
+    align-items: center;
+}
+
+:host ::ng-deep .p-password .p-inputtext {
+    flex-grow: 1; /* Asegura que el input ocupe el espacio disponible */
+}
+
+:host ::ng-deep .p-password .p-password-icon {
+    margin-left: -2rem; /* Ajusta según sea necesario */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el ícono */
+}
+
+/* Asegúrate de que ambos inputs tengan un margen consistente */
+:host ::ng-deep .mb-5 {
+    margin-bottom: 1.25rem; /* Ajusta el margen según sea necesario */
+}

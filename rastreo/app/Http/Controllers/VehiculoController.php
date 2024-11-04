@@ -373,7 +373,8 @@ class VehiculoController extends Controller
             'value', ts.id_tipo_servicio,
             'label', ts.tipo_servicio
     ) AS id_tipo_servicio,
-    ts.tipo_servicio
+    ts.tipo_servicio,
+    v.lugar_instalacion_gps
 from ras.tvehiculo v
          join ras.tdepartamento d on d.id_departamento=v.id_departamento
          left join ras.ttipo_servicio ts on ts.id_tipo_servicio = v.id_tipo_servicio
@@ -401,10 +402,10 @@ from ras.tvehiculo v
         if($request->id_vehiculo==0){
             if((bool)$validacion["validacion"]==true){
                 DB::insert('insert into ras.tvehiculo(placa,uniqueid,linea_gps,modelo_gps,
-                fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada,id_tipo_servicio)
-                values(?,?,?,?,now()::timestamp,?,?,?,?,?,?,?)
+                fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada,id_tipo_servicio,lugar_instalacion_gps)
+                values(?,?,?,?,now()::timestamp,?,?,?,?,?,?,?,?)
                 ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,$id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,$id_tipo_servicio]);
-                $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
+                $this->post_device_traccar($coockies,$request->placa,$request->uniqueid,$request->lugar_instalacion_gps);
             }
         }
         else{
@@ -426,9 +427,10 @@ from ras.tvehiculo v
                 modelo = ?,
                 color = ?,
                 cilindrada = ?,
-                id_tipo_servicio = ?
+                id_tipo_servicio = ?,
+                lugar_instalacion_gps = ?
                 where id_vehiculo=?',
-                    [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,$id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,$id_tipo_servicio,(int)$request->id_vehiculo]);
+                    [$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,$id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,$id_tipo_servicio,$request->lugar_instalacion_gps,(int)$request->id_vehiculo]);
 
             }
         }
@@ -531,6 +533,7 @@ SELECT
         FROM notificaciones noti WHERE noti.id_vehiculo = v.id_vehiculo
     ) AS notificaciones,
     dev.id as id_dispositivo,
+    case when (pos.attributes::json->'out1')::varchar = 'false'  then 'Activado' else 'Desactivado' end as motor
     (case when (pos.attributes::json->'out1')::varchar = 'true' then 'Desactivado' else 'Activado' end)::varchar as motor
 FROM ras.tvehiculo v
          JOIN public.tc_devices dev ON dev.uniqueid = v.uniqueid

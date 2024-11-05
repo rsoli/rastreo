@@ -534,7 +534,6 @@ SELECT
     ) AS notificaciones,
     dev.id as id_dispositivo,
     case when (pos.attributes::json->'out1')::varchar = 'false'  then 'Activado' else 'Desactivado' end as motor
-    (case when (pos.attributes::json->'out1')::varchar = 'true' then 'Desactivado' else 'Activado' end)::varchar as motor
 FROM ras.tvehiculo v
          JOIN public.tc_devices dev ON dev.uniqueid = v.uniqueid
          join public.tc_positions pos on pos.id = dev.positionid

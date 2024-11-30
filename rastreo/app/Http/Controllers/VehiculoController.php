@@ -404,8 +404,8 @@ from ras.tvehiculo v
                 DB::insert('insert into ras.tvehiculo(placa,uniqueid,linea_gps,modelo_gps,
                 fecha_registro,id_cliente,id_departamento,marca,modelo,color,cilindrada,id_tipo_servicio,lugar_instalacion_gps)
                 values(?,?,?,?,now()::timestamp,?,?,?,?,?,?,?,?)
-                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,$id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,$id_tipo_servicio]);
-                $this->post_device_traccar($coockies,$request->placa,$request->uniqueid,$request->lugar_instalacion_gps);
+                ',[$request->placa,$request->uniqueid,$request->linea_gps,$request->modelo_gps,(int)$request->id_cliente,$id_departamento,$request->marca,$request->modelo,$request->color,$request->cilindrada,$id_tipo_servicio,$request->lugar_instalacion_gps]);
+                $this->post_device_traccar($coockies,$request->placa,$request->uniqueid);
             }
         }
         else{
